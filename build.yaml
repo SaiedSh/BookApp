@@ -1,0 +1,12 @@
+targets:
+  $default:
+    sources:     
+      - swaggers/**
+      - lib/**
+    builders:
+      swagger_dart_code_generator:
+        options:
+          input_folder: "lib/modelhttp://130.185.75.182:5003http://130.185.75.182:5003//swagger/"
+          output_folder: "lib/modelhttp://130.185.75.182:5003http://130.185.75.182:5003//generated/"
+          separate_models: true
+          include_if_null: false
