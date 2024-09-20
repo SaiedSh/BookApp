@@ -1,14 +1,17 @@
-import 'package:bookapp/components/bookcard_widget.dart';
-import 'package:bookapp/components/categorytext_widget.dart';
-import 'package:bookapp/components/slidercard_widget.dart';
+import 'dart:async';
+
 import 'package:bookapp/controller/api/home_items/category_products.dart';
+import 'package:bookapp/controller/api/home_items/items.dart';
 import 'package:bookapp/controller/provider/category_product_state.dart';
-import 'package:bookapp/global.dart';
+import 'package:bookapp/controller/provider/index_items_state.dart';
+import 'package:bookapp/controller/routes/routes.dart';
+import 'package:bookapp/model/components/bookcard_widget.dart';
+import 'package:bookapp/model/global/global.dart';
 import 'package:bookapp/view/product/product_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,381 +21,548 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PageController _pageController = PageController();
+  int _currentPage = 0;
+  Timer? _timer;
   List categoryList = ['ادبیات', 'تاریخ', 'رمان', 'کودکان'];
   List sliderImageList = [
     'lib/assets/images/banner2.jpg',
     'lib/assets/images/banner3.jpg',
     'lib/assets/images/banner.jpg'
   ];
-  List bookImageList = [
-    'lib/assets/images/book.jpg',
-    'lib/assets/images/book2.jpg',
-    'lib/assets/images/book3.jpg'
-  ];
+  // List bookImageList = [
+  //   'lib/assets/images/book.jpg',
+  //   'lib/assets/images/book2.jpg',
+  //   'lib/assets/images/book3.jpg'
+  // ];
   String searchText = "";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) {
+      if (_currentPage < 3) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
 
-    getCategories(
-      context: context,
-    );
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.ease,
+      );
+    });
+
+    // getCategories(
+    //   context: context,
+    // );
+    getIndexItems(context: context);
+    getProductsByCategory(context: context);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        drawer: Drawer(
-          width: 230,
-          child: Consumer<CategoryState>(
-            builder: (context, value, child) => ListView(children: [
-              DrawerHeader(
-                child: Center(child: Text('Book')),
-              ),
-              for (var element in CategoryState.categories)
-                ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AnotherScreen(
-                            motherId: element.id.toString(),
-                          ),
-                        ));
-                  },
-                  title: Text(element.title.toString()),
-                  trailing: Icon(Icons.arrow_forward),
-                ),
-            ]),
-          ),
-        ),
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: primaryColor, size: 30),
-          toolbarHeight: 70,
-          elevation: 0,
-          backgroundColor: backgroundColor,
-          title: Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: SizedBox(
-              width: 300,
-              height: 40,
-              child: TextField(
-                cursorColor: Colors.grey,
-                decoration: InputDecoration(
-                    fillColor: thirdColor,
-                    filled: true,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none),
-                    hintText: 'جست و جو',
-                    hintStyle: GoogleFonts.ibmPlexSansArabic(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                    prefixIcon: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Icon(Icons.search_rounded),
-                      width: 18,
-                    )),
-              ),
-            ),
-          ),
-          centerTitle: true,
-
-          // leading: SizedBox(
-          //   height: 50,
-          //   child: Padding(
-          //     padding: const EdgeInsets.only(top: 15, right: 10),
-          //     child: GestureDetector(
-          //       onTap: () {
-          //         Navigator.of(context).push(
-          //           PageRouteBuilder(
-          //               pageBuilder: (_, __, ___) => ProfileScreen(),
-          //               transitionDuration: const Duration(milliseconds: 500),
-          //               transitionsBuilder: (_, a, __, c) => FadeTransition(
-          //                     opacity: a,
-          //                     child: c,
-          //                   )),
-          //         );
-          //       },
-          //       child: Container(
-          //         child: Icon(
-          //           Icons.person,
-          //           color: primaryColor,
-          //           size: 30,
-          //         ),
-          //         decoration:
-          //             BoxDecoration(shape: BoxShape.circle, color: textsColor),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image(
-                image: AssetImage('lib/assets/images/mainbanner.png'),
-                fit: BoxFit.fill,
-                width: MediaQuery.of(context).size.width,
-              ),
-              Container(
-                decoration: BoxDecoration(color: thirdColor),
-                width: MediaQuery.of(context).size.width,
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(100),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: backgroundColor,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image(
-                          image: AssetImage('lib/assets/images/icon.png'),
-                          width: 35,
-                          height: 35,
-                        ),
-                        SizedBox(
-                          width: 80,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            'خرید کتاب های پرفروش',
-                            style: GoogleFonts.lalezar(
-                                fontSize: 12, color: primaryColor),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.profileScreen);
+                                  },
+                                  icon: Image(
+                                    image: AssetImage(
+                                        'lib/assets/images/miniicon.png'),
+                                    width: 15,
+                                  )),
+                              SizedBox(
+                                height: 20,
+                                width: 1,
+                                child: VerticalDivider(),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Image(
+                                    image: AssetImage(
+                                        'lib/assets/images/handbag.png'),
+                                    width: 15,
+                                  )),
+                            ],
                           ),
-                        )
-                      ],
+                          Image(
+                            image: AssetImage('lib/assets/images/logo.png'),
+                            width: 70,
+                          )
+                        ],
+                      ),
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image(
-                          image: AssetImage('lib/assets/images/icon2.png'),
-                          width: 35,
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: SizedBox(
                           height: 35,
-                        ),
-                        SizedBox(
-                          width: 80,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            'امکان دانلود  کتاب ها   ',
-                            style: GoogleFonts.lalezar(
-                                fontSize: 12, color: primaryColor),
-                          ),
-                        )
-                      ],
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image(
-                          image: AssetImage('lib/assets/images/icon3.png'),
-                          width: 35,
-                          height: 35,
-                        ),
-                        SizedBox(
-                          width: 80,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            'امکان خرید اشتراک ماهانه',
-                            style: GoogleFonts.lalezar(
-                                fontSize: 12, color: primaryColor),
-                          ),
-                        )
-                      ],
+                          width: MediaQuery.of(context).size.width - 10,
+                          child: TextField(
+                            cursorHeight: 20,
+                            decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  size: 18,
+                                ),
+                                floatingLabelAlignment:
+                                    FloatingLabelAlignment.center,
+                                label: Text(
+                                  'جستجو در نیکو بوک',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                filled: true,
+                                fillColor: backgroundColor,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5))),
+                          )),
                     )
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
+            ),
+          )),
+      backgroundColor: backgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Consumer<IndexItemsState>(builder: (context, value, child) {
+              return Padding(
+                padding: const EdgeInsets.all(0),
+                child: IndexItemsState.IndexLists != null
+                    ? SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 220,
+                        child: PageView(
+                          controller: _pageController,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(IndexItemsState
+                                          .IndexLists!
+                                          .indexInfo!
+                                          .banner1ImageUrl
+                                          .toString()))),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Text(
+                                    IndexItemsState
+                                        .IndexLists!.indexInfo!.banner1Title
+                                        .toString(),
+                                    style: GoogleFonts.lalezar(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20,
+                                        color: Colors.white),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 100),
+                                    child: Divider(),
+                                  ),
+                                  Text(
+                                    IndexItemsState.IndexLists!.indexInfo!
+                                        .banner1Description
+                                        .toString(),
+                                    style: GoogleFonts.lalezar(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade300),
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                  ),
+                                  AnimatedSmoothIndicator(
+                                    activeIndex: 0,
+                                    count: 3,
+                                    effect: ExpandingDotsEffect(
+                                        activeDotColor: secondaryColor,
+                                        dotHeight: 10,
+                                        dotWidth: 10,
+                                        dotColor: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(IndexItemsState
+                                          .IndexLists!
+                                          .indexInfo!
+                                          .banner2ImageUrl
+                                          .toString()))),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Text(
+                                    IndexItemsState
+                                        .IndexLists!.indexInfo!.banner2Title
+                                        .toString(),
+                                    style: GoogleFonts.lalezar(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20,
+                                        color: Colors.black),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 100),
+                                    child: Divider(),
+                                  ),
+                                  Text(
+                                    IndexItemsState.IndexLists!.indexInfo!
+                                        .banner2Description
+                                        .toString(),
+                                    style: GoogleFonts.lalezar(
+                                        fontSize: 14, color: Colors.grey),
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                  ),
+                                  AnimatedSmoothIndicator(
+                                    activeIndex: 1,
+                                    count: 3,
+                                    effect: ExpandingDotsEffect(
+                                        activeDotColor: secondaryColor,
+                                        dotHeight: 10,
+                                        dotWidth: 10,
+                                        dotColor: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: NetworkImage(IndexItemsState
+                                          .IndexLists!
+                                          .indexInfo!
+                                          .banner3ImageUrl
+                                          .toString()))),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  Text(
+                                    IndexItemsState
+                                        .IndexLists!.indexInfo!.banner3Title
+                                        .toString(),
+                                    style: GoogleFonts.lalezar(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 20,
+                                        color: Colors.white),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 100),
+                                    child: Divider(),
+                                  ),
+                                  Text(
+                                    IndexItemsState.IndexLists!.indexInfo!
+                                        .banner3Description
+                                        .toString(),
+                                    style: GoogleFonts.lalezar(
+                                        fontSize: 14,
+                                        color: Colors.grey.shade300),
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                  ),
+                                  AnimatedSmoothIndicator(
+                                    activeIndex: 2,
+                                    count: 3,
+                                    effect: ExpandingDotsEffect(
+                                        activeDotColor: secondaryColor,
+                                        dotHeight: 10,
+                                        dotWidth: 10,
+                                        dotColor: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox(
+                        height: 220,
+                      ),
+              );
+            }),
+
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 90,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 10,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
               ),
-              Text(
-                'دسته بندی',
-                style: GoogleFonts.notoSansArabic(
-                    fontWeight: FontWeight.bold, color: primaryColor),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.arrow_back_ios,
+                          size: 14,
+                          color: Colors.blue,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.allBooksScreen);
+                            },
+                            child: Text(
+                              'مشاهده همه',
+                              style: GoogleFonts.ibmPlexSansArabic(
+                                color: Colors.blue,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'کتاب های تخصصی دندانپزشکی',
+                    style: GoogleFonts.notoSansArabic(
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        fontSize: 10),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Consumer<CategoryState>(
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Consumer<IndexItemsState>(
                 builder: (context, value, child) => SizedBox(
-                  height: 50,
+                  height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                     itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CategoryTextCard(
-                        name: CategoryState.categories[index].title!,
+                      padding: const EdgeInsets.all(8),
+                      child: BookCardWidget(
+                        bookId: '',
+                        bookWriter: 'دکتر مهران نوربخش',
+                        bookRate: 1,
+                        bookPrice: '115.000',
+                        bookName: "مدیریت چالش ها و پیچیدگی های اندودانتیکس",
+                        bookImage: "lib/assets/images/book.png",
                       ),
                     ),
-                    itemCount: CategoryState.categories.length,
+                    itemCount: 3,
                     scrollDirection: Axis.horizontal,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              CarouselSlider(
-                options: CarouselOptions(height: 170.0),
-                items: [0, 1, 2].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: SliderWidget(
-                          imagePath: sliderImageList[i],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.arrow_back_ios,
+                          size: 14,
+                          color: Colors.blue,
                         ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 15),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //     children: [
-              //       GestureDetector(
-              //         child: Container(
-              //           width: 120,
-              //           height: 40,
-              //           child: Center(
-              //             child: Text(
-              //               'اشتراک',
-              //               style: GoogleFonts.notoSansArabic(
-              //                   fontWeight: FontWeight.bold,
-              //                   color: primaryColor),
-              //             ),
-              //           ),
-              //           decoration: BoxDecoration(
-              //               color: thirdColor,
-              //               borderRadius: BorderRadius.circular(20)),
-              //         ),
-              //       ),
-              //       GestureDetector(
-              //         onTap: () {},
-              //         child: Container(
-              //           width: 120,
-              //           height: 40,
-              //           child: Center(
-              //             child: Text(
-              //               'نصب برنامه',
-              //               style: GoogleFonts.notoSansArabic(
-              //                   fontWeight: FontWeight.bold,
-              //                   color: primaryColor),
-              //             ),
-              //           ),
-              //           decoration: BoxDecoration(
-              //               color: thirdColor,
-              //               borderRadius: BorderRadius.circular(20)),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Row(
-                  children: [
-                    Text(
-                      'دسته بندی',
-                      style: GoogleFonts.notoSansArabic(
-                          fontWeight: FontWeight.bold, color: primaryColor),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 265,
-                width: MediaQuery.of(context).size.width,
-                child: ListView.builder(
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: BookCardWidget(
-                      bookImage: bookImageList[index],
+                        TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'مشاهده همه',
+                              style: GoogleFonts.ibmPlexSansArabic(
+                                color: Colors.blue,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            )),
+                      ],
                     ),
                   ),
-                  itemCount: bookImageList.length,
-                  scrollDirection: Axis.horizontal,
-                ),
+                  Text(
+                    'کتاب های پزشکی',
+                    style: GoogleFonts.notoSansArabic(
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        fontSize: 12),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 200,
-              )
-              // SizedBox(
-              //   height: MediaQuery.of(context).size.height - 100,
-              //   width: MediaQuery.of(context).size.width - 10,
-              //   child: AnimationLimiter(
-              //     child: GridView.count(
-              //       shrinkWrap: true,
-              //       childAspectRatio: 0.6,
-              //       crossAxisCount: 2,
-              //       children: List.generate(
-              //         8,
-              //         (int index) {
-              //           return AnimationConfiguration.staggeredGrid(
-              //             position: index,
-              //             duration: const Duration(milliseconds: 375),
-              //             columnCount: 2,
-              //             child: ScaleAnimation(
-              //               child: FadeInAnimation(
-              //                 child: Padding(
-              //                   padding: const EdgeInsets.all(8.0),
-              //                   child: BookCardWidget(),
-              //                 ),
-              //               ),
-              //             ),
-              //           );
-              //         },
-              //       ),
-              //     ),
-              //   ),
-              // ),
+            ),
+            // Consumer<IndexItemsState>(
+            //   builder: (context, value, child) => SizedBox(
+            //     height: 265,
+            //     width: MediaQuery.of(context).size.width,
+            //     child: ListView.builder(
+            //       itemBuilder: (context, index) => Padding(
+            //         padding: const EdgeInsets.all(15.0),
+            //         child: BookCardWidget(
+            //           bookId: IndexItemsState.IndexLists!.freeBooks![index].id
+            //               .toString(),
+            //           bookWriter: IndexItemsState
+            //               .IndexLists!.freeBooks![index].nevisande
+            //               .toString(),
+            //           bookRate: IndexItemsState
+            //               .IndexLists!.freeBooks![index].rating!
+            //               .toDouble(),
+            //           bookPrice: ' رایگان ',
+            //           bookName: IndexItemsState
+            //               .IndexLists!.freeBooks![index].title
+            //               .toString(),
+            //           bookImage: IndexItemsState
+            //               .IndexLists!.freeBooks![index].imageUrl
+            //               .toString(),
+            //         ),
+            //       ),
+            //       itemCount: IndexItemsState.IndexLists!.freeBooks!.length,
+            //       scrollDirection: Axis.horizontal,
+            //     ),
+            //   ),
+            // ),
+            SizedBox(
+              height: 200,
+            )
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height - 100,
+            //   width: MediaQuery.of(context).size.width - 10,
+            //   child: AnimationLimiter(
+            //     child: GridView.count(
+            //       shrinkWrap: true,
+            //       childAspectRatio: 0.6,
+            //       crossAxisCount: 2,
+            //       children: List.generate(
+            //         8,
+            //         (int index) {
+            //           return AnimationConfiguration.staggeredGrid(
+            //             position: index,
+            //             duration: const Duration(milliseconds: 375),
+            //             columnCount: 2,
+            //             child: ScaleAnimation(
+            //               child: FadeInAnimation(
+            //                 child: Padding(
+            //                   padding: const EdgeInsets.all(8.0),
+            //                   child: BookCardWidget(),
+            //                 ),
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: DropdownButton<String>(
-              //     value: selectedCategory,
-              //     onChanged: (String? newValue) {
-              //       setState(() {
-              //         selectedCategory = newValue!;
-              //       });
-              //       _filterItems(selectedCategory);
-              //     },
-              //     items:
-              //         categories.map<DropdownMenuItem<String>>((String category) {
-              //       return DropdownMenuItem<String>(
-              //         value: category,
-              //         child: Text(category),
-              //       );
-              //     }).toList(),
-              //   ),
-              // ),
-              // Expanded(
-              //   child: ListView.builder(
-              //     itemCount: filteredItems.length,
-              //     itemBuilder: (context, index) {
-              //       return ListTile(
-              //         title: Text(filteredItems[index]['name']!),
-              //         subtitle: Text(filteredItems[index]['category']!),
-              //       );
-              //     },
-              //   ),
-              // ),
-            ],
-          ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: DropdownButton<String>(
+            //     value: selectedCategory,
+            //     onChanged: (String? newValue) {
+            //       setState(() {
+            //         selectedCategory = newValue!;
+            //       });
+            //       _filterItems(selectedCategory);
+            //     },
+            //     items:
+            //         categories.map<DropdownMenuItem<String>>((String category) {
+            //       return DropdownMenuItem<String>(
+            //         value: category,
+            //         child: Text(category),
+            //       );
+            //     }).toList(),
+            //   ),
+            // ),
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: filteredItems.length,
+            //     itemBuilder: (context, index) {
+            //       return ListTile(
+            //         title: Text(filteredItems[index]['name']!),
+            //         subtitle: Text(filteredItems[index]['category']!),
+            //       );
+            //     },
+            //   ),
+            // ),
+          ],
         ),
       ),
     );

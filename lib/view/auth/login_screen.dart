@@ -1,186 +1,285 @@
 import 'package:bookapp/controller/api/auth/login_controller_post.dart';
-import 'package:bookapp/model/api/generated/tikonline.models.swagger.dart';
-import 'package:bookapp/view/home/home_screen.dart';
+import 'package:bookapp/controller/routes/routes.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
-  TextEditingController userName = TextEditingController();
-  TextEditingController password = TextEditingController();
-
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String _countryCode = '+98';
+  TextEditingController _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.white,
-                        thickness: 0.7,
-                      ),
+                    SizedBox(
+                      width: 150,
                     ),
-                    // Container(
-                    //   width: 290,
-                    //   height: 55,
-                    //   decoration: BoxDecoration(
-                    //       image: DecorationImage(
-                    //           image: AssetImage(
-                    //             'lib/assets/images/logo.png',
-                    //           ),
-                    //           fit: BoxFit.cover)),
-                    // ),
-                    Expanded(
-                      child: Divider(
-                        color: Colors.white,
-                        thickness: 0.7,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: Colors.white,
-                        thickness: 0.5,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Image(
+                          image: AssetImage('lib/assets/images/iconperson.png'),
+                          width: 45,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'شروع کار با نیکو بوک',
+                          style: GoogleFonts.ibmPlexSansArabic(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'با شماره موبایل تان وارد شوید',
+                          style: GoogleFonts.ibmPlexSansArabic(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
                   ],
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white60,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: Colors.white,
-                      )),
-                  width: MediaQuery.of(context).size.width > 400
-                      ? 350
-                      : MediaQuery.of(context).size.width - 50,
-                  height: 350,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'ورود',
-                        style: GoogleFonts.ibmPlexSansArabic(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.indigo)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.indigo)),
-                              floatingLabelAlignment:
-                                  FloatingLabelAlignment.center,
-                              border: OutlineInputBorder(),
-                              label: Text(
-                                'نام کاربری',
-                                style: GoogleFonts.ibmPlexSansArabic(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                              )),
-                          controller: userName,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.indigo)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.indigo)),
-                              floatingLabelAlignment:
-                                  FloatingLabelAlignment.center,
-                              border: OutlineInputBorder(),
-                              label: Text(
-                                'رمز عبور',
-                                style: GoogleFonts.ibmPlexSansArabic(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                              )),
-                          controller: password,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      SizedBox(
-                        child: RawMaterialButton(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Text(
-                              'ورود',
-                              style: GoogleFonts.ibmPlexSansArabic(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SizedBox(
+                      width: 300,
+                      height: 40,
+                      child: TextField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      right: BorderSide(color: Colors.grey))),
+                              child: Directionality(
+                                textDirection: TextDirection.ltr,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 0),
+                                  child: CountryCodePicker(
+                                    padding: const EdgeInsets.all(0),
+                                    flagDecoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    textStyle: TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                    onChanged: (countryCode) {
+                                      setState(() {
+                                        _countryCode = countryCode.dialCode ??
+                                            '+98'; // Default to +98 if null
+                                      });
+                                    },
+                                    initialSelection: 'IR', // Default to Iran
+                                    favorite: [
+                                      '+98',
+                                      'IR'
+                                    ], // Favorite country (Iran)
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          fillColor: Colors.indigo,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () async {
-                            login(
-                                    context: context,
-                                    dto: LoginDto(
-                                        password: password.text,
-                                        userName: userName.text))
-                                .then((value) {
-                              print("Hereleey");
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) =>
-                                          const HomeScreen(),
-                                      transitionDuration:
-                                          const Duration(milliseconds: 500),
-                                      transitionsBuilder: (_, a, __, c) =>
-                                          FadeTransition(
-                                            opacity: a,
-                                            child: c,
-                                          )),
-                                  (route) => false);
-                            });
-                          },
+                          hintText: 'شماره موبایل',
+                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
-                      )
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: RawMaterialButton(
+                    fillColor: Colors.grey.shade300,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Icon(
+                              Icons.arrow_back,
+                              size: 15,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'ورود',
+                            style: GoogleFonts.ibmPlexSansArabic(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    onPressed: () async {
+                      login(
+                              phoneNumber: _phoneController.text,
+                              context: context)
+                          .then(
+                        (value) {
+                          if (value.isSuccess == true) {
+                            Navigator.pushNamed(context, MyRoutes.otpScreen,
+                                arguments: _phoneController.text);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(child: Divider()),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Text(
+                            'یا',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Divider())
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                SizedBox(
+                  width: 300,
+                  child: RawMaterialButton(
+                    fillColor: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'با ایمیل',
+                            style: GoogleFonts.ibmPlexSansArabic(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Image(
+                            image: AssetImage('lib/assets/images/email.png'),
+                            width: 25,
+                          )
+                        ],
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 0.5, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5)),
+                    onPressed: () async {},
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: RawMaterialButton(
+                    fillColor: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'با حساب گوگل',
+                            style: GoogleFonts.ibmPlexSansArabic(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Image(
+                            image: AssetImage('lib/assets/images/google.png'),
+                            width: 25,
+                          )
+                        ],
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 0.5, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5)),
+                    onPressed: () async {},
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'از نیکو بوک را میپذیرم',
+                      style: GoogleFonts.ibmPlexSansArabic(
+                          fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'قوانین استفاده',
+                          style: GoogleFonts.ibmPlexSansArabic(
+                            decorationColor: Colors.blue,
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ))
+                  ],
                 )
               ],
-            ),
-          ),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.grey])),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

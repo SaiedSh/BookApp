@@ -1,4 +1,4 @@
-import 'package:bookapp/global.dart';
+import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 

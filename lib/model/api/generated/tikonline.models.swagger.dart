@@ -1,9 +1,8 @@
 // ignore_for_file: type=lint
 
-import 'dart:convert';
-
-import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:collection/collection.dart';
+import 'dart:convert';
 
 import 'tikonline.enums.swagger.dart' as enums;
 
@@ -187,6 +186,9 @@ class BookDto {
     this.title,
     this.description,
     this.imageUrl,
+    this.imageFile,
+    this.pdfLink,
+    this.pdfFile,
     this.nevisande,
     this.entesharat,
     this.motarjem,
@@ -194,6 +196,8 @@ class BookDto {
     this.pages,
     this.rating,
     this.price,
+    this.discountPrice,
+    this.viewCount,
     this.categoryId,
     this.categoryName,
     this.id,
@@ -211,6 +215,12 @@ class BookDto {
   final String? description;
   @JsonKey(name: 'imageUrl', includeIfNull: false)
   final String? imageUrl;
+  @JsonKey(name: 'imageFile', includeIfNull: false)
+  final String? imageFile;
+  @JsonKey(name: 'pdfLink', includeIfNull: false)
+  final String? pdfLink;
+  @JsonKey(name: 'pdfFile', includeIfNull: false)
+  final String? pdfFile;
   @JsonKey(name: 'nevisande', includeIfNull: false)
   final String? nevisande;
   @JsonKey(name: 'entesharat', includeIfNull: false)
@@ -225,6 +235,10 @@ class BookDto {
   final int? rating;
   @JsonKey(name: 'price', includeIfNull: false)
   final int? price;
+  @JsonKey(name: 'discountPrice', includeIfNull: false)
+  final int? discountPrice;
+  @JsonKey(name: 'viewCount', includeIfNull: false)
+  final int? viewCount;
   @JsonKey(name: 'categoryId', includeIfNull: false)
   final String? categoryId;
   @JsonKey(name: 'categoryName', includeIfNull: false)
@@ -245,6 +259,15 @@ class BookDto {
             (identical(other.imageUrl, imageUrl) ||
                 const DeepCollectionEquality()
                     .equals(other.imageUrl, imageUrl)) &&
+            (identical(other.imageFile, imageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.imageFile, imageFile)) &&
+            (identical(other.pdfLink, pdfLink) ||
+                const DeepCollectionEquality()
+                    .equals(other.pdfLink, pdfLink)) &&
+            (identical(other.pdfFile, pdfFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.pdfFile, pdfFile)) &&
             (identical(other.nevisande, nevisande) ||
                 const DeepCollectionEquality()
                     .equals(other.nevisande, nevisande)) &&
@@ -263,6 +286,12 @@ class BookDto {
                 const DeepCollectionEquality().equals(other.rating, rating)) &&
             (identical(other.price, price) ||
                 const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.discountPrice, discountPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.discountPrice, discountPrice)) &&
+            (identical(other.viewCount, viewCount) ||
+                const DeepCollectionEquality()
+                    .equals(other.viewCount, viewCount)) &&
             (identical(other.categoryId, categoryId) ||
                 const DeepCollectionEquality()
                     .equals(other.categoryId, categoryId)) &&
@@ -281,6 +310,9 @@ class BookDto {
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(imageUrl) ^
+      const DeepCollectionEquality().hash(imageFile) ^
+      const DeepCollectionEquality().hash(pdfLink) ^
+      const DeepCollectionEquality().hash(pdfFile) ^
       const DeepCollectionEquality().hash(nevisande) ^
       const DeepCollectionEquality().hash(entesharat) ^
       const DeepCollectionEquality().hash(motarjem) ^
@@ -288,6 +320,8 @@ class BookDto {
       const DeepCollectionEquality().hash(pages) ^
       const DeepCollectionEquality().hash(rating) ^
       const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(discountPrice) ^
+      const DeepCollectionEquality().hash(viewCount) ^
       const DeepCollectionEquality().hash(categoryId) ^
       const DeepCollectionEquality().hash(categoryName) ^
       const DeepCollectionEquality().hash(id) ^
@@ -299,6 +333,9 @@ extension $BookDtoExtension on BookDto {
       {String? title,
       String? description,
       String? imageUrl,
+      String? imageFile,
+      String? pdfLink,
+      String? pdfFile,
       String? nevisande,
       String? entesharat,
       String? motarjem,
@@ -306,6 +343,8 @@ extension $BookDtoExtension on BookDto {
       int? pages,
       int? rating,
       int? price,
+      int? discountPrice,
+      int? viewCount,
       String? categoryId,
       String? categoryName,
       String? id}) {
@@ -313,6 +352,9 @@ extension $BookDtoExtension on BookDto {
         title: title ?? this.title,
         description: description ?? this.description,
         imageUrl: imageUrl ?? this.imageUrl,
+        imageFile: imageFile ?? this.imageFile,
+        pdfLink: pdfLink ?? this.pdfLink,
+        pdfFile: pdfFile ?? this.pdfFile,
         nevisande: nevisande ?? this.nevisande,
         entesharat: entesharat ?? this.entesharat,
         motarjem: motarjem ?? this.motarjem,
@@ -320,6 +362,8 @@ extension $BookDtoExtension on BookDto {
         pages: pages ?? this.pages,
         rating: rating ?? this.rating,
         price: price ?? this.price,
+        discountPrice: discountPrice ?? this.discountPrice,
+        viewCount: viewCount ?? this.viewCount,
         categoryId: categoryId ?? this.categoryId,
         categoryName: categoryName ?? this.categoryName,
         id: id ?? this.id);
@@ -329,6 +373,9 @@ extension $BookDtoExtension on BookDto {
       {Wrapped<String?>? title,
       Wrapped<String?>? description,
       Wrapped<String?>? imageUrl,
+      Wrapped<String?>? imageFile,
+      Wrapped<String?>? pdfLink,
+      Wrapped<String?>? pdfFile,
       Wrapped<String?>? nevisande,
       Wrapped<String?>? entesharat,
       Wrapped<String?>? motarjem,
@@ -336,6 +383,8 @@ extension $BookDtoExtension on BookDto {
       Wrapped<int?>? pages,
       Wrapped<int?>? rating,
       Wrapped<int?>? price,
+      Wrapped<int?>? discountPrice,
+      Wrapped<int?>? viewCount,
       Wrapped<String?>? categoryId,
       Wrapped<String?>? categoryName,
       Wrapped<String?>? id}) {
@@ -344,6 +393,9 @@ extension $BookDtoExtension on BookDto {
         description:
             (description != null ? description.value : this.description),
         imageUrl: (imageUrl != null ? imageUrl.value : this.imageUrl),
+        imageFile: (imageFile != null ? imageFile.value : this.imageFile),
+        pdfLink: (pdfLink != null ? pdfLink.value : this.pdfLink),
+        pdfFile: (pdfFile != null ? pdfFile.value : this.pdfFile),
         nevisande: (nevisande != null ? nevisande.value : this.nevisande),
         entesharat: (entesharat != null ? entesharat.value : this.entesharat),
         motarjem: (motarjem != null ? motarjem.value : this.motarjem),
@@ -352,10 +404,97 @@ extension $BookDtoExtension on BookDto {
         pages: (pages != null ? pages.value : this.pages),
         rating: (rating != null ? rating.value : this.rating),
         price: (price != null ? price.value : this.price),
+        discountPrice:
+            (discountPrice != null ? discountPrice.value : this.discountPrice),
+        viewCount: (viewCount != null ? viewCount.value : this.viewCount),
         categoryId: (categoryId != null ? categoryId.value : this.categoryId),
         categoryName:
             (categoryName != null ? categoryName.value : this.categoryName),
         id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BookDtoApiResult {
+  const BookDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory BookDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$BookDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$BookDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$BookDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final BookDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$BookDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BookDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $BookDtoApiResultExtension on BookDtoApiResult {
+  BookDtoApiResult copyWith(
+      {BookDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return BookDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  BookDtoApiResult copyWithWrapped(
+      {Wrapped<BookDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return BookDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
   }
 }
 
@@ -509,6 +648,90 @@ extension $CategoryDtoExtension on CategoryDto {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CategoryDtoApiResult {
+  const CategoryDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory CategoryDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$CategoryDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$CategoryDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$CategoryDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final CategoryDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$CategoryDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CategoryDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $CategoryDtoApiResultExtension on CategoryDtoApiResult {
+  CategoryDtoApiResult copyWith(
+      {CategoryDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return CategoryDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  CategoryDtoApiResult copyWithWrapped(
+      {Wrapped<CategoryDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return CategoryDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CategoryDtoListApiResult {
   const CategoryDtoListApiResult({
     this.data,
@@ -593,46 +816,48 @@ extension $CategoryDtoListApiResultExtension on CategoryDtoListApiResult {
 }
 
 @JsonSerializable(explicitToJson: true)
-class DashboardDto {
-  const DashboardDto({
-    this.allUsers,
-    this.foodScans,
-    this.giftScans,
-    this.presences,
+class IndexDto {
+  const IndexDto({
+    this.discountBooks,
+    this.freeBooks,
+    this.mostViewedBooks,
+    this.indexInfo,
   });
 
-  factory DashboardDto.fromJson(Map<String, dynamic> json) =>
-      _$DashboardDtoFromJson(json);
+  factory IndexDto.fromJson(Map<String, dynamic> json) =>
+      _$IndexDtoFromJson(json);
 
-  static const toJsonFactory = _$DashboardDtoToJson;
-  Map<String, dynamic> toJson() => _$DashboardDtoToJson(this);
+  static const toJsonFactory = _$IndexDtoToJson;
+  Map<String, dynamic> toJson() => _$IndexDtoToJson(this);
 
-  @JsonKey(name: 'allUsers', includeIfNull: false)
-  final int? allUsers;
-  @JsonKey(name: 'foodScans', includeIfNull: false)
-  final int? foodScans;
-  @JsonKey(name: 'giftScans', includeIfNull: false)
-  final int? giftScans;
-  @JsonKey(name: 'presences', includeIfNull: false)
-  final int? presences;
-  static const fromJsonFactory = _$DashboardDtoFromJson;
+  @JsonKey(
+      name: 'discountBooks', includeIfNull: false, defaultValue: <BookDto>[])
+  final List<BookDto>? discountBooks;
+  @JsonKey(name: 'freeBooks', includeIfNull: false, defaultValue: <BookDto>[])
+  final List<BookDto>? freeBooks;
+  @JsonKey(
+      name: 'mostViewedBooks', includeIfNull: false, defaultValue: <BookDto>[])
+  final List<BookDto>? mostViewedBooks;
+  @JsonKey(name: 'indexInfo', includeIfNull: false)
+  final SettingDto? indexInfo;
+  static const fromJsonFactory = _$IndexDtoFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is DashboardDto &&
-            (identical(other.allUsers, allUsers) ||
+        (other is IndexDto &&
+            (identical(other.discountBooks, discountBooks) ||
                 const DeepCollectionEquality()
-                    .equals(other.allUsers, allUsers)) &&
-            (identical(other.foodScans, foodScans) ||
+                    .equals(other.discountBooks, discountBooks)) &&
+            (identical(other.freeBooks, freeBooks) ||
                 const DeepCollectionEquality()
-                    .equals(other.foodScans, foodScans)) &&
-            (identical(other.giftScans, giftScans) ||
+                    .equals(other.freeBooks, freeBooks)) &&
+            (identical(other.mostViewedBooks, mostViewedBooks) ||
                 const DeepCollectionEquality()
-                    .equals(other.giftScans, giftScans)) &&
-            (identical(other.presences, presences) ||
+                    .equals(other.mostViewedBooks, mostViewedBooks)) &&
+            (identical(other.indexInfo, indexInfo) ||
                 const DeepCollectionEquality()
-                    .equals(other.presences, presences)));
+                    .equals(other.indexInfo, indexInfo)));
   }
 
   @override
@@ -640,53 +865,59 @@ class DashboardDto {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(allUsers) ^
-      const DeepCollectionEquality().hash(foodScans) ^
-      const DeepCollectionEquality().hash(giftScans) ^
-      const DeepCollectionEquality().hash(presences) ^
+      const DeepCollectionEquality().hash(discountBooks) ^
+      const DeepCollectionEquality().hash(freeBooks) ^
+      const DeepCollectionEquality().hash(mostViewedBooks) ^
+      const DeepCollectionEquality().hash(indexInfo) ^
       runtimeType.hashCode;
 }
 
-extension $DashboardDtoExtension on DashboardDto {
-  DashboardDto copyWith(
-      {int? allUsers, int? foodScans, int? giftScans, int? presences}) {
-    return DashboardDto(
-        allUsers: allUsers ?? this.allUsers,
-        foodScans: foodScans ?? this.foodScans,
-        giftScans: giftScans ?? this.giftScans,
-        presences: presences ?? this.presences);
+extension $IndexDtoExtension on IndexDto {
+  IndexDto copyWith(
+      {List<BookDto>? discountBooks,
+      List<BookDto>? freeBooks,
+      List<BookDto>? mostViewedBooks,
+      SettingDto? indexInfo}) {
+    return IndexDto(
+        discountBooks: discountBooks ?? this.discountBooks,
+        freeBooks: freeBooks ?? this.freeBooks,
+        mostViewedBooks: mostViewedBooks ?? this.mostViewedBooks,
+        indexInfo: indexInfo ?? this.indexInfo);
   }
 
-  DashboardDto copyWithWrapped(
-      {Wrapped<int?>? allUsers,
-      Wrapped<int?>? foodScans,
-      Wrapped<int?>? giftScans,
-      Wrapped<int?>? presences}) {
-    return DashboardDto(
-        allUsers: (allUsers != null ? allUsers.value : this.allUsers),
-        foodScans: (foodScans != null ? foodScans.value : this.foodScans),
-        giftScans: (giftScans != null ? giftScans.value : this.giftScans),
-        presences: (presences != null ? presences.value : this.presences));
+  IndexDto copyWithWrapped(
+      {Wrapped<List<BookDto>?>? discountBooks,
+      Wrapped<List<BookDto>?>? freeBooks,
+      Wrapped<List<BookDto>?>? mostViewedBooks,
+      Wrapped<SettingDto?>? indexInfo}) {
+    return IndexDto(
+        discountBooks:
+            (discountBooks != null ? discountBooks.value : this.discountBooks),
+        freeBooks: (freeBooks != null ? freeBooks.value : this.freeBooks),
+        mostViewedBooks: (mostViewedBooks != null
+            ? mostViewedBooks.value
+            : this.mostViewedBooks),
+        indexInfo: (indexInfo != null ? indexInfo.value : this.indexInfo));
   }
 }
 
 @JsonSerializable(explicitToJson: true)
-class DashboardDtoApiResult {
-  const DashboardDtoApiResult({
+class IndexDtoApiResult {
+  const IndexDtoApiResult({
     this.data,
     this.isSuccess,
     this.statusCode,
     this.message,
   });
 
-  factory DashboardDtoApiResult.fromJson(Map<String, dynamic> json) =>
-      _$DashboardDtoApiResultFromJson(json);
+  factory IndexDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$IndexDtoApiResultFromJson(json);
 
-  static const toJsonFactory = _$DashboardDtoApiResultToJson;
-  Map<String, dynamic> toJson() => _$DashboardDtoApiResultToJson(this);
+  static const toJsonFactory = _$IndexDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$IndexDtoApiResultToJson(this);
 
   @JsonKey(name: 'data', includeIfNull: false)
-  final DashboardDto? data;
+  final IndexDto? data;
   @JsonKey(name: 'isSuccess', includeIfNull: false)
   final bool? isSuccess;
   @JsonKey(
@@ -698,12 +929,12 @@ class DashboardDtoApiResult {
   final enums.ApiResultStatusCode? statusCode;
   @JsonKey(name: 'message', includeIfNull: false)
   final String? message;
-  static const fromJsonFactory = _$DashboardDtoApiResultFromJson;
+  static const fromJsonFactory = _$IndexDtoApiResultFromJson;
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other is DashboardDtoApiResult &&
+        (other is IndexDtoApiResult &&
             (identical(other.data, data) ||
                 const DeepCollectionEquality().equals(other.data, data)) &&
             (identical(other.isSuccess, isSuccess) ||
@@ -728,25 +959,25 @@ class DashboardDtoApiResult {
       runtimeType.hashCode;
 }
 
-extension $DashboardDtoApiResultExtension on DashboardDtoApiResult {
-  DashboardDtoApiResult copyWith(
-      {DashboardDto? data,
+extension $IndexDtoApiResultExtension on IndexDtoApiResult {
+  IndexDtoApiResult copyWith(
+      {IndexDto? data,
       bool? isSuccess,
       enums.ApiResultStatusCode? statusCode,
       String? message}) {
-    return DashboardDtoApiResult(
+    return IndexDtoApiResult(
         data: data ?? this.data,
         isSuccess: isSuccess ?? this.isSuccess,
         statusCode: statusCode ?? this.statusCode,
         message: message ?? this.message);
   }
 
-  DashboardDtoApiResult copyWithWrapped(
-      {Wrapped<DashboardDto?>? data,
+  IndexDtoApiResult copyWithWrapped(
+      {Wrapped<IndexDto?>? data,
       Wrapped<bool?>? isSuccess,
       Wrapped<enums.ApiResultStatusCode?>? statusCode,
       Wrapped<String?>? message}) {
-    return DashboardDtoApiResult(
+    return IndexDtoApiResult(
         data: (data != null ? data.value : this.data),
         isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
         statusCode: (statusCode != null ? statusCode.value : this.statusCode),
@@ -807,6 +1038,323 @@ extension $LoginDtoExtension on LoginDto {
     return LoginDto(
         userName: (userName != null ? userName.value : this.userName),
         password: (password != null ? password.value : this.password));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class SettingDto {
+  const SettingDto({
+    this.banner1ImageUrl,
+    this.banner1ImageFile,
+    this.banner1Title,
+    this.banner1SubTitle,
+    this.banner1Description,
+    this.banner1ButtonText,
+    this.banner1ButtonLink,
+    this.banner2ImageUrl,
+    this.banner2ImageFile,
+    this.banner2Title,
+    this.banner2SubTitle,
+    this.banner2Description,
+    this.banner2ButtonText,
+    this.banner2ButtonLink,
+    this.banner3ImageUrl,
+    this.banner3ImageFile,
+    this.banner3Title,
+    this.banner3SubTitle,
+    this.banner3Description,
+    this.banner3ButtonText,
+    this.banner3ButtonLink,
+    this.id,
+  });
+
+  factory SettingDto.fromJson(Map<String, dynamic> json) =>
+      _$SettingDtoFromJson(json);
+
+  static const toJsonFactory = _$SettingDtoToJson;
+  Map<String, dynamic> toJson() => _$SettingDtoToJson(this);
+
+  @JsonKey(name: 'banner1ImageUrl', includeIfNull: false)
+  final String? banner1ImageUrl;
+  @JsonKey(name: 'banner1ImageFile', includeIfNull: false)
+  final String? banner1ImageFile;
+  @JsonKey(name: 'banner1Title', includeIfNull: false)
+  final String? banner1Title;
+  @JsonKey(name: 'banner1SubTitle', includeIfNull: false)
+  final String? banner1SubTitle;
+  @JsonKey(name: 'banner1Description', includeIfNull: false)
+  final String? banner1Description;
+  @JsonKey(name: 'banner1ButtonText', includeIfNull: false)
+  final String? banner1ButtonText;
+  @JsonKey(name: 'banner1ButtonLink', includeIfNull: false)
+  final String? banner1ButtonLink;
+  @JsonKey(name: 'banner2ImageUrl', includeIfNull: false)
+  final String? banner2ImageUrl;
+  @JsonKey(name: 'banner2ImageFile', includeIfNull: false)
+  final String? banner2ImageFile;
+  @JsonKey(name: 'banner2Title', includeIfNull: false)
+  final String? banner2Title;
+  @JsonKey(name: 'banner2SubTitle', includeIfNull: false)
+  final String? banner2SubTitle;
+  @JsonKey(name: 'banner2Description', includeIfNull: false)
+  final String? banner2Description;
+  @JsonKey(name: 'banner2ButtonText', includeIfNull: false)
+  final String? banner2ButtonText;
+  @JsonKey(name: 'banner2ButtonLink', includeIfNull: false)
+  final String? banner2ButtonLink;
+  @JsonKey(name: 'banner3ImageUrl', includeIfNull: false)
+  final String? banner3ImageUrl;
+  @JsonKey(name: 'banner3ImageFile', includeIfNull: false)
+  final String? banner3ImageFile;
+  @JsonKey(name: 'banner3Title', includeIfNull: false)
+  final String? banner3Title;
+  @JsonKey(name: 'banner3SubTitle', includeIfNull: false)
+  final String? banner3SubTitle;
+  @JsonKey(name: 'banner3Description', includeIfNull: false)
+  final String? banner3Description;
+  @JsonKey(name: 'banner3ButtonText', includeIfNull: false)
+  final String? banner3ButtonText;
+  @JsonKey(name: 'banner3ButtonLink', includeIfNull: false)
+  final String? banner3ButtonLink;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$SettingDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is SettingDto &&
+            (identical(other.banner1ImageUrl, banner1ImageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1ImageUrl, banner1ImageUrl)) &&
+            (identical(other.banner1ImageFile, banner1ImageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1ImageFile, banner1ImageFile)) &&
+            (identical(other.banner1Title, banner1Title) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1Title, banner1Title)) &&
+            (identical(other.banner1SubTitle, banner1SubTitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1SubTitle, banner1SubTitle)) &&
+            (identical(other.banner1Description, banner1Description) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1Description, banner1Description)) &&
+            (identical(other.banner1ButtonText, banner1ButtonText) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1ButtonText, banner1ButtonText)) &&
+            (identical(other.banner1ButtonLink, banner1ButtonLink) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1ButtonLink, banner1ButtonLink)) &&
+            (identical(other.banner2ImageUrl, banner2ImageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2ImageUrl, banner2ImageUrl)) &&
+            (identical(other.banner2ImageFile, banner2ImageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2ImageFile, banner2ImageFile)) &&
+            (identical(other.banner2Title, banner2Title) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2Title, banner2Title)) &&
+            (identical(other.banner2SubTitle, banner2SubTitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2SubTitle, banner2SubTitle)) &&
+            (identical(other.banner2Description, banner2Description) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2Description, banner2Description)) &&
+            (identical(other.banner2ButtonText, banner2ButtonText) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2ButtonText, banner2ButtonText)) &&
+            (identical(other.banner2ButtonLink, banner2ButtonLink) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2ButtonLink, banner2ButtonLink)) &&
+            (identical(other.banner3ImageUrl, banner3ImageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3ImageUrl, banner3ImageUrl)) &&
+            (identical(other.banner3ImageFile, banner3ImageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3ImageFile, banner3ImageFile)) &&
+            (identical(other.banner3Title, banner3Title) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3Title, banner3Title)) &&
+            (identical(other.banner3SubTitle, banner3SubTitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3SubTitle, banner3SubTitle)) &&
+            (identical(other.banner3Description, banner3Description) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3Description, banner3Description)) &&
+            (identical(other.banner3ButtonText, banner3ButtonText) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3ButtonText, banner3ButtonText)) &&
+            (identical(other.banner3ButtonLink, banner3ButtonLink) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3ButtonLink, banner3ButtonLink)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(banner1ImageUrl) ^
+      const DeepCollectionEquality().hash(banner1ImageFile) ^
+      const DeepCollectionEquality().hash(banner1Title) ^
+      const DeepCollectionEquality().hash(banner1SubTitle) ^
+      const DeepCollectionEquality().hash(banner1Description) ^
+      const DeepCollectionEquality().hash(banner1ButtonText) ^
+      const DeepCollectionEquality().hash(banner1ButtonLink) ^
+      const DeepCollectionEquality().hash(banner2ImageUrl) ^
+      const DeepCollectionEquality().hash(banner2ImageFile) ^
+      const DeepCollectionEquality().hash(banner2Title) ^
+      const DeepCollectionEquality().hash(banner2SubTitle) ^
+      const DeepCollectionEquality().hash(banner2Description) ^
+      const DeepCollectionEquality().hash(banner2ButtonText) ^
+      const DeepCollectionEquality().hash(banner2ButtonLink) ^
+      const DeepCollectionEquality().hash(banner3ImageUrl) ^
+      const DeepCollectionEquality().hash(banner3ImageFile) ^
+      const DeepCollectionEquality().hash(banner3Title) ^
+      const DeepCollectionEquality().hash(banner3SubTitle) ^
+      const DeepCollectionEquality().hash(banner3Description) ^
+      const DeepCollectionEquality().hash(banner3ButtonText) ^
+      const DeepCollectionEquality().hash(banner3ButtonLink) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $SettingDtoExtension on SettingDto {
+  SettingDto copyWith(
+      {String? banner1ImageUrl,
+      String? banner1ImageFile,
+      String? banner1Title,
+      String? banner1SubTitle,
+      String? banner1Description,
+      String? banner1ButtonText,
+      String? banner1ButtonLink,
+      String? banner2ImageUrl,
+      String? banner2ImageFile,
+      String? banner2Title,
+      String? banner2SubTitle,
+      String? banner2Description,
+      String? banner2ButtonText,
+      String? banner2ButtonLink,
+      String? banner3ImageUrl,
+      String? banner3ImageFile,
+      String? banner3Title,
+      String? banner3SubTitle,
+      String? banner3Description,
+      String? banner3ButtonText,
+      String? banner3ButtonLink,
+      String? id}) {
+    return SettingDto(
+        banner1ImageUrl: banner1ImageUrl ?? this.banner1ImageUrl,
+        banner1ImageFile: banner1ImageFile ?? this.banner1ImageFile,
+        banner1Title: banner1Title ?? this.banner1Title,
+        banner1SubTitle: banner1SubTitle ?? this.banner1SubTitle,
+        banner1Description: banner1Description ?? this.banner1Description,
+        banner1ButtonText: banner1ButtonText ?? this.banner1ButtonText,
+        banner1ButtonLink: banner1ButtonLink ?? this.banner1ButtonLink,
+        banner2ImageUrl: banner2ImageUrl ?? this.banner2ImageUrl,
+        banner2ImageFile: banner2ImageFile ?? this.banner2ImageFile,
+        banner2Title: banner2Title ?? this.banner2Title,
+        banner2SubTitle: banner2SubTitle ?? this.banner2SubTitle,
+        banner2Description: banner2Description ?? this.banner2Description,
+        banner2ButtonText: banner2ButtonText ?? this.banner2ButtonText,
+        banner2ButtonLink: banner2ButtonLink ?? this.banner2ButtonLink,
+        banner3ImageUrl: banner3ImageUrl ?? this.banner3ImageUrl,
+        banner3ImageFile: banner3ImageFile ?? this.banner3ImageFile,
+        banner3Title: banner3Title ?? this.banner3Title,
+        banner3SubTitle: banner3SubTitle ?? this.banner3SubTitle,
+        banner3Description: banner3Description ?? this.banner3Description,
+        banner3ButtonText: banner3ButtonText ?? this.banner3ButtonText,
+        banner3ButtonLink: banner3ButtonLink ?? this.banner3ButtonLink,
+        id: id ?? this.id);
+  }
+
+  SettingDto copyWithWrapped(
+      {Wrapped<String?>? banner1ImageUrl,
+      Wrapped<String?>? banner1ImageFile,
+      Wrapped<String?>? banner1Title,
+      Wrapped<String?>? banner1SubTitle,
+      Wrapped<String?>? banner1Description,
+      Wrapped<String?>? banner1ButtonText,
+      Wrapped<String?>? banner1ButtonLink,
+      Wrapped<String?>? banner2ImageUrl,
+      Wrapped<String?>? banner2ImageFile,
+      Wrapped<String?>? banner2Title,
+      Wrapped<String?>? banner2SubTitle,
+      Wrapped<String?>? banner2Description,
+      Wrapped<String?>? banner2ButtonText,
+      Wrapped<String?>? banner2ButtonLink,
+      Wrapped<String?>? banner3ImageUrl,
+      Wrapped<String?>? banner3ImageFile,
+      Wrapped<String?>? banner3Title,
+      Wrapped<String?>? banner3SubTitle,
+      Wrapped<String?>? banner3Description,
+      Wrapped<String?>? banner3ButtonText,
+      Wrapped<String?>? banner3ButtonLink,
+      Wrapped<String?>? id}) {
+    return SettingDto(
+        banner1ImageUrl: (banner1ImageUrl != null
+            ? banner1ImageUrl.value
+            : this.banner1ImageUrl),
+        banner1ImageFile: (banner1ImageFile != null
+            ? banner1ImageFile.value
+            : this.banner1ImageFile),
+        banner1Title:
+            (banner1Title != null ? banner1Title.value : this.banner1Title),
+        banner1SubTitle: (banner1SubTitle != null
+            ? banner1SubTitle.value
+            : this.banner1SubTitle),
+        banner1Description: (banner1Description != null
+            ? banner1Description.value
+            : this.banner1Description),
+        banner1ButtonText: (banner1ButtonText != null
+            ? banner1ButtonText.value
+            : this.banner1ButtonText),
+        banner1ButtonLink: (banner1ButtonLink != null
+            ? banner1ButtonLink.value
+            : this.banner1ButtonLink),
+        banner2ImageUrl: (banner2ImageUrl != null
+            ? banner2ImageUrl.value
+            : this.banner2ImageUrl),
+        banner2ImageFile: (banner2ImageFile != null
+            ? banner2ImageFile.value
+            : this.banner2ImageFile),
+        banner2Title:
+            (banner2Title != null ? banner2Title.value : this.banner2Title),
+        banner2SubTitle: (banner2SubTitle != null
+            ? banner2SubTitle.value
+            : this.banner2SubTitle),
+        banner2Description: (banner2Description != null
+            ? banner2Description.value
+            : this.banner2Description),
+        banner2ButtonText: (banner2ButtonText != null
+            ? banner2ButtonText.value
+            : this.banner2ButtonText),
+        banner2ButtonLink: (banner2ButtonLink != null
+            ? banner2ButtonLink.value
+            : this.banner2ButtonLink),
+        banner3ImageUrl: (banner3ImageUrl != null
+            ? banner3ImageUrl.value
+            : this.banner3ImageUrl),
+        banner3ImageFile: (banner3ImageFile != null
+            ? banner3ImageFile.value
+            : this.banner3ImageFile),
+        banner3Title:
+            (banner3Title != null ? banner3Title.value : this.banner3Title),
+        banner3SubTitle: (banner3SubTitle != null
+            ? banner3SubTitle.value
+            : this.banner3SubTitle),
+        banner3Description: (banner3Description != null
+            ? banner3Description.value
+            : this.banner3Description),
+        banner3ButtonText: (banner3ButtonText != null
+            ? banner3ButtonText.value
+            : this.banner3ButtonText),
+        banner3ButtonLink: (banner3ButtonLink != null
+            ? banner3ButtonLink.value
+            : this.banner3ButtonLink),
+        id: (id != null ? id.value : this.id));
   }
 }
 
@@ -1006,6 +1554,84 @@ extension $TempUserDtoApiResultExtension on TempUserDtoApiResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ApiV1AdminIndexPost$RequestBody {
+  const ApiV1AdminIndexPost$RequestBody({
+    this.banner1ImageFile,
+    this.banner2ImageFile,
+    this.banner3ImageFile,
+  });
+
+  factory ApiV1AdminIndexPost$RequestBody.fromJson(Map<String, dynamic> json) =>
+      _$ApiV1AdminIndexPost$RequestBodyFromJson(json);
+
+  static const toJsonFactory = _$ApiV1AdminIndexPost$RequestBodyToJson;
+  Map<String, dynamic> toJson() =>
+      _$ApiV1AdminIndexPost$RequestBodyToJson(this);
+
+  @JsonKey(name: 'Banner1ImageFile', includeIfNull: false)
+  final String? banner1ImageFile;
+  @JsonKey(name: 'Banner2ImageFile', includeIfNull: false)
+  final String? banner2ImageFile;
+  @JsonKey(name: 'Banner3ImageFile', includeIfNull: false)
+  final String? banner3ImageFile;
+  static const fromJsonFactory = _$ApiV1AdminIndexPost$RequestBodyFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ApiV1AdminIndexPost$RequestBody &&
+            (identical(other.banner1ImageFile, banner1ImageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner1ImageFile, banner1ImageFile)) &&
+            (identical(other.banner2ImageFile, banner2ImageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner2ImageFile, banner2ImageFile)) &&
+            (identical(other.banner3ImageFile, banner3ImageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.banner3ImageFile, banner3ImageFile)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(banner1ImageFile) ^
+      const DeepCollectionEquality().hash(banner2ImageFile) ^
+      const DeepCollectionEquality().hash(banner3ImageFile) ^
+      runtimeType.hashCode;
+}
+
+extension $ApiV1AdminIndexPost$RequestBodyExtension
+    on ApiV1AdminIndexPost$RequestBody {
+  ApiV1AdminIndexPost$RequestBody copyWith(
+      {String? banner1ImageFile,
+      String? banner2ImageFile,
+      String? banner3ImageFile}) {
+    return ApiV1AdminIndexPost$RequestBody(
+        banner1ImageFile: banner1ImageFile ?? this.banner1ImageFile,
+        banner2ImageFile: banner2ImageFile ?? this.banner2ImageFile,
+        banner3ImageFile: banner3ImageFile ?? this.banner3ImageFile);
+  }
+
+  ApiV1AdminIndexPost$RequestBody copyWithWrapped(
+      {Wrapped<String?>? banner1ImageFile,
+      Wrapped<String?>? banner2ImageFile,
+      Wrapped<String?>? banner3ImageFile}) {
+    return ApiV1AdminIndexPost$RequestBody(
+        banner1ImageFile: (banner1ImageFile != null
+            ? banner1ImageFile.value
+            : this.banner1ImageFile),
+        banner2ImageFile: (banner2ImageFile != null
+            ? banner2ImageFile.value
+            : this.banner2ImageFile),
+        banner3ImageFile: (banner3ImageFile != null
+            ? banner3ImageFile.value
+            : this.banner3ImageFile));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ApiV1AuthenticationFreeTokenPost$RequestBody {
   const ApiV1AuthenticationFreeTokenPost$RequestBody({
     this.grantType,
@@ -1122,6 +1748,62 @@ extension $ApiV1AuthenticationFreeTokenPost$RequestBodyExtension
         clientId: (clientId != null ? clientId.value : this.clientId),
         clientSecret:
             (clientSecret != null ? clientSecret.value : this.clientSecret));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ApiV1BookAddPost$RequestBody {
+  const ApiV1BookAddPost$RequestBody({
+    this.imageFile,
+    this.pdfFile,
+  });
+
+  factory ApiV1BookAddPost$RequestBody.fromJson(Map<String, dynamic> json) =>
+      _$ApiV1BookAddPost$RequestBodyFromJson(json);
+
+  static const toJsonFactory = _$ApiV1BookAddPost$RequestBodyToJson;
+  Map<String, dynamic> toJson() => _$ApiV1BookAddPost$RequestBodyToJson(this);
+
+  @JsonKey(name: 'ImageFile', includeIfNull: false)
+  final String? imageFile;
+  @JsonKey(name: 'PdfFile', includeIfNull: false)
+  final String? pdfFile;
+  static const fromJsonFactory = _$ApiV1BookAddPost$RequestBodyFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ApiV1BookAddPost$RequestBody &&
+            (identical(other.imageFile, imageFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.imageFile, imageFile)) &&
+            (identical(other.pdfFile, pdfFile) ||
+                const DeepCollectionEquality().equals(other.pdfFile, pdfFile)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(imageFile) ^
+      const DeepCollectionEquality().hash(pdfFile) ^
+      runtimeType.hashCode;
+}
+
+extension $ApiV1BookAddPost$RequestBodyExtension
+    on ApiV1BookAddPost$RequestBody {
+  ApiV1BookAddPost$RequestBody copyWith({String? imageFile, String? pdfFile}) {
+    return ApiV1BookAddPost$RequestBody(
+        imageFile: imageFile ?? this.imageFile,
+        pdfFile: pdfFile ?? this.pdfFile);
+  }
+
+  ApiV1BookAddPost$RequestBody copyWithWrapped(
+      {Wrapped<String?>? imageFile, Wrapped<String?>? pdfFile}) {
+    return ApiV1BookAddPost$RequestBody(
+        imageFile: (imageFile != null ? imageFile.value : this.imageFile),
+        pdfFile: (pdfFile != null ? pdfFile.value : this.pdfFile));
   }
 }
 

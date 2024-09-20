@@ -47,6 +47,12 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_staggered_animations: ^1.1.1
   carousel_slider: ^4.2.1
+  syncfusion_flutter_pdfviewer: ^26.2.8
+  url_launcher: ^6.3.0
+  smooth_page_indicator: ^1.2.0+3
+  country_code_picker: ^3.0.0
+  font_awesome_flutter: ^10.7.0
+  buttons_tabbar: ^1.3.13
 
 dev_dependencies:
   flutter_test:
@@ -90,13 +96,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
+  fonts:
+    - family: Sansation
+      fonts:
+        - asset: lib/assets/fonts/Sansation_Light.ttf
+        - asset: lib/assets/fonts/Sansation_Regular.ttf
+        - asset: lib/assets/fonts/Sansation_Bold.ttf
+
+  # - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf

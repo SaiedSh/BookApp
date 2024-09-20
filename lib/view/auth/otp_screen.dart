@@ -1,192 +1,237 @@
-import 'package:bookapp/components/pinput_widget.dart';
-import 'package:bookapp/global.dart';
-import 'package:bookapp/view/home/home_screen.dart';
+import 'dart:async';
+
+import 'package:bookapp/model/api/generated/tikonline.models.swagger.dart';
+import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pinput/pinput.dart';
 
-class OtpScreen extends StatelessWidget {
-  TextEditingController userName = TextEditingController();
-  TextEditingController password = TextEditingController();
+import '../../controller/api/auth/login_controller_post.dart';
 
-  OtpScreen({super.key});
+class OtpScreen extends StatefulWidget {
+  final String phonenumber;
+  OtpScreen({super.key, required this.phonenumber});
+
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  TextEditingController otp = TextEditingController();
+
+  DateTime dateTime = DateTime.now();
+
+  Timer? _timer;
+
+  int _start = 60;
+  // Set the initial countdown value (30 seconds)
+  @override
+  void initState() {
+    super.initState();
+    startTimer(); // Start the timer when the widget initializes
+  }
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel(); // Stop the timer when countdown is finished
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Container(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 90,
+            ),
+            Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black,
-                          thickness: 1,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 25,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Image(
+                          image: AssetImage('lib/assets/images/phone.png'),
+                          width: 65,
                         ),
-                      ),
-                    ],
-                  ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'تایید شماره موبایل',
+                          style: GoogleFonts.ibmPlexSansArabic(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'کدی را که به شماره ${widget.phonenumber} فرستادیم اینجا بنویس',
+                          style: GoogleFonts.ibmPlexSansArabic(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Pinput(
+                      controller: otp,
+                      length: 6, // Number of input fields
+                      onCompleted: (pin) {
+                        // Action to perform after entering the PIN
+                        if (pin.length == 6) {
+                          otp.text = pin;
+                        }
+                      },
+                      onChanged: (value) {
+                        print('PIN Changed: $value');
+                      },
+                      // Customization options for the input fields
+                      defaultPinTheme: PinTheme(
+                        width: 45,
+                        height: 45,
+                        textStyle: TextStyle(
+                          fontSize: 20,
                           color: Colors.black,
-                          thickness: 1,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                      focusedPinTheme: PinTheme(
+                        width: 45,
+                        height: 45,
+                        textStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    )),
                 SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: thirdColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  width: MediaQuery.of(context).size.width > 400
-                      ? 350
-                      : MediaQuery.of(context).size.width - 50,
-                  height: 350,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'کد را وارد کنید',
-                        style: GoogleFonts.ibmPlexSansArabic(
-                            color: primaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      PinputWidget(),
-                      SizedBox(
-                        height: 80,
-                      ),
-                      // SizedBox(
-                      //   width: 200,
-                      //   child: TextFormField(
-                      //     decoration: InputDecoration(
-                      //         focusedBorder: OutlineInputBorder(
-                      //             borderSide: BorderSide(color: Colors.white)),
-                      //         enabledBorder: OutlineInputBorder(
-                      //             borderSide: BorderSide(color: Colors.white)),
-                      //         floatingLabelAlignment:
-                      //             FloatingLabelAlignment.center,
-                      //         border: OutlineInputBorder(),
-                      //         label: Text(
-                      //           'رمز عبور',
-                      //           style: GoogleFonts.ibmPlexSansArabic(
-                      //               fontSize: 14,
-                      //               fontWeight: FontWeight.bold,
-                      //               color: Colors.white),
-                      //         )),
-                      //     controller: password,
-                      //   ),
-                      // ),
-
-                      SizedBox(
-                        child: RawMaterialButton(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Text(
-                              'ورود',
+                  width: 300,
+                  child: RawMaterialButton(
+                    fillColor: secondaryColor,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '$_start ثانیه',
                               style: GoogleFonts.ibmPlexSansArabic(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: textsColor),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             ),
-                          ),
-                          fillColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(color: thirdColor, width: 0.1),
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () async {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                PageRouteBuilder(
-                                    pageBuilder: (_, __, ___) => HomeScreen(),
-                                    transitionDuration:
-                                        const Duration(milliseconds: 500),
-                                    transitionsBuilder: (_, a, __, c) =>
-                                        FadeTransition(
-                                          opacity: a,
-                                          child: c,
-                                        )),
-                                (route) => false);
-                            // login(
-                            //         context: context,
-                            //         dto: LoginDto(
-                            //             password: password.text,
-                            //             userName: userName.text))
-                            //     .then((value) {
-                            //   print("Hereleey");
-                            //   Navigator.of(context).pushAndRemoveUntil(
-                            //       PageRouteBuilder(
-                            //           pageBuilder: (_, __, ___) =>
-                            //               const HomeScreen(),
-                            //           transitionDuration:
-                            //               const Duration(milliseconds: 500),
-                            //           transitionsBuilder: (_, a, __, c) =>
-                            //               FadeTransition(
-                            //                 opacity: a,
-                            //                 child: c,
-                            //               )),
-                            //       (route) => false);
-                            // });
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black,
-                          thickness: 1,
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'تا پایان اعتبار کد',
+                              style: GoogleFonts.ibmPlexSansArabic(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black,
-                          thickness: 1,
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    onPressed: () async {
+                      loginOtp(
+                        context: context,
+                        body: TempUserDto(
+                          creationDate: dateTime,
+                          phoneNumber: widget.phonenumber,
+                          otp: otp.text,
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                ),
+                )
               ],
             ),
-          ),
-          decoration: BoxDecoration(),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  size: 14,
+                  color: Colors.blue,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'ویرایش شماره موبایل',
+                      style: GoogleFonts.ibmPlexSansArabic(
+                        color: Colors.blue,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  size: 14,
+                  color: Colors.blue,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'ورود با رمز',
+                      style: GoogleFonts.ibmPlexSansArabic(
+                        color: Colors.blue,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

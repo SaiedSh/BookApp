@@ -45,6 +45,125 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
+  ///@param Banner1ImageUrl
+  ///@param Banner1Title
+  ///@param Banner1SubTitle
+  ///@param Banner1Description
+  ///@param Banner1ButtonText
+  ///@param Banner1ButtonLink
+  ///@param Banner2ImageUrl
+  ///@param Banner2Title
+  ///@param Banner2SubTitle
+  ///@param Banner2Description
+  ///@param Banner2ButtonText
+  ///@param Banner2ButtonLink
+  ///@param Banner3ImageUrl
+  ///@param Banner3Title
+  ///@param Banner3SubTitle
+  ///@param Banner3Description
+  ///@param Banner3ButtonText
+  ///@param Banner3ButtonLink
+  ///@param Id
+  Future<chopper.Response> apiV1AdminIndexPost({
+    String? banner1ImageUrl,
+    String? banner1Title,
+    String? banner1SubTitle,
+    String? banner1Description,
+    String? banner1ButtonText,
+    String? banner1ButtonLink,
+    String? banner2ImageUrl,
+    String? banner2Title,
+    String? banner2SubTitle,
+    String? banner2Description,
+    String? banner2ButtonText,
+    String? banner2ButtonLink,
+    String? banner3ImageUrl,
+    String? banner3Title,
+    String? banner3SubTitle,
+    String? banner3Description,
+    String? banner3ButtonText,
+    String? banner3ButtonLink,
+    String? id,
+    List<int>? Banner1ImageFile,
+    List<int>? Banner2ImageFile,
+    List<int>? Banner3ImageFile,
+  }) {
+    return _apiV1AdminIndexPost(
+        banner1ImageUrl: banner1ImageUrl,
+        banner1Title: banner1Title,
+        banner1SubTitle: banner1SubTitle,
+        banner1Description: banner1Description,
+        banner1ButtonText: banner1ButtonText,
+        banner1ButtonLink: banner1ButtonLink,
+        banner2ImageUrl: banner2ImageUrl,
+        banner2Title: banner2Title,
+        banner2SubTitle: banner2SubTitle,
+        banner2Description: banner2Description,
+        banner2ButtonText: banner2ButtonText,
+        banner2ButtonLink: banner2ButtonLink,
+        banner3ImageUrl: banner3ImageUrl,
+        banner3Title: banner3Title,
+        banner3SubTitle: banner3SubTitle,
+        banner3Description: banner3Description,
+        banner3ButtonText: banner3ButtonText,
+        banner3ButtonLink: banner3ButtonLink,
+        id: id,
+        Banner1ImageFile: Banner1ImageFile,
+        Banner2ImageFile: Banner2ImageFile,
+        Banner3ImageFile: Banner3ImageFile);
+  }
+
+  ///
+  ///@param Banner1ImageUrl
+  ///@param Banner1Title
+  ///@param Banner1SubTitle
+  ///@param Banner1Description
+  ///@param Banner1ButtonText
+  ///@param Banner1ButtonLink
+  ///@param Banner2ImageUrl
+  ///@param Banner2Title
+  ///@param Banner2SubTitle
+  ///@param Banner2Description
+  ///@param Banner2ButtonText
+  ///@param Banner2ButtonLink
+  ///@param Banner3ImageUrl
+  ///@param Banner3Title
+  ///@param Banner3SubTitle
+  ///@param Banner3Description
+  ///@param Banner3ButtonText
+  ///@param Banner3ButtonLink
+  ///@param Id
+  @Post(
+    path: 'http://130.185.75.182:5003/api/v1/Admin/Index',
+    optionalBody: true,
+  )
+  @Multipart()
+  Future<chopper.Response> _apiV1AdminIndexPost({
+    @Query('Banner1ImageUrl') String? banner1ImageUrl,
+    @Query('Banner1Title') String? banner1Title,
+    @Query('Banner1SubTitle') String? banner1SubTitle,
+    @Query('Banner1Description') String? banner1Description,
+    @Query('Banner1ButtonText') String? banner1ButtonText,
+    @Query('Banner1ButtonLink') String? banner1ButtonLink,
+    @Query('Banner2ImageUrl') String? banner2ImageUrl,
+    @Query('Banner2Title') String? banner2Title,
+    @Query('Banner2SubTitle') String? banner2SubTitle,
+    @Query('Banner2Description') String? banner2Description,
+    @Query('Banner2ButtonText') String? banner2ButtonText,
+    @Query('Banner2ButtonLink') String? banner2ButtonLink,
+    @Query('Banner3ImageUrl') String? banner3ImageUrl,
+    @Query('Banner3Title') String? banner3Title,
+    @Query('Banner3SubTitle') String? banner3SubTitle,
+    @Query('Banner3Description') String? banner3Description,
+    @Query('Banner3ButtonText') String? banner3ButtonText,
+    @Query('Banner3ButtonLink') String? banner3ButtonLink,
+    @Query('Id') String? id,
+    @PartFile() List<int>? Banner1ImageFile,
+    @PartFile() List<int>? Banner2ImageFile,
+    @PartFile() List<int>? Banner3ImageFile,
+  });
+
+  ///
   Future<chopper.Response<AccessToken>> apiV1AuthenticationFreeTokenPost({
     String? grantType,
     String? username,
@@ -147,20 +266,6 @@ abstract class Tikonline extends ChopperService {
       {@Body() required LoginDto? body});
 
   ///
-  Future<chopper.Response<DashboardDtoApiResult>>
-      apiV1AuthenticationDashboardGet() {
-    generatedMapping.putIfAbsent(
-        DashboardDtoApiResult, () => DashboardDtoApiResult.fromJsonFactory);
-
-    return _apiV1AuthenticationDashboardGet();
-  }
-
-  ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Authentication/Dashboard')
-  Future<chopper.Response<DashboardDtoApiResult>>
-      _apiV1AuthenticationDashboardGet();
-
-  ///
   ///@param CategortyId
   Future<chopper.Response<BookDtoListApiResult>> apiV1BookListGet(
       {String? categortyId}) {
@@ -177,52 +282,216 @@ abstract class Tikonline extends ChopperService {
       {@Query('CategortyId') String? categortyId});
 
   ///
-  Future<chopper.Response<ApiResult>> apiV1BookAddPost(
-      {required BookDto? body}) {
-    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+  Future<chopper.Response<IndexDtoApiResult>> apiV1BookIndexGet() {
+    generatedMapping.putIfAbsent(
+        IndexDtoApiResult, () => IndexDtoApiResult.fromJsonFactory);
 
-    return _apiV1BookAddPost(body: body);
+    return _apiV1BookIndexGet();
   }
 
   ///
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/Index')
+  Future<chopper.Response<IndexDtoApiResult>> _apiV1BookIndexGet();
+
+  ///
+  ///@param BookId
+  Future<chopper.Response<BookDtoApiResult>> apiV1BookDetailGet(
+      {String? bookId}) {
+    generatedMapping.putIfAbsent(
+        BookDtoApiResult, () => BookDtoApiResult.fromJsonFactory);
+
+    return _apiV1BookDetailGet(bookId: bookId);
+  }
+
+  ///
+  ///@param BookId
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/Detail')
+  Future<chopper.Response<BookDtoApiResult>> _apiV1BookDetailGet(
+      {@Query('BookId') String? bookId});
+
+  ///
+  ///@param Title
+  ///@param Description
+  ///@param ImageUrl
+  ///@param PdfLink
+  ///@param Nevisande
+  ///@param Entesharat
+  ///@param Motarjem
+  ///@param SalEnteshar
+  ///@param Pages
+  ///@param Rating
+  ///@param Price
+  ///@param DiscountPrice
+  ///@param ViewCount
+  ///@param CategoryId
+  ///@param CategoryName
+  ///@param Id
+  Future<chopper.Response<ApiResult>> apiV1BookAddPost({
+    String? title,
+    String? description,
+    String? imageUrl,
+    String? pdfLink,
+    String? nevisande,
+    String? entesharat,
+    String? motarjem,
+    String? salEnteshar,
+    int? pages,
+    int? rating,
+    int? price,
+    int? discountPrice,
+    int? viewCount,
+    String? categoryId,
+    String? categoryName,
+    String? id,
+    List<int>? ImageFile,
+    List<int>? PdfFile,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1BookAddPost(
+        title: title,
+        description: description,
+        imageUrl: imageUrl,
+        pdfLink: pdfLink,
+        nevisande: nevisande,
+        entesharat: entesharat,
+        motarjem: motarjem,
+        salEnteshar: salEnteshar,
+        pages: pages,
+        rating: rating,
+        price: price,
+        discountPrice: discountPrice,
+        viewCount: viewCount,
+        categoryId: categoryId,
+        categoryName: categoryName,
+        id: id,
+        ImageFile: ImageFile,
+        PdfFile: PdfFile);
+  }
+
+  ///
+  ///@param Title
+  ///@param Description
+  ///@param ImageUrl
+  ///@param PdfLink
+  ///@param Nevisande
+  ///@param Entesharat
+  ///@param Motarjem
+  ///@param SalEnteshar
+  ///@param Pages
+  ///@param Rating
+  ///@param Price
+  ///@param DiscountPrice
+  ///@param ViewCount
+  ///@param CategoryId
+  ///@param CategoryName
+  ///@param Id
   @Post(
     path: 'http://130.185.75.182:5003/api/v1/Book/Add',
     optionalBody: true,
   )
-  Future<chopper.Response<ApiResult>> _apiV1BookAddPost(
-      {@Body() required BookDto? body});
+  @Multipart()
+  Future<chopper.Response<ApiResult>> _apiV1BookAddPost({
+    @Query('Title') String? title,
+    @Query('Description') String? description,
+    @Query('ImageUrl') String? imageUrl,
+    @Query('PdfLink') String? pdfLink,
+    @Query('Nevisande') String? nevisande,
+    @Query('Entesharat') String? entesharat,
+    @Query('Motarjem') String? motarjem,
+    @Query('SalEnteshar') String? salEnteshar,
+    @Query('Pages') int? pages,
+    @Query('Rating') int? rating,
+    @Query('Price') int? price,
+    @Query('DiscountPrice') int? discountPrice,
+    @Query('ViewCount') int? viewCount,
+    @Query('CategoryId') String? categoryId,
+    @Query('CategoryName') String? categoryName,
+    @Query('Id') String? id,
+    @PartFile() List<int>? ImageFile,
+    @PartFile() List<int>? PdfFile,
+  });
 
-  ///
-  ///@param MotherId
-  Future<chopper.Response<CategoryDtoListApiResult>> apiV1CategoryListGet(
-      {String? motherId}) {
+  ///Returns all Categories
+  Future<chopper.Response<CategoryDtoListApiResult>> apiV1CategoryGet() {
     generatedMapping.putIfAbsent(CategoryDtoListApiResult,
         () => CategoryDtoListApiResult.fromJsonFactory);
 
-    return _apiV1CategoryListGet(motherId: motherId);
+    return _apiV1CategoryGet();
   }
 
-  ///
-  ///@param MotherId
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Category/List')
-  Future<chopper.Response<CategoryDtoListApiResult>> _apiV1CategoryListGet(
-      {@Query('MotherId') String? motherId});
+  ///Returns all Categories
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Category')
+  Future<chopper.Response<CategoryDtoListApiResult>> _apiV1CategoryGet();
 
-  ///
-  Future<chopper.Response<ApiResult>> apiV1CategoryAddPost(
+  ///Creates a Category
+  Future<chopper.Response<ApiResult>> apiV1CategoryPost(
       {required CategoryDto? body}) {
     generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
 
-    return _apiV1CategoryAddPost(body: body);
+    return _apiV1CategoryPost(body: body);
   }
 
-  ///
+  ///Creates a Category
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Category/Add',
+    path: 'http://130.185.75.182:5003/api/v1/Category',
     optionalBody: true,
   )
-  Future<chopper.Response<ApiResult>> _apiV1CategoryAddPost(
+  Future<chopper.Response<ApiResult>> _apiV1CategoryPost(
       {@Body() required CategoryDto? body});
+
+  ///Retrieves a Category by unique id
+  ///@param id a unique id for the Category
+  Future<chopper.Response<CategoryDtoApiResult>> apiV1CategoryIdGet(
+      {required String? id}) {
+    generatedMapping.putIfAbsent(
+        CategoryDtoApiResult, () => CategoryDtoApiResult.fromJsonFactory);
+
+    return _apiV1CategoryIdGet(id: id);
+  }
+
+  ///Retrieves a Category by unique id
+  ///@param id a unique id for the Category
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Category/{id}')
+  Future<chopper.Response<CategoryDtoApiResult>> _apiV1CategoryIdGet(
+      {@Path('id') required String? id});
+
+  ///Deletes a Category by unique id
+  ///@param id A unique id for the Category
+  Future<chopper.Response<ApiResult>> apiV1CategoryIdDelete(
+      {required String? id}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1CategoryIdDelete(id: id);
+  }
+
+  ///Deletes a Category by unique id
+  ///@param id A unique id for the Category
+  @Delete(path: 'http://130.185.75.182:5003/api/v1/Category/{id}')
+  Future<chopper.Response<ApiResult>> _apiV1CategoryIdDelete(
+      {@Path('id') required String? id});
+
+  ///Updates a Category by unique id
+  ///@param id A Category representation
+  Future<chopper.Response<ApiResult>> apiV1CategoryUpdatePost({
+    String? id,
+    required CategoryDto? body,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1CategoryUpdatePost(id: id, body: body);
+  }
+
+  ///Updates a Category by unique id
+  ///@param id A Category representation
+  @Post(
+    path: 'http://130.185.75.182:5003/api/v1/Category/Update',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1CategoryUpdatePost({
+    @Query('id') String? id,
+    @Body() required CategoryDto? body,
+  });
 }
 
 typedef $JsonFactory<T> = T Function(Map<String, dynamic> json);

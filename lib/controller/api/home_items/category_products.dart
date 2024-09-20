@@ -10,7 +10,7 @@ Future<CategoryDtoListApiResult> getCategories(
     {String? motherId, required BuildContext context}) async {
   final api = Tikonline.create(interceptors: [TokenInterceptor('accessToken')]);
 
-  final postResult = await api.apiV1CategoryListGet(motherId: motherId);
+  final postResult = await api.apiV1CategoryGet();
   print(motherId);
   print(postResult.body);
   if (postResult.isSuccessful == true) {
