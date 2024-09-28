@@ -25,18 +25,62 @@ enum ApiResultStatusCode {
   const ApiResultStatusCode(this.value);
 }
 
+enum SaveType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('Read')
+  read('Read'),
+  @JsonValue('Like')
+  like('Like'),
+  @JsonValue('Shelf')
+  shelf('Shelf');
+
+  final String? value;
+
+  const SaveType(this.value);
+}
+
+enum Sex {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('Male')
+  male('Male'),
+  @JsonValue('Female')
+  female('Female');
+
+  final String? value;
+
+  const Sex(this.value);
+}
+
 enum UserRoles {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
   @JsonValue('Admin')
   admin('Admin'),
-  @JsonValue('Client')
-  $client('Client'),
-  @JsonValue('Manager')
-  manager('Manager'),
-  @JsonValue('Instructor')
-  instructor('Instructor');
+  @JsonValue('Food')
+  food('Food'),
+  @JsonValue('Gift')
+  gift('Gift'),
+  @JsonValue('Entrance')
+  entrance('Entrance'),
+  @JsonValue('Vip')
+  vip('Vip'),
+  @JsonValue('Speaker')
+  speaker('Speaker'),
+  @JsonValue('Contributor')
+  contributor('Contributor'),
+  @JsonValue('Shop')
+  shop('Shop'),
+  @JsonValue('Guest')
+  guest('Guest'),
+  @JsonValue('Team')
+  team('Team'),
+  @JsonValue('Student')
+  student('Student');
 
   final String? value;
 

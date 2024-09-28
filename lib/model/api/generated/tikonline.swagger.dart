@@ -7,6 +7,7 @@ import 'package:chopper/chopper.dart';
 import 'package:http/http.dart' as http;
 
 import 'client_mapping.dart';
+import 'tikonline.enums.swagger.dart' as enums;
 import 'tikonline.models.swagger.dart';
 
 export 'tikonline.enums.swagger.dart';
@@ -310,10 +311,19 @@ abstract class Tikonline extends ChopperService {
       {@Query('BookId') String? bookId});
 
   ///
+  ///@param Niko
+  ///@param Online
+  ///@param Physical
+  ///@param DiscountPercentage
+  ///@param PhysicalLink
   ///@param Title
   ///@param Description
   ///@param ImageUrl
   ///@param PdfLink
+  ///@param PdfSize
+  ///@param Like
+  ///@param Read
+  ///@param Shelf
   ///@param Nevisande
   ///@param Entesharat
   ///@param Motarjem
@@ -324,13 +334,43 @@ abstract class Tikonline extends ChopperService {
   ///@param DiscountPrice
   ///@param ViewCount
   ///@param CategoryId
-  ///@param CategoryName
+  ///@param CategoryTitle
+  ///@param MyReview.Message
+  ///@param MyReview.Rate
+  ///@param MyReview.BookId
+  ///@param MyReview.BookTitle
+  ///@param MyReview.BookImageUrl
+  ///@param MyReview.BookNevisande
+  ///@param MyReview.BookEntesharat
+  ///@param MyReview.BookMotarjem
+  ///@param MyReview.BookSalEnteshar
+  ///@param MyReview.BookPages
+  ///@param MyReview.BookRating
+  ///@param MyReview.BookPrice
+  ///@param MyReview.BookDiscountPrice
+  ///@param MyReview.BookViewCount
+  ///@param MyReview.BookCategoryId
+  ///@param MyReview.BookCategoryName
+  ///@param MyReview.UserId
+  ///@param MyReview.UserFirstName
+  ///@param MyReview.UserLastName
+  ///@param MyReview.Id
+  ///@param BookReviewss
   ///@param Id
   Future<chopper.Response<ApiResult>> apiV1BookAddPost({
+    bool? niko,
+    bool? online,
+    bool? physical,
+    int? discountPercentage,
+    String? physicalLink,
     String? title,
     String? description,
     String? imageUrl,
     String? pdfLink,
+    String? pdfSize,
+    bool? like,
+    bool? read,
+    bool? shelf,
     String? nevisande,
     String? entesharat,
     String? motarjem,
@@ -341,7 +381,28 @@ abstract class Tikonline extends ChopperService {
     int? discountPrice,
     int? viewCount,
     String? categoryId,
-    String? categoryName,
+    String? categoryTitle,
+    String? myReviewMessage,
+    int? myReviewRate,
+    String? myReviewBookId,
+    String? myReviewBookTitle,
+    String? myReviewBookImageUrl,
+    String? myReviewBookNevisande,
+    String? myReviewBookEntesharat,
+    String? myReviewBookMotarjem,
+    String? myReviewBookSalEnteshar,
+    int? myReviewBookPages,
+    int? myReviewBookRating,
+    int? myReviewBookPrice,
+    int? myReviewBookDiscountPrice,
+    int? myReviewBookViewCount,
+    String? myReviewBookCategoryId,
+    String? myReviewBookCategoryName,
+    String? myReviewUserId,
+    String? myReviewUserFirstName,
+    String? myReviewUserLastName,
+    String? myReviewId,
+    List<BookReviewDto>? bookReviewss,
     String? id,
     List<int>? ImageFile,
     List<int>? PdfFile,
@@ -349,10 +410,19 @@ abstract class Tikonline extends ChopperService {
     generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
 
     return _apiV1BookAddPost(
+        niko: niko,
+        online: online,
+        physical: physical,
+        discountPercentage: discountPercentage,
+        physicalLink: physicalLink,
         title: title,
         description: description,
         imageUrl: imageUrl,
         pdfLink: pdfLink,
+        pdfSize: pdfSize,
+        like: like,
+        read: read,
+        shelf: shelf,
         nevisande: nevisande,
         entesharat: entesharat,
         motarjem: motarjem,
@@ -363,17 +433,47 @@ abstract class Tikonline extends ChopperService {
         discountPrice: discountPrice,
         viewCount: viewCount,
         categoryId: categoryId,
-        categoryName: categoryName,
+        categoryTitle: categoryTitle,
+        myReviewMessage: myReviewMessage,
+        myReviewRate: myReviewRate,
+        myReviewBookId: myReviewBookId,
+        myReviewBookTitle: myReviewBookTitle,
+        myReviewBookImageUrl: myReviewBookImageUrl,
+        myReviewBookNevisande: myReviewBookNevisande,
+        myReviewBookEntesharat: myReviewBookEntesharat,
+        myReviewBookMotarjem: myReviewBookMotarjem,
+        myReviewBookSalEnteshar: myReviewBookSalEnteshar,
+        myReviewBookPages: myReviewBookPages,
+        myReviewBookRating: myReviewBookRating,
+        myReviewBookPrice: myReviewBookPrice,
+        myReviewBookDiscountPrice: myReviewBookDiscountPrice,
+        myReviewBookViewCount: myReviewBookViewCount,
+        myReviewBookCategoryId: myReviewBookCategoryId,
+        myReviewBookCategoryName: myReviewBookCategoryName,
+        myReviewUserId: myReviewUserId,
+        myReviewUserFirstName: myReviewUserFirstName,
+        myReviewUserLastName: myReviewUserLastName,
+        myReviewId: myReviewId,
+        bookReviewss: bookReviewss,
         id: id,
         ImageFile: ImageFile,
         PdfFile: PdfFile);
   }
 
   ///
+  ///@param Niko
+  ///@param Online
+  ///@param Physical
+  ///@param DiscountPercentage
+  ///@param PhysicalLink
   ///@param Title
   ///@param Description
   ///@param ImageUrl
   ///@param PdfLink
+  ///@param PdfSize
+  ///@param Like
+  ///@param Read
+  ///@param Shelf
   ///@param Nevisande
   ///@param Entesharat
   ///@param Motarjem
@@ -384,7 +484,28 @@ abstract class Tikonline extends ChopperService {
   ///@param DiscountPrice
   ///@param ViewCount
   ///@param CategoryId
-  ///@param CategoryName
+  ///@param CategoryTitle
+  ///@param MyReview.Message
+  ///@param MyReview.Rate
+  ///@param MyReview.BookId
+  ///@param MyReview.BookTitle
+  ///@param MyReview.BookImageUrl
+  ///@param MyReview.BookNevisande
+  ///@param MyReview.BookEntesharat
+  ///@param MyReview.BookMotarjem
+  ///@param MyReview.BookSalEnteshar
+  ///@param MyReview.BookPages
+  ///@param MyReview.BookRating
+  ///@param MyReview.BookPrice
+  ///@param MyReview.BookDiscountPrice
+  ///@param MyReview.BookViewCount
+  ///@param MyReview.BookCategoryId
+  ///@param MyReview.BookCategoryName
+  ///@param MyReview.UserId
+  ///@param MyReview.UserFirstName
+  ///@param MyReview.UserLastName
+  ///@param MyReview.Id
+  ///@param BookReviewss
   ///@param Id
   @Post(
     path: 'http://130.185.75.182:5003/api/v1/Book/Add',
@@ -392,10 +513,19 @@ abstract class Tikonline extends ChopperService {
   )
   @Multipart()
   Future<chopper.Response<ApiResult>> _apiV1BookAddPost({
+    @Query('Niko') bool? niko,
+    @Query('Online') bool? online,
+    @Query('Physical') bool? physical,
+    @Query('DiscountPercentage') int? discountPercentage,
+    @Query('PhysicalLink') String? physicalLink,
     @Query('Title') String? title,
     @Query('Description') String? description,
     @Query('ImageUrl') String? imageUrl,
     @Query('PdfLink') String? pdfLink,
+    @Query('PdfSize') String? pdfSize,
+    @Query('Like') bool? like,
+    @Query('Read') bool? read,
+    @Query('Shelf') bool? shelf,
     @Query('Nevisande') String? nevisande,
     @Query('Entesharat') String? entesharat,
     @Query('Motarjem') String? motarjem,
@@ -406,91 +536,300 @@ abstract class Tikonline extends ChopperService {
     @Query('DiscountPrice') int? discountPrice,
     @Query('ViewCount') int? viewCount,
     @Query('CategoryId') String? categoryId,
-    @Query('CategoryName') String? categoryName,
+    @Query('CategoryTitle') String? categoryTitle,
+    @Query('MyReview.Message') String? myReviewMessage,
+    @Query('MyReview.Rate') int? myReviewRate,
+    @Query('MyReview.BookId') String? myReviewBookId,
+    @Query('MyReview.BookTitle') String? myReviewBookTitle,
+    @Query('MyReview.BookImageUrl') String? myReviewBookImageUrl,
+    @Query('MyReview.BookNevisande') String? myReviewBookNevisande,
+    @Query('MyReview.BookEntesharat') String? myReviewBookEntesharat,
+    @Query('MyReview.BookMotarjem') String? myReviewBookMotarjem,
+    @Query('MyReview.BookSalEnteshar') String? myReviewBookSalEnteshar,
+    @Query('MyReview.BookPages') int? myReviewBookPages,
+    @Query('MyReview.BookRating') int? myReviewBookRating,
+    @Query('MyReview.BookPrice') int? myReviewBookPrice,
+    @Query('MyReview.BookDiscountPrice') int? myReviewBookDiscountPrice,
+    @Query('MyReview.BookViewCount') int? myReviewBookViewCount,
+    @Query('MyReview.BookCategoryId') String? myReviewBookCategoryId,
+    @Query('MyReview.BookCategoryName') String? myReviewBookCategoryName,
+    @Query('MyReview.UserId') String? myReviewUserId,
+    @Query('MyReview.UserFirstName') String? myReviewUserFirstName,
+    @Query('MyReview.UserLastName') String? myReviewUserLastName,
+    @Query('MyReview.Id') String? myReviewId,
+    @Query('BookReviewss') List<BookReviewDto>? bookReviewss,
     @Query('Id') String? id,
     @PartFile() List<int>? ImageFile,
     @PartFile() List<int>? PdfFile,
   });
 
-  ///Returns all Categories
-  Future<chopper.Response<CategoryDtoListApiResult>> apiV1CategoryGet() {
-    generatedMapping.putIfAbsent(CategoryDtoListApiResult,
-        () => CategoryDtoListApiResult.fromJsonFactory);
-
-    return _apiV1CategoryGet();
-  }
-
-  ///Returns all Categories
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Category')
-  Future<chopper.Response<CategoryDtoListApiResult>> _apiV1CategoryGet();
-
-  ///Creates a Category
-  Future<chopper.Response<ApiResult>> apiV1CategoryPost(
-      {required CategoryDto? body}) {
-    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
-
-    return _apiV1CategoryPost(body: body);
-  }
-
-  ///Creates a Category
-  @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Category',
-    optionalBody: true,
-  )
-  Future<chopper.Response<ApiResult>> _apiV1CategoryPost(
-      {@Body() required CategoryDto? body});
-
-  ///Retrieves a Category by unique id
-  ///@param id a unique id for the Category
-  Future<chopper.Response<CategoryDtoApiResult>> apiV1CategoryIdGet(
-      {required String? id}) {
+  ///
+  ///@param st
+  Future<chopper.Response<BookDtoListApiResult>> apiV1BookSavedBooksGet(
+      {enums.SaveType? st}) {
     generatedMapping.putIfAbsent(
-        CategoryDtoApiResult, () => CategoryDtoApiResult.fromJsonFactory);
+        BookDtoListApiResult, () => BookDtoListApiResult.fromJsonFactory);
 
-    return _apiV1CategoryIdGet(id: id);
+    return _apiV1BookSavedBooksGet(st: st?.value?.toString());
   }
 
-  ///Retrieves a Category by unique id
-  ///@param id a unique id for the Category
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Category/{id}')
-  Future<chopper.Response<CategoryDtoApiResult>> _apiV1CategoryIdGet(
-      {@Path('id') required String? id});
+  ///
+  ///@param st
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/SavedBooks')
+  Future<chopper.Response<BookDtoListApiResult>> _apiV1BookSavedBooksGet(
+      {@Query('st') String? st});
 
-  ///Deletes a Category by unique id
-  ///@param id A unique id for the Category
-  Future<chopper.Response<ApiResult>> apiV1CategoryIdDelete(
-      {required String? id}) {
-    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
-
-    return _apiV1CategoryIdDelete(id: id);
-  }
-
-  ///Deletes a Category by unique id
-  ///@param id A unique id for the Category
-  @Delete(path: 'http://130.185.75.182:5003/api/v1/Category/{id}')
-  Future<chopper.Response<ApiResult>> _apiV1CategoryIdDelete(
-      {@Path('id') required String? id});
-
-  ///Updates a Category by unique id
-  ///@param id A Category representation
-  Future<chopper.Response<ApiResult>> apiV1CategoryUpdatePost({
-    String? id,
-    required CategoryDto? body,
+  ///
+  ///@param BookId
+  ///@param st
+  Future<chopper.Response<ApiResult>> apiV1BookSaveBookPost({
+    String? bookId,
+    enums.SaveType? st,
   }) {
     generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
 
-    return _apiV1CategoryUpdatePost(id: id, body: body);
+    return _apiV1BookSaveBookPost(bookId: bookId, st: st?.value?.toString());
   }
 
-  ///Updates a Category by unique id
-  ///@param id A Category representation
+  ///
+  ///@param BookId
+  ///@param st
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Category/Update',
+    path: 'http://130.185.75.182:5003/api/v1/Book/SaveBook',
     optionalBody: true,
   )
-  Future<chopper.Response<ApiResult>> _apiV1CategoryUpdatePost({
-    @Query('id') String? id,
-    @Body() required CategoryDto? body,
+  Future<chopper.Response<ApiResult>> _apiV1BookSaveBookPost({
+    @Query('BookId') String? bookId,
+    @Query('st') String? st,
+  });
+
+  ///
+  Future<chopper.Response<ApiResult>> apiV1BookAddBookReviewPost(
+      {required AddBookReviewDto? body}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1BookAddBookReviewPost(body: body);
+  }
+
+  ///
+  @Post(
+    path: 'http://130.185.75.182:5003/api/v1/Book/AddBookReview',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1BookAddBookReviewPost(
+      {@Body() required AddBookReviewDto? body});
+
+  ///
+  Future<chopper.Response<BookReviewDtoListApiResult>> apiV1BookMyReviewsGet() {
+    generatedMapping.putIfAbsent(BookReviewDtoListApiResult,
+        () => BookReviewDtoListApiResult.fromJsonFactory);
+
+    return _apiV1BookMyReviewsGet();
+  }
+
+  ///
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/MyReviews')
+  Future<chopper.Response<BookReviewDtoListApiResult>> _apiV1BookMyReviewsGet();
+
+  ///
+  ///@param MotherId
+  Future<chopper.Response<CategoryDtoListApiResult>> apiV1CategoryListGet(
+      {String? motherId}) {
+    generatedMapping.putIfAbsent(CategoryDtoListApiResult,
+        () => CategoryDtoListApiResult.fromJsonFactory);
+
+    return _apiV1CategoryListGet(motherId: motherId);
+  }
+
+  ///
+  ///@param MotherId
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Category/List')
+  Future<chopper.Response<CategoryDtoListApiResult>> _apiV1CategoryListGet(
+      {@Query('MotherId') String? motherId});
+
+  ///
+  Future<chopper.Response<ApiResult>> apiV1CategoryAddPost(
+      {required CategoryDto? body}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1CategoryAddPost(body: body);
+  }
+
+  ///
+  @Post(
+    path: 'http://130.185.75.182:5003/api/v1/Category/Add',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1CategoryAddPost(
+      {@Body() required CategoryDto? body});
+
+  ///
+  ///@param Price
+  Future<chopper.Response<ApiResult>> apiV1PaymentWalletChargeGet(
+      {int? price}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1PaymentWalletChargeGet(price: price);
+  }
+
+  ///
+  ///@param Price
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Payment/WalletCharge')
+  Future<chopper.Response<ApiResult>> _apiV1PaymentWalletChargeGet(
+      {@Query('Price') int? price});
+
+  ///
+  ///@param SubId
+  ///@param Wallet
+  Future<chopper.Response<ApiResult>> apiV1PaymentBuySubscriptionPost({
+    String? subId,
+    bool? wallet,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1PaymentBuySubscriptionPost(subId: subId, wallet: wallet);
+  }
+
+  ///
+  ///@param SubId
+  ///@param Wallet
+  @Post(
+    path: 'http://130.185.75.182:5003/api/v1/Payment/BuySubscription',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1PaymentBuySubscriptionPost({
+    @Query('SubId') String? subId,
+    @Query('Wallet') bool? wallet,
+  });
+
+  ///
+  Future<chopper.Response<SubscriptionDtoListApiResult>>
+      apiV1PaymentSubscriptionListGet() {
+    generatedMapping.putIfAbsent(SubscriptionDtoListApiResult,
+        () => SubscriptionDtoListApiResult.fromJsonFactory);
+
+    return _apiV1PaymentSubscriptionListGet();
+  }
+
+  ///
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Payment/SubscriptionList')
+  Future<chopper.Response<SubscriptionDtoListApiResult>>
+      _apiV1PaymentSubscriptionListGet();
+
+  ///
+  Future<chopper.Response<PaymentTransactionsDtoListApiResult>>
+      apiV1PaymentUserTransactionsGet() {
+    generatedMapping.putIfAbsent(PaymentTransactionsDtoListApiResult,
+        () => PaymentTransactionsDtoListApiResult.fromJsonFactory);
+
+    return _apiV1PaymentUserTransactionsGet();
+  }
+
+  ///
+  @Get(path: 'http://130.185.75.182:5003/api/v1/Payment/UserTransactions')
+  Future<chopper.Response<PaymentTransactionsDtoListApiResult>>
+      _apiV1PaymentUserTransactionsGet();
+
+  ///
+  Future<chopper.Response<UserDtoApiResult>> apiV1UserProfileGet() {
+    generatedMapping.putIfAbsent(
+        UserDtoApiResult, () => UserDtoApiResult.fromJsonFactory);
+
+    return _apiV1UserProfileGet();
+  }
+
+  ///
+  @Get(path: 'http://130.185.75.182:5003/api/v1/User/Profile')
+  Future<chopper.Response<UserDtoApiResult>> _apiV1UserProfileGet();
+
+  ///
+  ///@param Sex
+  ///@param UserName
+  ///@param PhoneNumber
+  ///@param FirstName
+  ///@param LastName
+  ///@param NationalCode
+  ///@param UserAvatar
+  ///@param Password
+  ///@param BirthDay
+  ///@param LikedCategories
+  ///@param ExpertiesId
+  ///@param Expertises
+  ///@param Categories
+  ///@param Id
+  Future<chopper.Response<ApiResult>> apiV1UserUpdateProfilePost({
+    enums.Sex? sex,
+    String? userName,
+    String? phoneNumber,
+    String? firstName,
+    String? lastName,
+    String? nationalCode,
+    String? userAvatar,
+    String? password,
+    DateTime? birthDay,
+    String? likedCategories,
+    String? expertiesId,
+    List<ExpertiseDto>? expertises,
+    List<CategoryDto>? categories,
+    String? id,
+    List<int>? UserAvatarFile,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1UserUpdateProfilePost(
+        sex: sex?.value?.toString(),
+        userName: userName,
+        phoneNumber: phoneNumber,
+        firstName: firstName,
+        lastName: lastName,
+        nationalCode: nationalCode,
+        userAvatar: userAvatar,
+        password: password,
+        birthDay: birthDay,
+        likedCategories: likedCategories,
+        expertiesId: expertiesId,
+        expertises: expertises,
+        categories: categories,
+        id: id,
+        UserAvatarFile: UserAvatarFile);
+  }
+
+  ///
+  ///@param Sex
+  ///@param UserName
+  ///@param PhoneNumber
+  ///@param FirstName
+  ///@param LastName
+  ///@param NationalCode
+  ///@param UserAvatar
+  ///@param Password
+  ///@param BirthDay
+  ///@param LikedCategories
+  ///@param ExpertiesId
+  ///@param Expertises
+  ///@param Categories
+  ///@param Id
+  @Post(
+    path: 'http://130.185.75.182:5003/api/v1/User/UpdateProfile',
+    optionalBody: true,
+  )
+  @Multipart()
+  Future<chopper.Response<ApiResult>> _apiV1UserUpdateProfilePost({
+    @Query('Sex') String? sex,
+    @Query('UserName') String? userName,
+    @Query('PhoneNumber') String? phoneNumber,
+    @Query('FirstName') String? firstName,
+    @Query('LastName') String? lastName,
+    @Query('NationalCode') String? nationalCode,
+    @Query('UserAvatar') String? userAvatar,
+    @Query('Password') String? password,
+    @Query('BirthDay') DateTime? birthDay,
+    @Query('LikedCategories') String? likedCategories,
+    @Query('ExpertiesId') String? expertiesId,
+    @Query('Expertises') List<ExpertiseDto>? expertises,
+    @Query('Categories') List<CategoryDto>? categories,
+    @Query('Id') String? id,
+    @PartFile() List<int>? UserAvatarFile,
   });
 }
 

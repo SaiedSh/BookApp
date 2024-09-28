@@ -10,6 +10,11 @@ class BookCardWidget extends StatelessWidget {
   final String bookWriter;
   final double bookRate;
   final String bookId;
+  final int viewCont;
+  final bool discountVisible = false;
+  final bool nikoPlusVisible = false;
+  final bool physicalVisivle = false;
+  final bool onlineVisible = false;
   const BookCardWidget(
       {super.key,
       required this.bookImage,
@@ -17,7 +22,8 @@ class BookCardWidget extends StatelessWidget {
       required this.bookPrice,
       required this.bookWriter,
       required this.bookRate,
-      required this.bookId});
+      required this.bookId,
+      required this.viewCont});
 
   @override
   Widget build(BuildContext context) {
@@ -52,32 +58,45 @@ class BookCardWidget extends StatelessWidget {
                         width: 160,
                         height: 110,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(0),
-                            image: DecorationImage(
-                                image: AssetImage(bookImage),
-                                fit: BoxFit.fill)),
+                          image: DecorationImage(
+                              image: AssetImage('lib/assets/images/book.png')),
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                        // child: ClipRRect(
+                        //   borderRadius: BorderRadius.circular(12),
+                        //   child: Image.network(
+                        //     bookImage,
+                        //     fit: BoxFit.fill,
+                        //   ),
+                        // ),
                       ),
                     ),
                   ),
-                  Positioned(
-                      bottom: 10,
-                      right: 30,
-                      child: Image(
-                        image: AssetImage('lib/assets/images/byke.png'),
-                        width: 15,
-                      )),
-                  Positioned(
-                      bottom: 10,
-                      right: 12,
-                      child: Image(
-                        image: AssetImage('lib/assets/images/booky.png'),
-                        width: 15,
-                      ))
+                  Visibility(
+                    visible: physicalVisivle,
+                    child: Positioned(
+                        bottom: 10,
+                        right: 30,
+                        child: Image(
+                          image: AssetImage('lib/assets/images/byke.png'),
+                          width: 15,
+                        )),
+                  ),
+                  Visibility(
+                    visible: onlineVisible,
+                    child: Positioned(
+                        bottom: 10,
+                        right: 12,
+                        child: Image(
+                          image: AssetImage('lib/assets/images/booky.png'),
+                          width: 15,
+                        )),
+                  )
                 ]),
                 Text(
                   bookName,
-                  style: GoogleFonts.notoSansArabic(
-                      fontSize: 7,
+                  style: TextStyle(
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                       color: primaryColor),
                 ),
@@ -86,8 +105,8 @@ class BookCardWidget extends StatelessWidget {
                 ),
                 Text(
                   bookWriter,
-                  style: GoogleFonts.notoSansArabic(
-                      fontSize: 7,
+                  style: TextStyle(
+                      fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: Colors.grey),
                 ),
@@ -105,9 +124,9 @@ class BookCardWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "4.8 ( 585 )",
-                      style: GoogleFonts.lalezar(
-                        fontSize: 10,
+                      "${bookRate} ( $viewCont )",
+                      style: TextStyle(
+                        fontSize: 11,
                         color: Colors.black,
                       ),
                     ),
@@ -141,8 +160,8 @@ class BookCardWidget extends StatelessWidget {
                     Text(
                       textDirection: TextDirection.rtl,
                       bookPrice + " تومان ",
-                      style: GoogleFonts.notoSansArabic(
-                          fontSize: 12, color: Colors.grey.shade800),
+                      style:
+                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
                     ),
                   ],
                 ),
@@ -162,18 +181,51 @@ class BookCardWidget extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(
-          left: 12,
-          child: Image(
-            image: AssetImage('lib/assets/images/plusicon.png'),
+      Visibility(
+        visible: nikoPlusVisible,
+        child: Positioned(
+            left: 12,
+            child: Image(
+              image: AssetImage('lib/assets/images/plusicon.png'),
+              width: 20,
+            )),
+      ),
+      Visibility(
+        visible: discountVisible,
+        child: Positioned(
+          child: Container(
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '20',
+                    style:
+                        GoogleFonts.aBeeZee(color: Colors.white, fontSize: 10),
+                  ),
+                  Text(
+                    '%',
+                    style: TextStyle(color: Colors.white, fontSize: 8),
+                  ),
+                ],
+              ),
+            ),
             width: 20,
-          )),
-      Positioned(
+            height: 27,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('lib/assets/images/discount.png'),
+                    fit: BoxFit.fill)),
+          ),
           left: 35,
-          child: Image(
-            image: AssetImage('lib/assets/images/discount.png'),
-            width: 20,
-          )),
+        ),
+      )
+      // Positioned(
+      //     left: 35,
+      //     child: Image(
+      //       image: AssetImage('lib/assets/images/discount.png'),
+      //       width: 20,
+      //     )),
     ]);
   }
 }
@@ -243,9 +295,9 @@ class BookCardListWidget extends StatelessWidget {
                         children: [
                           Text(
                             bookName,
-                            style: GoogleFonts.notoSansArabic(
-                                fontSize: 9,
-                                fontWeight: FontWeight.w500,
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
                                 color: primaryColor),
                           ),
                           SizedBox(
@@ -253,8 +305,8 @@ class BookCardListWidget extends StatelessWidget {
                           ),
                           Text(
                             bookWriter,
-                            style: GoogleFonts.notoSansArabic(
-                                fontSize: 8,
+                            style: TextStyle(
+                                fontSize: 10,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
@@ -263,8 +315,8 @@ class BookCardListWidget extends StatelessWidget {
                           ),
                           Text(
                             'ناشر : ',
-                            style: GoogleFonts.notoSansArabic(
-                                fontSize: 8,
+                            style: TextStyle(
+                                fontSize: 10,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
@@ -285,7 +337,7 @@ class BookCardListWidget extends StatelessWidget {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
+                            padding: const EdgeInsets.only(bottom: 0),
                             child: Icon(
                               Icons.star,
                               size: 16,
@@ -294,7 +346,7 @@ class BookCardListWidget extends StatelessWidget {
                           ),
                           Text(
                             "4.8 ( 585 )",
-                            style: GoogleFonts.lalezar(
+                            style: TextStyle(
                               fontSize: 10,
                               color: Colors.grey.shade700,
                             ),
@@ -307,7 +359,7 @@ class BookCardListWidget extends StatelessWidget {
                           Text(
                             textDirection: TextDirection.rtl,
                             "ثبت نقد و امتیاز من",
-                            style: GoogleFonts.notoSansArabic(
+                            style: TextStyle(
                                 fontSize: 10,
                                 color: Color.fromARGB(255, 0, 174, 212)),
                           ),

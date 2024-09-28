@@ -98,9 +98,12 @@ class MyRoutes {
               FadeTransition(opacity: a, child: c),
         );
       case ratingScreen:
+        var arg = settings.arguments as String;
         return PageRouteBuilder(
           settings: settings,
-          pageBuilder: (_, __, ___) => RatingScreen(),
+          pageBuilder: (_, __, ___) => RatingScreen(
+            bookId: arg,
+          ),
           transitionsBuilder: (_, a, __, c) =>
               FadeTransition(opacity: a, child: c),
         );

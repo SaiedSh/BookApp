@@ -25,10 +25,8 @@ class _MyBagScreenState extends State<MyBagScreen> {
                 textDirection: TextDirection.ltr,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12))),
+                    color: Colors.white,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(

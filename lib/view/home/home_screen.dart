@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:bookapp/controller/api/book/book_list.dart';
 import 'package:bookapp/controller/api/home_items/category_products.dart';
 import 'package:bookapp/controller/api/home_items/items.dart';
+import 'package:bookapp/controller/provider/book_list_state.dart';
 import 'package:bookapp/controller/provider/category_product_state.dart';
 import 'package:bookapp/controller/provider/index_items_state.dart';
 import 'package:bookapp/controller/routes/routes.dart';
@@ -9,7 +11,6 @@ import 'package:bookapp/model/components/bookcard_widget.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:bookapp/view/product/product_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -59,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // );
     getIndexItems(context: context);
     getProductsByCategory(context: context);
+    getBooksList(context: context);
   }
 
   @override
@@ -78,10 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: backgroundColor,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12))),
+                color: Colors.white,
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     IndexItemsState
                                         .IndexLists!.indexInfo!.banner1Title
                                         .toString(),
-                                    style: GoogleFonts.lalezar(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                         color: Colors.white),
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     IndexItemsState.IndexLists!.indexInfo!
                                         .banner1Description
                                         .toString(),
-                                    style: GoogleFonts.lalezar(
+                                    style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey.shade300),
                                   ),
@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     IndexItemsState
                                         .IndexLists!.indexInfo!.banner2Title
                                         .toString(),
-                                    style: GoogleFonts.lalezar(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                         color: Colors.black),
@@ -258,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     IndexItemsState.IndexLists!.indexInfo!
                                         .banner2Description
                                         .toString(),
-                                    style: GoogleFonts.lalezar(
+                                    style: TextStyle(
                                         fontSize: 14, color: Colors.grey),
                                   ),
                                   SizedBox(
@@ -294,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     IndexItemsState
                                         .IndexLists!.indexInfo!.banner3Title
                                         .toString(),
-                                    style: GoogleFonts.lalezar(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 20,
                                         color: Colors.white),
@@ -308,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     IndexItemsState.IndexLists!.indexInfo!
                                         .banner3Description
                                         .toString(),
-                                    style: GoogleFonts.lalezar(
+                                    style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey.shade300),
                                   ),
@@ -382,9 +382,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: Text(
                               'مشاهده همه',
-                              style: GoogleFonts.ibmPlexSansArabic(
+                              style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                             )),
@@ -393,10 +393,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text(
                     'کتاب های تخصصی دندانپزشکی',
-                    style: GoogleFonts.notoSansArabic(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
-                        fontSize: 10),
+                        fontSize: 14),
                   ),
                 ],
               ),
@@ -406,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Directionality(
               textDirection: TextDirection.rtl,
-              child: Consumer<IndexItemsState>(
+              child: Consumer<BookListState>(
                 builder: (context, value, child) => SizedBox(
                   height: 250,
                   width: MediaQuery.of(context).size.width,
@@ -414,15 +414,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.all(8),
                       child: BookCardWidget(
-                        bookId: '',
-                        bookWriter: 'دکتر مهران نوربخش',
-                        bookRate: 1,
-                        bookPrice: '115.000',
-                        bookName: "مدیریت چالش ها و پیچیدگی های اندودانتیکس",
-                        bookImage: "lib/assets/images/book.png",
+                        bookId: BookListState.books[index].id.toString(),
+                        bookWriter:
+                            BookListState.books[index].nevisande.toString(),
+                        bookRate: BookListState.books[index].rating!.toDouble(),
+                        bookPrice: BookListState.books[index].price.toString(),
+                        bookName: BookListState.books[index].title.toString(),
+                        bookImage:
+                            BookListState.books[index].imageUrl.toString(),
+                        viewCont: BookListState.books[index].viewCount!,
                       ),
                     ),
-                    itemCount: 3,
+                    itemCount: BookListState.books.length,
                     scrollDirection: Axis.horizontal,
                   ),
                 ),
@@ -450,9 +453,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () {},
                             child: Text(
                               'مشاهده همه',
-                              style: GoogleFonts.ibmPlexSansArabic(
+                              style: TextStyle(
                                 color: Colors.blue,
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                             )),
@@ -461,10 +464,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text(
                     'کتاب های پزشکی',
-                    style: GoogleFonts.notoSansArabic(
+                    style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
-                        fontSize: 12),
+                        fontSize: 14),
                   ),
                 ],
               ),

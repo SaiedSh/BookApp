@@ -1,5 +1,6 @@
 import 'package:bookapp/controller/api/home_items/category_products.dart';
 import 'package:bookapp/controller/provider/category_product_state.dart';
+import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/components/bookcard_widget.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:bookapp/view/product/product_screen.dart';
@@ -23,10 +24,8 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
             backgroundColor: backgroundColor,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12))),
+                color: Colors.white,
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
@@ -39,7 +38,10 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
                           Row(
                             children: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.profileScreen);
+                                  },
                                   icon: Image(
                                     image: AssetImage(
                                         'lib/assets/images/miniicon.png'),
@@ -199,6 +201,7 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
                       itemBuilder: (context, index) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BookCardWidget(
+                          viewCont: 5,
                           bookId: '',
                           bookWriter: 'دکتر مهران نوربخش',
                           bookRate: 1,

@@ -26,10 +26,8 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
               textDirection: TextDirection.ltr,
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(12),
-                        bottomRight: Radius.circular(12))),
+                  color: Colors.white,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Column(
@@ -110,7 +108,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 12),
                         )),
-                        width: 148,
+                        width: 160,
                       ),
                     ),
                     Tab(
@@ -125,7 +123,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 12),
                         )),
-                        width: 148,
+                        width: 160,
                       ),
                     ),
                   ],

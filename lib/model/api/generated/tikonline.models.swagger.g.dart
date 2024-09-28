@@ -31,6 +31,32 @@ Map<String, dynamic> _$AccessTokenToJson(AccessToken instance) {
   return val;
 }
 
+AddBookReviewDto _$AddBookReviewDtoFromJson(Map<String, dynamic> json) =>
+    AddBookReviewDto(
+      message: json['message'] as String?,
+      rate: (json['rate'] as num?)?.toInt(),
+      bookId: json['bookId'] as String?,
+      userId: json['userId'] as String?,
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$AddBookReviewDtoToJson(AddBookReviewDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('message', instance.message);
+  writeNotNull('rate', instance.rate);
+  writeNotNull('bookId', instance.bookId);
+  writeNotNull('userId', instance.userId);
+  writeNotNull('id', instance.id);
+  return val;
+}
+
 ApiResult _$ApiResultFromJson(Map<String, dynamic> json) => ApiResult(
       isSuccess: json['isSuccess'] as bool?,
       statusCode: apiResultStatusCodeNullableFromJson(json['statusCode']),
@@ -54,12 +80,21 @@ Map<String, dynamic> _$ApiResultToJson(ApiResult instance) {
 }
 
 BookDto _$BookDtoFromJson(Map<String, dynamic> json) => BookDto(
+      niko: json['niko'] as bool?,
+      online: json['online'] as bool?,
+      physical: json['physical'] as bool?,
+      discountPercentage: (json['discountPercentage'] as num?)?.toInt(),
+      physicalLink: json['physicalLink'] as String?,
       title: json['title'] as String?,
       description: json['description'] as String?,
       imageUrl: json['imageUrl'] as String?,
       imageFile: json['imageFile'] as String?,
       pdfLink: json['pdfLink'] as String?,
+      pdfSize: json['pdfSize'] as String?,
       pdfFile: json['pdfFile'] as String?,
+      like: json['like'] as bool?,
+      read: json['read'] as bool?,
+      shelf: json['shelf'] as bool?,
       nevisande: json['nevisande'] as String?,
       entesharat: json['entesharat'] as String?,
       motarjem: json['motarjem'] as String?,
@@ -70,7 +105,14 @@ BookDto _$BookDtoFromJson(Map<String, dynamic> json) => BookDto(
       discountPrice: (json['discountPrice'] as num?)?.toInt(),
       viewCount: (json['viewCount'] as num?)?.toInt(),
       categoryId: json['categoryId'] as String?,
-      categoryName: json['categoryName'] as String?,
+      categoryTitle: json['categoryTitle'] as String?,
+      myReview: json['myReview'] == null
+          ? null
+          : BookReviewDto.fromJson(json['myReview'] as Map<String, dynamic>),
+      bookReviewss: (json['bookReviewss'] as List<dynamic>?)
+              ?.map((e) => BookReviewDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       id: json['id'] as String?,
     );
 
@@ -83,12 +125,21 @@ Map<String, dynamic> _$BookDtoToJson(BookDto instance) {
     }
   }
 
+  writeNotNull('niko', instance.niko);
+  writeNotNull('online', instance.online);
+  writeNotNull('physical', instance.physical);
+  writeNotNull('discountPercentage', instance.discountPercentage);
+  writeNotNull('physicalLink', instance.physicalLink);
   writeNotNull('title', instance.title);
   writeNotNull('description', instance.description);
   writeNotNull('imageUrl', instance.imageUrl);
   writeNotNull('imageFile', instance.imageFile);
   writeNotNull('pdfLink', instance.pdfLink);
+  writeNotNull('pdfSize', instance.pdfSize);
   writeNotNull('pdfFile', instance.pdfFile);
+  writeNotNull('like', instance.like);
+  writeNotNull('read', instance.read);
+  writeNotNull('shelf', instance.shelf);
   writeNotNull('nevisande', instance.nevisande);
   writeNotNull('entesharat', instance.entesharat);
   writeNotNull('motarjem', instance.motarjem);
@@ -99,7 +150,10 @@ Map<String, dynamic> _$BookDtoToJson(BookDto instance) {
   writeNotNull('discountPrice', instance.discountPrice);
   writeNotNull('viewCount', instance.viewCount);
   writeNotNull('categoryId', instance.categoryId);
-  writeNotNull('categoryName', instance.categoryName);
+  writeNotNull('categoryTitle', instance.categoryTitle);
+  writeNotNull('myReview', instance.myReview?.toJson());
+  writeNotNull(
+      'bookReviewss', instance.bookReviewss?.map((e) => e.toJson()).toList());
   writeNotNull('id', instance.id);
   return val;
 }
@@ -161,6 +215,92 @@ Map<String, dynamic> _$BookDtoListApiResultToJson(
   return val;
 }
 
+BookReviewDto _$BookReviewDtoFromJson(Map<String, dynamic> json) =>
+    BookReviewDto(
+      message: json['message'] as String?,
+      rate: (json['rate'] as num?)?.toInt(),
+      bookId: json['bookId'] as String?,
+      bookTitle: json['bookTitle'] as String?,
+      bookImageUrl: json['bookImageUrl'] as String?,
+      bookNevisande: json['bookNevisande'] as String?,
+      bookEntesharat: json['bookEntesharat'] as String?,
+      bookMotarjem: json['bookMotarjem'] as String?,
+      bookSalEnteshar: json['bookSalEnteshar'] as String?,
+      bookPages: (json['bookPages'] as num?)?.toInt(),
+      bookRating: (json['bookRating'] as num?)?.toInt(),
+      bookPrice: (json['bookPrice'] as num?)?.toInt(),
+      bookDiscountPrice: (json['bookDiscountPrice'] as num?)?.toInt(),
+      bookViewCount: (json['bookViewCount'] as num?)?.toInt(),
+      bookCategoryId: json['bookCategoryId'] as String?,
+      bookCategoryName: json['bookCategoryName'] as String?,
+      userId: json['userId'] as String?,
+      userFirstName: json['userFirstName'] as String?,
+      userLastName: json['userLastName'] as String?,
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$BookReviewDtoToJson(BookReviewDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('message', instance.message);
+  writeNotNull('rate', instance.rate);
+  writeNotNull('bookId', instance.bookId);
+  writeNotNull('bookTitle', instance.bookTitle);
+  writeNotNull('bookImageUrl', instance.bookImageUrl);
+  writeNotNull('bookNevisande', instance.bookNevisande);
+  writeNotNull('bookEntesharat', instance.bookEntesharat);
+  writeNotNull('bookMotarjem', instance.bookMotarjem);
+  writeNotNull('bookSalEnteshar', instance.bookSalEnteshar);
+  writeNotNull('bookPages', instance.bookPages);
+  writeNotNull('bookRating', instance.bookRating);
+  writeNotNull('bookPrice', instance.bookPrice);
+  writeNotNull('bookDiscountPrice', instance.bookDiscountPrice);
+  writeNotNull('bookViewCount', instance.bookViewCount);
+  writeNotNull('bookCategoryId', instance.bookCategoryId);
+  writeNotNull('bookCategoryName', instance.bookCategoryName);
+  writeNotNull('userId', instance.userId);
+  writeNotNull('userFirstName', instance.userFirstName);
+  writeNotNull('userLastName', instance.userLastName);
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+BookReviewDtoListApiResult _$BookReviewDtoListApiResultFromJson(
+        Map<String, dynamic> json) =>
+    BookReviewDtoListApiResult(
+      data: (json['data'] as List<dynamic>?)
+              ?.map((e) => BookReviewDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      isSuccess: json['isSuccess'] as bool?,
+      statusCode: apiResultStatusCodeNullableFromJson(json['statusCode']),
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$BookReviewDtoListApiResultToJson(
+    BookReviewDtoListApiResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', instance.data?.map((e) => e.toJson()).toList());
+  writeNotNull('isSuccess', instance.isSuccess);
+  writeNotNull(
+      'statusCode', apiResultStatusCodeNullableToJson(instance.statusCode));
+  writeNotNull('message', instance.message);
+  return val;
+}
+
 CategoryDto _$CategoryDtoFromJson(Map<String, dynamic> json) => CategoryDto(
       title: json['title'] as String?,
       motherId: json['motherId'] as String?,
@@ -179,35 +319,6 @@ Map<String, dynamic> _$CategoryDtoToJson(CategoryDto instance) {
   writeNotNull('title', instance.title);
   writeNotNull('motherId', instance.motherId);
   writeNotNull('id', instance.id);
-  return val;
-}
-
-CategoryDtoApiResult _$CategoryDtoApiResultFromJson(
-        Map<String, dynamic> json) =>
-    CategoryDtoApiResult(
-      data: json['data'] == null
-          ? null
-          : CategoryDto.fromJson(json['data'] as Map<String, dynamic>),
-      isSuccess: json['isSuccess'] as bool?,
-      statusCode: apiResultStatusCodeNullableFromJson(json['statusCode']),
-      message: json['message'] as String?,
-    );
-
-Map<String, dynamic> _$CategoryDtoApiResultToJson(
-    CategoryDtoApiResult instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('data', instance.data?.toJson());
-  writeNotNull('isSuccess', instance.isSuccess);
-  writeNotNull(
-      'statusCode', apiResultStatusCodeNullableToJson(instance.statusCode));
-  writeNotNull('message', instance.message);
   return val;
 }
 
@@ -238,6 +349,25 @@ Map<String, dynamic> _$CategoryDtoListApiResultToJson(
   writeNotNull(
       'statusCode', apiResultStatusCodeNullableToJson(instance.statusCode));
   writeNotNull('message', instance.message);
+  return val;
+}
+
+ExpertiseDto _$ExpertiseDtoFromJson(Map<String, dynamic> json) => ExpertiseDto(
+      name: json['name'] as String?,
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$ExpertiseDtoToJson(ExpertiseDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('id', instance.id);
   return val;
 }
 
@@ -324,6 +454,65 @@ Map<String, dynamic> _$LoginDtoToJson(LoginDto instance) {
   return val;
 }
 
+PaymentTransactionsDto _$PaymentTransactionsDtoFromJson(
+        Map<String, dynamic> json) =>
+    PaymentTransactionsDto(
+      amount: (json['amount'] as num?)?.toInt(),
+      description: json['description'] as String?,
+      refId: json['refId'] as String?,
+      userId: json['userId'] as String?,
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$PaymentTransactionsDtoToJson(
+    PaymentTransactionsDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('amount', instance.amount);
+  writeNotNull('description', instance.description);
+  writeNotNull('refId', instance.refId);
+  writeNotNull('userId', instance.userId);
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+PaymentTransactionsDtoListApiResult
+    _$PaymentTransactionsDtoListApiResultFromJson(Map<String, dynamic> json) =>
+        PaymentTransactionsDtoListApiResult(
+          data: (json['data'] as List<dynamic>?)
+                  ?.map((e) => PaymentTransactionsDto.fromJson(
+                      e as Map<String, dynamic>))
+                  .toList() ??
+              [],
+          isSuccess: json['isSuccess'] as bool?,
+          statusCode: apiResultStatusCodeNullableFromJson(json['statusCode']),
+          message: json['message'] as String?,
+        );
+
+Map<String, dynamic> _$PaymentTransactionsDtoListApiResultToJson(
+    PaymentTransactionsDtoListApiResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', instance.data?.map((e) => e.toJson()).toList());
+  writeNotNull('isSuccess', instance.isSuccess);
+  writeNotNull(
+      'statusCode', apiResultStatusCodeNullableToJson(instance.statusCode));
+  writeNotNull('message', instance.message);
+  return val;
+}
+
 SettingDto _$SettingDtoFromJson(Map<String, dynamic> json) => SettingDto(
       banner1ImageUrl: json['banner1ImageUrl'] as String?,
       banner1ImageFile: json['banner1ImageFile'] as String?,
@@ -383,6 +572,62 @@ Map<String, dynamic> _$SettingDtoToJson(SettingDto instance) {
   return val;
 }
 
+SubscriptionDto _$SubscriptionDtoFromJson(Map<String, dynamic> json) =>
+    SubscriptionDto(
+      name: json['name'] as String?,
+      duration: (json['duration'] as num?)?.toInt(),
+      price: (json['price'] as num?)?.toInt(),
+      discountPrice: (json['discountPrice'] as num?)?.toInt(),
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$SubscriptionDtoToJson(SubscriptionDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('duration', instance.duration);
+  writeNotNull('price', instance.price);
+  writeNotNull('discountPrice', instance.discountPrice);
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+SubscriptionDtoListApiResult _$SubscriptionDtoListApiResultFromJson(
+        Map<String, dynamic> json) =>
+    SubscriptionDtoListApiResult(
+      data: (json['data'] as List<dynamic>?)
+              ?.map((e) => SubscriptionDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      isSuccess: json['isSuccess'] as bool?,
+      statusCode: apiResultStatusCodeNullableFromJson(json['statusCode']),
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$SubscriptionDtoListApiResultToJson(
+    SubscriptionDtoListApiResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', instance.data?.map((e) => e.toJson()).toList());
+  writeNotNull('isSuccess', instance.isSuccess);
+  writeNotNull(
+      'statusCode', apiResultStatusCodeNullableToJson(instance.statusCode));
+  writeNotNull('message', instance.message);
+  return val;
+}
+
 TempUserDto _$TempUserDtoFromJson(Map<String, dynamic> json) => TempUserDto(
       phoneNumber: json['phoneNumber'] as String,
       otp: json['otp'] as String?,
@@ -428,6 +673,104 @@ TempUserDtoApiResult _$TempUserDtoApiResultFromJson(
 
 Map<String, dynamic> _$TempUserDtoApiResultToJson(
     TempUserDtoApiResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', instance.data?.toJson());
+  writeNotNull('isSuccess', instance.isSuccess);
+  writeNotNull(
+      'statusCode', apiResultStatusCodeNullableToJson(instance.statusCode));
+  writeNotNull('message', instance.message);
+  return val;
+}
+
+UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
+      sex: sexNullableFromJson(json['sex']),
+      userName: json['userName'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
+      nationalCode: json['nationalCode'] as String?,
+      userAvatar: json['userAvatar'] as String?,
+      userBarcode: json['userBarcode'] as String?,
+      barcodeNumber: json['barcodeNumber'] as String?,
+      likedCategories: json['likedCategories'] as String?,
+      expertiseId: json['expertiseId'] as String?,
+      addUserRole: userRolesNullableFromJson(json['addUserRole']),
+      showUserRole: json['showUserRole'] as String?,
+      password: json['password'] as String?,
+      walletAmount: (json['walletAmount'] as num?)?.toInt(),
+      hasSub: json['hasSub'] as bool?,
+      subDueDate: json['subDueDate'] == null
+          ? null
+          : DateTime.parse(json['subDueDate'] as String),
+      subName: json['subName'] as String?,
+      subPrice: (json['subPrice'] as num?)?.toInt(),
+      isActive: json['isActive'] as bool?,
+      expertises: (json['expertises'] as List<dynamic>?)
+              ?.map((e) => ExpertiseDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      categories: (json['categories'] as List<dynamic>?)
+              ?.map((e) => CategoryDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      id: json['id'] as String?,
+    );
+
+Map<String, dynamic> _$UserDtoToJson(UserDto instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('sex', sexNullableToJson(instance.sex));
+  writeNotNull('userName', instance.userName);
+  writeNotNull('phoneNumber', instance.phoneNumber);
+  writeNotNull('firstName', instance.firstName);
+  writeNotNull('lastName', instance.lastName);
+  writeNotNull('nationalCode', instance.nationalCode);
+  writeNotNull('userAvatar', instance.userAvatar);
+  writeNotNull('userBarcode', instance.userBarcode);
+  writeNotNull('barcodeNumber', instance.barcodeNumber);
+  writeNotNull('likedCategories', instance.likedCategories);
+  writeNotNull('expertiseId', instance.expertiseId);
+  writeNotNull('addUserRole', userRolesNullableToJson(instance.addUserRole));
+  writeNotNull('showUserRole', instance.showUserRole);
+  writeNotNull('password', instance.password);
+  writeNotNull('walletAmount', instance.walletAmount);
+  writeNotNull('hasSub', instance.hasSub);
+  writeNotNull('subDueDate', instance.subDueDate?.toIso8601String());
+  writeNotNull('subName', instance.subName);
+  writeNotNull('subPrice', instance.subPrice);
+  writeNotNull('isActive', instance.isActive);
+  writeNotNull(
+      'expertises', instance.expertises?.map((e) => e.toJson()).toList());
+  writeNotNull(
+      'categories', instance.categories?.map((e) => e.toJson()).toList());
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+UserDtoApiResult _$UserDtoApiResultFromJson(Map<String, dynamic> json) =>
+    UserDtoApiResult(
+      data: json['data'] == null
+          ? null
+          : UserDto.fromJson(json['data'] as Map<String, dynamic>),
+      isSuccess: json['isSuccess'] as bool?,
+      statusCode: apiResultStatusCodeNullableFromJson(json['statusCode']),
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$UserDtoApiResultToJson(UserDtoApiResult instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -520,5 +863,26 @@ Map<String, dynamic> _$ApiV1BookAddPost$RequestBodyToJson(
 
   writeNotNull('ImageFile', instance.imageFile);
   writeNotNull('PdfFile', instance.pdfFile);
+  return val;
+}
+
+ApiV1UserUpdateProfilePost$RequestBody
+    _$ApiV1UserUpdateProfilePost$RequestBodyFromJson(
+            Map<String, dynamic> json) =>
+        ApiV1UserUpdateProfilePost$RequestBody(
+          userAvatarFile: json['UserAvatarFile'] as String?,
+        );
+
+Map<String, dynamic> _$ApiV1UserUpdateProfilePost$RequestBodyToJson(
+    ApiV1UserUpdateProfilePost$RequestBody instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('UserAvatarFile', instance.userAvatarFile);
   return val;
 }

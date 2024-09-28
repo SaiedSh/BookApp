@@ -1,6 +1,10 @@
+import 'package:bookapp/controller/api/payment/walletcharge.dart';
+import 'package:bookapp/controller/api/profile/get_profile.dart';
+import 'package:bookapp/controller/provider/profile_state.dart';
 import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
@@ -12,6 +16,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  TextEditingController price = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserProfile(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -26,10 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 textDirection: TextDirection.ltr,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12))),
+                    color: Colors.white,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
@@ -46,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     'پروفایل',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 10),
+                                        fontSize: 12),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -81,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.only(
                     left: 15, right: 15, bottom: 5, top: 15),
                 child: Container(
-                  height: 51,
+                  height: 56,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
@@ -95,45 +105,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 38,
-                                height: 38,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image(
-                                      image: AssetImage(
-                                          'lib/assets/images/iconcm.png')),
+                          Consumer<ProfileState>(
+                            builder: (context, value, child) => Row(
+                              children: [
+                                Container(
+                                  width: 38,
+                                  height: 38,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image(
+                                        image: AssetImage(
+                                            'lib/assets/images/iconcm.png')),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade400,
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade400,
-                                  shape: BoxShape.circle,
+                                SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'پویا علینقیان',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 10),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    '09377656076',
-                                    style: TextStyle(fontSize: 7),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          ProfileState.profile!.firstName
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          ProfileState.profile!.lastName
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      ProfileState.profile!.phoneNumber
+                                          .toString(),
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           Icon(
                             Icons.arrow_forward_ios,
@@ -173,12 +201,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: Color.fromARGB(255, 0, 81, 116),
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 8,
                               ),
                               Text(
                                 'اشتراک نیکو پلاس',
                                 style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     color: Color.fromARGB(255, 0, 81, 116),
                                     fontWeight: FontWeight.bold),
                               ),
@@ -199,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.only(
                     left: 15, right: 15, bottom: 5, top: 5),
                 child: Container(
-                  height: 190,
+                  height: 210,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
@@ -255,7 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           Directionality(
                                             textDirection: TextDirection.rtl,
                                             child: Text(
-                                              '0 تومان',
+                                              '${ProfileState.profile!.walletAmount.toString()} تومان',
                                               style: TextStyle(
                                                   fontSize: 8,
                                                   color: Colors.grey.shade700,
@@ -295,6 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             child: Container(
                                               height: 40,
                                               child: TextField(
+                                                controller: price,
                                                 enabled: true,
                                                 textAlignVertical:
                                                     TextAlignVertical.center,
@@ -358,7 +387,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: InkWell(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      setState(() {
+                                                        price.text = '10000';
+                                                      });
+                                                    },
                                                     child: Row(
                                                       children: [
                                                         Text(
@@ -406,7 +439,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: InkWell(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      setState(() {
+                                                        price.text = '20000';
+                                                      });
+                                                    },
                                                     child: Row(
                                                       children: [
                                                         Text(
@@ -454,7 +491,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: InkWell(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      setState(() {
+                                                        price.text = '50000';
+                                                      });
+                                                    },
                                                     child: Row(
                                                       children: [
                                                         Text(
@@ -502,7 +543,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: InkWell(
-                                                    onTap: () {},
+                                                    onTap: () {
+                                                      setState(() {
+                                                        price.text = '100000';
+                                                      });
+                                                    },
                                                     child: Row(
                                                       children: [
                                                         Text(
@@ -561,7 +606,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(5)),
-                                              onPressed: () async {},
+                                              onPressed: () async {
+                                                walletCharge(
+                                                        context: context,
+                                                        price: int.tryParse(
+                                                            price.text))
+                                                    .then(
+                                                  (value) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          Dialog(
+                                                        child: Container(
+                                                          width: 250,
+                                                          height: 300,
+                                                          child: Center(
+                                                            child: Text(
+                                                              'کیف پول شما با موفقیت شارژ شد',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    );
+                                                    price.text = '';
+                                                  },
+                                                );
+                                              },
                                             ),
                                           ),
                                         ],
@@ -630,6 +703,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Divider(),
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: InkWell(
@@ -682,6 +758,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Divider(),
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: InkWell(
@@ -730,6 +809,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Divider(),
+                        ),
+                        SizedBox(
+                          height: 5,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),

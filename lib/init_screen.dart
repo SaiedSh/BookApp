@@ -1,4 +1,4 @@
-import 'package:bookapp/view/init_pages/page_one_screen.dart';
+import 'package:bookapp/view/init_pages/pageview_screen.dart';
 import 'package:flutter/material.dart';
 
 class InitScreen extends StatefulWidget {
@@ -11,6 +11,6 @@ class InitScreen extends StatefulWidget {
 class _InitScreenState extends State<InitScreen> {
   @override
   Widget build(BuildContext context) {
-    return PageOneScreen();
+    return MyHomePage();
   }
 }

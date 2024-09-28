@@ -2,7 +2,6 @@ import 'package:bookapp/controller/api/auth/login_controller_post.dart';
 import 'package:bookapp/controller/routes/routes.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -43,12 +42,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Text(
                           'شروع کار با نیکو بوک',
-                          style: GoogleFonts.ibmPlexSansArabic(
+                          style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'با شماره موبایل تان وارد شوید',
-                          style: GoogleFonts.ibmPlexSansArabic(
+                          style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                               fontWeight: FontWeight.w500),
@@ -106,7 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           hintText: 'شماره موبایل',
-                          hintStyle: TextStyle(fontWeight: FontWeight.w300),
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.w300,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -137,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Text(
                             'ورود',
-                            style: GoogleFonts.ibmPlexSansArabic(
+                            style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey),
@@ -201,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             'با ایمیل',
-                            style: GoogleFonts.ibmPlexSansArabic(
+                            style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -231,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             'با حساب گوگل',
-                            style: GoogleFonts.ibmPlexSansArabic(
+                            style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -258,14 +259,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       'از نیکو بوک را میپذیرم',
-                      style: GoogleFonts.ibmPlexSansArabic(
-                          fontSize: 12, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                     TextButton(
                         onPressed: () {},
                         child: Text(
                           'قوانین استفاده',
-                          style: GoogleFonts.ibmPlexSansArabic(
+                          style: TextStyle(
                             decorationColor: Colors.blue,
                             decoration: TextDecoration.underline,
                             color: Colors.blue,

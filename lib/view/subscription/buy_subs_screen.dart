@@ -1,5 +1,10 @@
+import 'package:bookapp/controller/api/payment/buy_subscriptions.dart';
+import 'package:bookapp/controller/api/payment/get_subscriptions.dart';
+import 'package:bookapp/controller/provider/subscriptions_state.dart';
+import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BuySubsScreen extends StatefulWidget {
   const BuySubsScreen({
@@ -11,6 +16,13 @@ class BuySubsScreen extends StatefulWidget {
 }
 
 class _BuySubsScreenState extends State<BuySubsScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSubscriptions(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -25,10 +37,8 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                 textDirection: TextDirection.ltr,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12))),
+                    color: Colors.white,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
@@ -41,7 +51,10 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                               Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, MyRoutes.profileScreen);
+                                      },
                                       icon: Image(
                                         image: AssetImage(
                                             'lib/assets/images/miniicon.png'),
@@ -96,504 +109,538 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
             )),
         backgroundColor: backgroundColor,
         body: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 15),
-                child: Stack(
-                  alignment: Alignment.topLeft,
-                  children: [
-                    Container(
-                      height: 90,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Consumer<SubscriptionsState>(
+                  builder: (context, value, child) => SizedBox(
+                    height: 230,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: SubscriptionsState.subscriptions.length != 0
+                          ? SubscriptionsState.subscriptions.length
+                          : 0,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 5, top: 15),
+                        child: Stack(
+                          alignment: Alignment.topLeft,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                            Container(
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image(
-                                      image: AssetImage(
-                                          'lib/assets/images/plus.png'),
-                                      width: 45,
-                                      height: 45,
-                                      color: secondaryColor,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                  'lib/assets/images/plus.png'),
+                                              width: 45,
+                                              height: 45,
+                                              color: secondaryColor,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              SubscriptionsState
+                                                  .subscriptions[index].name
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 10,
+                                                  color: secondaryColor),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 11),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                SubscriptionsState
+                                                    .subscriptions[index].price
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 7,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 7,
+                                              ),
+                                              Text(
+                                                SubscriptionsState
+                                                    .subscriptions[index]
+                                                    .discountPrice
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
+                                              Text(
+                                                'تومان',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 9,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'اشتراک 1 ماهه',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10,
-                                          color: secondaryColor),
-                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 22,
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            height: 32,
+                                            child: RawMaterialButton(
+                                              child: Center(
+                                                child: Text(
+                                                  'خرید اشتراک',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              fillColor: secondaryColor,
+                                              onPressed: () {
+                                                buySubscriptions(
+                                                    context: context,
+                                                    wallet: true,
+                                                    subId: SubscriptionsState
+                                                        .subscriptions[index]
+                                                        .id);
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 11),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '500000',
-                                        style: TextStyle(
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 7,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 7,
-                                      ),
-                                      Text(
-                                        '300,000',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      Text(
-                                        'تومان',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 9,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 22,
-                                  ),
-                                  SizedBox(
-                                    width: 100,
-                                    height: 32,
-                                    child: RawMaterialButton(
-                                      child: Center(
-                                        child: Text(
-                                          'خرید اشتراک',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      fillColor: secondaryColor,
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
                               ),
-                            )
+                            ),
+                            Positioned(
+                                left: 17,
+                                child: Image(
+                                  image: AssetImage(
+                                      'lib/assets/images/discount.png'),
+                                  width: 25,
+                                  height: 25,
+                                ))
                           ],
                         ),
                       ),
                     ),
-                    Positioned(
-                        left: 17,
-                        child: Image(
-                          image: AssetImage('lib/assets/images/discount.png'),
-                          width: 25,
-                          height: 25,
-                        ))
-                  ],
+                  ),
+                )
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //       left: 15, right: 15, bottom: 5, top: 15),
+                //   child: Stack(
+                //     alignment: Alignment.topLeft,
+                //     children: [
+                //       Container(
+                //         height: 90,
+                //         decoration: BoxDecoration(
+                //             color: Colors.white,
+                //             borderRadius: BorderRadius.circular(10)),
+                //         child: Padding(
+                //           padding: const EdgeInsets.all(10),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 children: [
+                //                   Row(
+                //                     children: [
+                //                       Image(
+                //                         image: AssetImage(
+                //                             'lib/assets/images/plus.png'),
+                //                         width: 45,
+                //                         height: 45,
+                //                         color: secondaryColor,
+                //                       ),
+                //                       SizedBox(
+                //                         width: 5,
+                //                       ),
+                //                       Text(
+                //                         'اشتراک 3 ماهه',
+                //                         style: TextStyle(
+                //                             fontWeight: FontWeight.bold,
+                //                             fontSize: 10,
+                //                             color: secondaryColor),
+                //                       ),
+                //                     ],
+                //                   ),
+                //                   Padding(
+                //                     padding: const EdgeInsets.only(right: 11),
+                //                     child: Row(
+                //                       children: [
+                //                         Text(
+                //                           '500000',
+                //                           style: TextStyle(
+                //                             decoration:
+                //                                 TextDecoration.lineThrough,
+                //                             fontWeight: FontWeight.bold,
+                //                             fontSize: 7,
+                //                           ),
+                //                         ),
+                //                         SizedBox(
+                //                           width: 7,
+                //                         ),
+                //                         Text(
+                //                           '700,000',
+                //                           style: TextStyle(
+                //                             fontWeight: FontWeight.bold,
+                //                             fontSize: 12,
+                //                           ),
+                //                         ),
+                //                         SizedBox(
+                //                           width: 3,
+                //                         ),
+                //                         Text(
+                //                           'تومان',
+                //                           style: TextStyle(
+                //                             fontWeight: FontWeight.bold,
+                //                             fontSize: 9,
+                //                           ),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   )
+                //                 ],
+                //               ),
+                //               Padding(
+                //                 padding: const EdgeInsets.only(left: 10),
+                //                 child: Column(
+                //                   children: [
+                //                     SizedBox(
+                //                       height: 22,
+                //                     ),
+                //                     SizedBox(
+                //                       width: 100,
+                //                       height: 32,
+                //                       child: RawMaterialButton(
+                //                         child: Center(
+                //                           child: Text(
+                //                             'خرید اشتراک',
+                //                             style: TextStyle(
+                //                                 color: Colors.white,
+                //                                 fontSize: 11,
+                //                                 fontWeight: FontWeight.w400),
+                //                           ),
+                //                         ),
+                //                         shape: RoundedRectangleBorder(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(5)),
+                //                         fillColor: secondaryColor,
+                //                         onPressed: () {},
+                //                       ),
+                //                     ),
+                //                   ],
+                //                 ),
+                //               )
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       Positioned(
+                //           left: 17,
+                //           child: Image(
+                //             image: AssetImage('lib/assets/images/discount.png'),
+                //             width: 25,
+                //             height: 25,
+                //           ))
+                //     ],
+                //   ),
+                // ),
+                ,
+                SizedBox(
+                  height: 22,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 15),
-                child: Stack(
-                  alignment: Alignment.topLeft,
-                  children: [
-                    Container(
-                      height: 90,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image(
-                                      image: AssetImage(
-                                          'lib/assets/images/plus.png'),
-                                      width: 45,
-                                      height: 45,
-                                      color: secondaryColor,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'اشتراک 3 ماهه',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 10,
-                                          color: secondaryColor),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 11),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '500000',
-                                        style: TextStyle(
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 7,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 7,
-                                      ),
-                                      Text(
-                                        '700,000',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      Text(
-                                        'تومان',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 9,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 22,
-                                  ),
-                                  SizedBox(
-                                    width: 100,
-                                    height: 32,
-                                    child: RawMaterialButton(
-                                      child: Center(
-                                        child: Text(
-                                          'خرید اشتراک',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      fillColor: secondaryColor,
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'سوال دارید؟ جواب اینجاست:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 10),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 22,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 0),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'نیکو پلاس چیست؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                        left: 17,
-                        child: Image(
-                          image: AssetImage('lib/assets/images/discount.png'),
-                          width: 25,
-                          height: 25,
-                        ))
-                  ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 22,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'سوال دارید؟ جواب اینجاست:',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 22,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 0),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'نیکو پلاس چیست؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'چطور مشترک نیکو پلاس شوم؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'چطور مشترک نیکو پلاس شوم؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'چه کتاب هایی در نیکو پلاس موجود است؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'چه کتاب هایی در نیکو پلاس موجود است؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'چرا باید برای استفاده از نیکو پلاس اشتراک بخرم؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'چرا باید برای استفاده از نیکو پلاس اشتراک بخرم؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'چطور از نیکو پلاس استفاده کنم؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'چطور از نیکو پلاس استفاده کنم؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'اگر اشتراکم تمام شود باز به کتاب های نیکو پلاس دسترسی دارم؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'اگر اشتراکم تمام شود باز به کتاب های نیکو پلاس دسترسی دارم؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'می توانم کتاب ها را بدون اینترنت بشنوم یا بخوانم؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'می توانم کتاب ها را بدون اینترنت بشنوم یا بخوانم؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, bottom: 5, top: 3),
+                  child: Container(
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: secondaryColor,
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            'میتوانم اشتراکم را لغو کنم؟',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 5, top: 3),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: secondaryColor,
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'میتوانم اشتراکم را لغو کنم؟',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

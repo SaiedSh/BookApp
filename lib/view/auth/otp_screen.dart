@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bookapp/model/api/generated/tikonline.models.swagger.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../controller/api/auth/login_controller_post.dart';
@@ -82,12 +81,12 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                         Text(
                           'تایید شماره موبایل',
-                          style: GoogleFonts.ibmPlexSansArabic(
+                          style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'کدی را که به شماره ${widget.phonenumber} فرستادیم اینجا بنویس',
-                          style: GoogleFonts.ibmPlexSansArabic(
+                          style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                               fontWeight: FontWeight.w500),
@@ -151,7 +150,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           children: [
                             Text(
                               '$_start ثانیه',
-                              style: GoogleFonts.ibmPlexSansArabic(
+                              style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
@@ -161,7 +160,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             ),
                             Text(
                               'تا پایان اعتبار کد',
-                              style: GoogleFonts.ibmPlexSansArabic(
+                              style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
@@ -176,7 +175,6 @@ class _OtpScreenState extends State<OtpScreen> {
                       loginOtp(
                         context: context,
                         body: TempUserDto(
-                          creationDate: dateTime,
                           phoneNumber: widget.phonenumber,
                           otp: otp.text,
                         ),
@@ -201,9 +199,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     onPressed: () {},
                     child: Text(
                       'ویرایش شماره موبایل',
-                      style: GoogleFonts.ibmPlexSansArabic(
+                      style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     )),
@@ -221,9 +219,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     onPressed: () {},
                     child: Text(
                       'ورود با رمز',
-                      style: GoogleFonts.ibmPlexSansArabic(
+                      style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     )),

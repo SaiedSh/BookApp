@@ -1,10 +1,16 @@
+import 'package:bookapp/controller/api/book/add_review.dart';
+import 'package:bookapp/controller/api/book/book_detail.dart';
+import 'package:bookapp/controller/routes/routes.dart';
+import 'package:bookapp/model/api/generated/tikonline.models.swagger.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class RatingScreen extends StatefulWidget {
+  final String bookId;
   const RatingScreen({
     super.key,
+    required this.bookId,
   });
 
   @override
@@ -14,6 +20,8 @@ class RatingScreen extends StatefulWidget {
 class _RatingScreenState extends State<RatingScreen> {
   List<String> myList = ["بد", "متوسط", "خوب", "خیلی خوب", "عالی"];
   double _rating = 3.0;
+  TextEditingController message = TextEditingController();
+  double? rate;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -28,10 +36,8 @@ class _RatingScreenState extends State<RatingScreen> {
                 textDirection: TextDirection.ltr,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12))),
+                    color: Colors.white,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
@@ -44,7 +50,10 @@ class _RatingScreenState extends State<RatingScreen> {
                               Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, MyRoutes.profileScreen);
+                                      },
                                       icon: Image(
                                         image: AssetImage(
                                             'lib/assets/images/miniicon.png'),
@@ -113,6 +122,9 @@ class _RatingScreenState extends State<RatingScreen> {
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: 10,
+                        ),
                         RatingBar(
                           wrapAlignment: WrapAlignment.center,
                           itemPadding: EdgeInsets.symmetric(horizontal: 12),
@@ -148,7 +160,9 @@ class _RatingScreenState extends State<RatingScreen> {
                               ),
                             ),
                           ),
-                          onRatingUpdate: (value) {},
+                          onRatingUpdate: (value) {
+                            rate = value;
+                          },
                         ),
                         SizedBox(
                           height: 30,
@@ -165,6 +179,7 @@ class _RatingScreenState extends State<RatingScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: TextField(
+                            controller: message,
                             decoration: InputDecoration(
                                 hintStyle: TextStyle(fontSize: 10),
                                 hintText: 'به نظر من ...',
@@ -201,7 +216,22 @@ class _RatingScreenState extends State<RatingScreen> {
                             ),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            onPressed: () async {},
+                            onPressed: () async {
+                              addBookReview(
+                                      context: context,
+                                      body: AddBookReviewDto(
+                                          bookId: widget.bookId,
+                                          rate: rate!.toInt(),
+                                          message: message.text))
+                                  .then(
+                                (value) {
+                                  print(rate);
+                                  getBookDetails(
+                                      context: context, bookId: widget.bookId);
+                                  Navigator.pop(context);
+                                },
+                              );
+                            },
                           ),
                         )
                       ],

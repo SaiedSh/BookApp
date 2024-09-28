@@ -1,11 +1,13 @@
+import 'package:bookapp/controller/api/book/add_save_book.dart';
+import 'package:bookapp/controller/api/book/book_detail.dart';
 import 'package:bookapp/controller/provider/book_detail_state.dart';
 import 'package:bookapp/controller/routes/routes.dart';
+import 'package:bookapp/model/api/generated/tikonline.enums.swagger.dart';
 import 'package:bookapp/model/components/bookcard_widget.dart';
 import 'package:bookapp/model/components/categorytext_widget.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class BookDetailScreen extends StatefulWidget {
@@ -21,10 +23,11 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getBookDetails(context: context, bookId: widget.bookId);
+    getBookDetails(context: context, bookId: widget.bookId);
   }
 
   double _rating = 3.0;
+  bool saveVisible = true;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -39,10 +42,8 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                 textDirection: TextDirection.ltr,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12))),
+                    color: Colors.white,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
@@ -55,7 +56,10 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                               Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, MyRoutes.profileScreen);
+                                      },
                                       icon: Image(
                                         image: AssetImage(
                                             'lib/assets/images/miniicon.png'),
@@ -77,11 +81,14 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                               ),
                               Row(
                                 children: [
-                                  Text(
-                                    'مدیریت چالش ها و پیچیدگی های اندودانتیکس',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 10),
+                                  Consumer<BookDetailState>(
+                                    builder: (context, value, child) => Text(
+                                      BookDetailState.bookDetail!.title
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10),
+                                    ),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -470,24 +477,67 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     width: 230,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 80),
-                                    child: Column(
-                                      children: [
-                                        Image(
-                                          image: AssetImage(
-                                              'lib/assets/images/share.png'),
-                                          width: 30,
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Image(
-                                          image: AssetImage(
-                                              'lib/assets/images/save.png'),
-                                          width: 30,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ],
+                                    padding: const EdgeInsets.only(bottom: 50),
+                                    child: SizedBox(
+                                      height: 100,
+                                      child: Column(
+                                        children: [
+                                          Image(
+                                            height: 30,
+                                            image: AssetImage(
+                                                'lib/assets/images/share.png'),
+                                            width: 30,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Visibility(
+                                            visible: saveVisible,
+                                            replacement: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  saveVisible = !saveVisible;
+                                                });
+                                                addBookSave(
+                                                    context: context,
+                                                    bookId: BookDetailState
+                                                        .bookDetail!.id,
+                                                    st: SaveType.like);
+                                              },
+                                              child: Container(
+                                                child: Icon(Icons.bookmark),
+                                                height: 28,
+                                                width: 29,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.grey),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7)),
+                                              ),
+                                            ),
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  saveVisible = !saveVisible;
+                                                });
+                                                addBookSave(
+                                                    context: context,
+                                                    bookId: BookDetailState
+                                                        .bookDetail!.id,
+                                                    st: SaveType.like);
+                                              },
+                                              child: Image(
+                                                height: 28,
+                                                image: AssetImage(
+                                                    'lib/assets/images/save.png'),
+                                                width: 30,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   )
                                 ],
@@ -499,7 +549,8 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'مدیریت چالش ها و پیچیدگی های اندودانتیکس',
+                                    BookDetailState.bookDetail!.title
+                                        .toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 10),
@@ -518,6 +569,13 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 10),
                                   ),
+                                  Text(
+                                    BookDetailState.bookDetail!.nevisande
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10),
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -532,6 +590,13 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 10),
                                   ),
+                                  Text(
+                                    BookDetailState.bookDetail!.motarjem
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10),
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -542,6 +607,13 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 children: [
                                   Text(
                                     'ناشر : ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10),
+                                  ),
+                                  Text(
+                                    BookDetailState.bookDetail!.entesharat
+                                        .toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 10),
@@ -571,8 +643,8 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         ),
                                       ),
                                       Text(
-                                        "4.8 ( 585 )",
-                                        style: GoogleFonts.lalezar(
+                                        "${BookDetailState.bookDetail!.rating} ( ${BookDetailState.bookDetail!.viewCount} )",
+                                        style: TextStyle(
                                           fontSize: 10,
                                           color: Colors.black,
                                         ),
@@ -584,8 +656,10 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     children: [
                                       Text(
                                         textDirection: TextDirection.rtl,
-                                        '115/000' + " تومان ",
-                                        style: GoogleFonts.notoSansArabic(
+                                        BookDetailState.bookDetail!.price
+                                                .toString() +
+                                            " تومان ",
+                                        style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey.shade800),
                                       ),
@@ -660,7 +734,15 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5),
                                       side: BorderSide(color: Colors.black)),
-                                  onPressed: () async {},
+                                  onPressed: () async {
+                                    Navigator.pushNamed(
+                                      context,
+                                      MyRoutes.pdfScreen,
+                                      arguments: BookDetailState
+                                          .bookDetail!.pdfLink
+                                          .toString(),
+                                    );
+                                  },
                                 ),
                               )
                             ],
@@ -684,7 +766,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'درباره مدیریت چالش ها و پیچیدگی های اندودانتیکس',
+                                    'درباره ${BookDetailState.bookDetail!.title}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
@@ -695,7 +777,8 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                   textAlign: TextAlign.start,
                                   maxLines: 5,
                                   style: TextStyle(fontSize: 11),
-                                  'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت '),
+                                  BookDetailState.bookDetail!.description
+                                      .toString()),
                               SizedBox(
                                 height: 20,
                               ),
@@ -719,7 +802,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                       ),
                                       Text(
                                         'توضیحات کامل',
-                                        style: GoogleFonts.ibmPlexSansArabic(
+                                        style: TextStyle(
                                           color: Colors.blue,
                                           fontSize: 10,
                                           fontWeight: FontWeight.w500,
@@ -842,7 +925,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                           height: 25,
                                         ),
                                         Text(
-                                          '160 صفحه',
+                                          '${BookDetailState.bookDetail!.pages} صفحه',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 7.5),
@@ -1075,7 +1158,9 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                   InkWell(
                                     onTap: () {
                                       Navigator.pushNamed(
-                                          context, MyRoutes.ratingScreen);
+                                          context, MyRoutes.ratingScreen,
+                                          arguments:
+                                              BookDetailState.bookDetail!.id);
                                     },
                                     child: Column(
                                       crossAxisAlignment:
@@ -1109,6 +1194,15 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 height: 20,
                               ),
                               RatingBar(
+                                ignoreGestures: true,
+                                updateOnDrag: false,
+                                onRatingUpdate: (value) {},
+                                initialRating:
+                                    BookDetailState.bookDetail!.myReview != null
+                                        ? BookDetailState
+                                            .bookDetail!.myReview!.rate!
+                                            .toDouble()
+                                        : 0,
                                 wrapAlignment: WrapAlignment.center,
                                 itemPadding:
                                     EdgeInsets.symmetric(horizontal: 12),
@@ -1145,13 +1239,28 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     ),
                                   ),
                                 ),
-                                onRatingUpdate: (value) {},
                               ),
                             ],
                           ),
                         ),
                       ),
                     ),
+                    // SizedBox(
+                    //   child: InkWell(
+                    //     onTap: () {
+                    //       print(List.generate(
+                    //           BookDetailState.bookDetail!.bookReviewss!.length,
+                    //           (index) => BookDetailState
+                    //                   .bookDetail!.bookReviewss!
+                    //                   .where(
+                    //                 (element) =>
+                    //                     BookDetailState.bookDetail!
+                    //                         .bookReviewss![index].rate ==
+                    //                     1,
+                    //               )).length);
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
@@ -1214,7 +1323,33 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                             child: LinearProgressIndicator(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              value: _rating / 4,
+                                              value: List.generate(
+                                                      BookDetailState
+                                                          .bookDetail!
+                                                          .bookReviewss!
+                                                          .length,
+                                                      (index) => BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .where(
+                                                            (element) =>
+                                                                BookDetailState
+                                                                    .bookDetail!
+                                                                    .bookReviewss![
+                                                                        index]
+                                                                    .rate ==
+                                                                5,
+                                                          )).length /
+                                                  (BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length !=
+                                                          0
+                                                      ? BookDetailState
+                                                          .bookDetail!
+                                                          .bookReviewss!
+                                                          .length
+                                                      : 1),
                                               minHeight: 5,
                                               color: Colors.amber,
                                               backgroundColor: Colors.grey[300],
@@ -1555,6 +1690,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                           itemBuilder: (context, index) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: BookCardWidget(
+                              viewCont: 5,
                               bookId: '',
                               bookWriter: 'دکتر مهران نوربخش',
                               bookRate: 1,

@@ -240,10 +240,19 @@ final class _$Tikonline extends Tikonline {
 
   @override
   Future<Response<ApiResult>> _apiV1BookAddPost({
+    bool? niko,
+    bool? online,
+    bool? physical,
+    int? discountPercentage,
+    String? physicalLink,
     String? title,
     String? description,
     String? imageUrl,
     String? pdfLink,
+    String? pdfSize,
+    bool? like,
+    bool? read,
+    bool? shelf,
     String? nevisande,
     String? entesharat,
     String? motarjem,
@@ -254,17 +263,47 @@ final class _$Tikonline extends Tikonline {
     int? discountPrice,
     int? viewCount,
     String? categoryId,
-    String? categoryName,
+    String? categoryTitle,
+    String? myReviewMessage,
+    int? myReviewRate,
+    String? myReviewBookId,
+    String? myReviewBookTitle,
+    String? myReviewBookImageUrl,
+    String? myReviewBookNevisande,
+    String? myReviewBookEntesharat,
+    String? myReviewBookMotarjem,
+    String? myReviewBookSalEnteshar,
+    int? myReviewBookPages,
+    int? myReviewBookRating,
+    int? myReviewBookPrice,
+    int? myReviewBookDiscountPrice,
+    int? myReviewBookViewCount,
+    String? myReviewBookCategoryId,
+    String? myReviewBookCategoryName,
+    String? myReviewUserId,
+    String? myReviewUserFirstName,
+    String? myReviewUserLastName,
+    String? myReviewId,
+    List<BookReviewDto>? bookReviewss,
     String? id,
     List<int>? ImageFile,
     List<int>? PdfFile,
   }) {
     final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Book/Add');
     final Map<String, dynamic> $params = <String, dynamic>{
+      'Niko': niko,
+      'Online': online,
+      'Physical': physical,
+      'DiscountPercentage': discountPercentage,
+      'PhysicalLink': physicalLink,
       'Title': title,
       'Description': description,
       'ImageUrl': imageUrl,
       'PdfLink': pdfLink,
+      'PdfSize': pdfSize,
+      'Like': like,
+      'Read': read,
+      'Shelf': shelf,
       'Nevisande': nevisande,
       'Entesharat': entesharat,
       'Motarjem': motarjem,
@@ -275,7 +314,28 @@ final class _$Tikonline extends Tikonline {
       'DiscountPrice': discountPrice,
       'ViewCount': viewCount,
       'CategoryId': categoryId,
-      'CategoryName': categoryName,
+      'CategoryTitle': categoryTitle,
+      'MyReview.Message': myReviewMessage,
+      'MyReview.Rate': myReviewRate,
+      'MyReview.BookId': myReviewBookId,
+      'MyReview.BookTitle': myReviewBookTitle,
+      'MyReview.BookImageUrl': myReviewBookImageUrl,
+      'MyReview.BookNevisande': myReviewBookNevisande,
+      'MyReview.BookEntesharat': myReviewBookEntesharat,
+      'MyReview.BookMotarjem': myReviewBookMotarjem,
+      'MyReview.BookSalEnteshar': myReviewBookSalEnteshar,
+      'MyReview.BookPages': myReviewBookPages,
+      'MyReview.BookRating': myReviewBookRating,
+      'MyReview.BookPrice': myReviewBookPrice,
+      'MyReview.BookDiscountPrice': myReviewBookDiscountPrice,
+      'MyReview.BookViewCount': myReviewBookViewCount,
+      'MyReview.BookCategoryId': myReviewBookCategoryId,
+      'MyReview.BookCategoryName': myReviewBookCategoryName,
+      'MyReview.UserId': myReviewUserId,
+      'MyReview.UserFirstName': myReviewUserFirstName,
+      'MyReview.UserLastName': myReviewUserLastName,
+      'MyReview.Id': myReviewId,
+      'BookReviewss': bookReviewss,
       'Id': id,
     };
     final List<PartValue> $parts = <PartValue>[
@@ -300,20 +360,90 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
-  Future<Response<CategoryDtoListApiResult>> _apiV1CategoryGet() {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Category');
+  Future<Response<BookDtoListApiResult>> _apiV1BookSavedBooksGet({String? st}) {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Book/SavedBooks');
+    final Map<String, dynamic> $params = <String, dynamic>{'st': st};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<BookDtoListApiResult, BookDtoListApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1BookSaveBookPost({
+    String? bookId,
+    String? st,
+  }) {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Book/SaveBook');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'BookId': bookId,
+      'st': st,
+    };
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1BookAddBookReviewPost(
+      {required AddBookReviewDto? body}) {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Book/AddBookReview');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<BookReviewDtoListApiResult>> _apiV1BookMyReviewsGet() {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Book/MyReviews');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
     return client
+        .send<BookReviewDtoListApiResult, BookReviewDtoListApiResult>($request);
+  }
+
+  @override
+  Future<Response<CategoryDtoListApiResult>> _apiV1CategoryListGet(
+      {String? motherId}) {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Category/List');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'MotherId': motherId
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client
         .send<CategoryDtoListApiResult, CategoryDtoListApiResult>($request);
   }
 
   @override
-  Future<Response<ApiResult>> _apiV1CategoryPost({required CategoryDto? body}) {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Category');
+  Future<Response<ApiResult>> _apiV1CategoryAddPost(
+      {required CategoryDto? body}) {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Category/Add');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -325,44 +455,127 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
-  Future<Response<CategoryDtoApiResult>> _apiV1CategoryIdGet(
-      {required String? id}) {
+  Future<Response<ApiResult>> _apiV1PaymentWalletChargeGet({int? price}) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Category/${id}');
+        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/WalletCharge');
+    final Map<String, dynamic> $params = <String, dynamic>{'Price': price};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1PaymentBuySubscriptionPost({
+    String? subId,
+    bool? wallet,
+  }) {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/BuySubscription');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'SubId': subId,
+      'Wallet': wallet,
+    };
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<SubscriptionDtoListApiResult>>
+      _apiV1PaymentSubscriptionListGet() {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/SubscriptionList');
     final Request $request = Request(
       'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<CategoryDtoApiResult, CategoryDtoApiResult>($request);
+    return client.send<SubscriptionDtoListApiResult,
+        SubscriptionDtoListApiResult>($request);
   }
 
   @override
-  Future<Response<ApiResult>> _apiV1CategoryIdDelete({required String? id}) {
+  Future<Response<PaymentTransactionsDtoListApiResult>>
+      _apiV1PaymentUserTransactionsGet() {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Category/${id}');
+        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/UserTransactions');
     final Request $request = Request(
-      'DELETE',
+      'GET',
       $url,
       client.baseUrl,
     );
-    return client.send<ApiResult, ApiResult>($request);
+    return client.send<PaymentTransactionsDtoListApiResult,
+        PaymentTransactionsDtoListApiResult>($request);
   }
 
   @override
-  Future<Response<ApiResult>> _apiV1CategoryUpdatePost({
+  Future<Response<UserDtoApiResult>> _apiV1UserProfileGet() {
+    final Uri $url =
+        Uri.parse('http://130.185.75.182:5003/api/v1/User/Profile');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<UserDtoApiResult, UserDtoApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1UserUpdateProfilePost({
+    String? sex,
+    String? userName,
+    String? phoneNumber,
+    String? firstName,
+    String? lastName,
+    String? nationalCode,
+    String? userAvatar,
+    String? password,
+    DateTime? birthDay,
+    String? likedCategories,
+    String? expertiesId,
+    List<ExpertiseDto>? expertises,
+    List<CategoryDto>? categories,
     String? id,
-    required CategoryDto? body,
+    List<int>? UserAvatarFile,
   }) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Category/Update');
-    final Map<String, dynamic> $params = <String, dynamic>{'id': id};
-    final $body = body;
+        Uri.parse('http://130.185.75.182:5003/api/v1/User/UpdateProfile');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'Sex': sex,
+      'UserName': userName,
+      'PhoneNumber': phoneNumber,
+      'FirstName': firstName,
+      'LastName': lastName,
+      'NationalCode': nationalCode,
+      'UserAvatar': userAvatar,
+      'Password': password,
+      'BirthDay': birthDay,
+      'LikedCategories': likedCategories,
+      'ExpertiesId': expertiesId,
+      'Expertises': expertises,
+      'Categories': categories,
+      'Id': id,
+    };
+    final List<PartValue> $parts = <PartValue>[
+      PartValueFile<List<int>?>(
+        'UserAvatarFile',
+        UserAvatarFile,
+      )
+    ];
     final Request $request = Request(
       'POST',
       $url,
       client.baseUrl,
-      body: $body,
+      parts: $parts,
+      multipart: true,
       parameters: $params,
     );
     return client.send<ApiResult, ApiResult>($request);

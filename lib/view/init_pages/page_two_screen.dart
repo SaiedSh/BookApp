@@ -50,7 +50,10 @@ class PageTwoScreen extends StatelessWidget {
                   child: Text(
                     textAlign: TextAlign.center,
                     'در دستگاه دلخواه تو',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -66,12 +69,14 @@ class PageTwoScreen extends StatelessWidget {
                             text:
                                 'موبایل یا کامپیوتر؟ نیکوبوک یا تبلت؟ همزمان می توانی با ',
                             style: TextStyle(
+                                fontFamily: 'Yekan',
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400)),
                         TextSpan(
                             text:
                                 '۳ دستگاه مختلف به کتابخانه ات سر بزنی و مطالعه کنی',
                             style: TextStyle(
+                                fontFamily: 'Yekan',
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400)),
                       ],

@@ -1,6 +1,5 @@
 import 'package:bookapp/model/global/global.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CategoryTextCard extends StatelessWidget {
   final String name;
@@ -20,7 +19,7 @@ class CategoryTextCard extends StatelessWidget {
       child: Center(
         child: Text(
           name,
-          style: GoogleFonts.notoSansArabic(
+          style: TextStyle(
               fontSize: 8.5, color: primaryColor, fontWeight: FontWeight.w500),
         ),
       ),

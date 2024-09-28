@@ -53,6 +53,11 @@ dependencies:
   country_code_picker: ^3.0.0
   font_awesome_flutter: ^10.7.0
   buttons_tabbar: ^1.3.13
+  http: ^1.2.2
+  image_picker: ^1.1.2
+  shamsi_date: ^1.0.4
+  persian_datetime_picker: ^2.7.0
+
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +73,7 @@ dev_dependencies:
   chopper_generator: ^8.0.1
   json_serializable: ^6.8.0
   build_runner: ^2.4.9
+  multi_select_flutter: ^4.1.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -97,11 +103,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Sansation
+    - family: Yekan
       fonts:
-        - asset: lib/assets/fonts/Sansation_Light.ttf
-        - asset: lib/assets/fonts/Sansation_Regular.ttf
-        - asset: lib/assets/fonts/Sansation_Bold.ttf
+        - asset: lib/assets/fonts/Yekan.ttf
+    
 
   # - family: Trajan Pro
   #     fonts:

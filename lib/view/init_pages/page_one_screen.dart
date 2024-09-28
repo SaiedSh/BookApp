@@ -20,7 +20,7 @@ class PageOneScreen extends StatelessWidget {
                 },
                 child: Text(
                   'رد کردن',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.grey, fontFamily: 'Yekan'),
                 )),
           )
         ],
@@ -65,25 +65,29 @@ class PageOneScreen extends StatelessWidget {
                             text:
                                 ' دوست داری چطور کتابخانه ات را پر کنی؟ می توانی نسخه',
                             style: TextStyle(
+                                fontFamily: 'Yekan',
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400)),
                         TextSpan(
                             text:
                                 ' دیجیتال کتاب های دلخواهت را بخری یا با مشترک شدن در نیک بوک',
                             style: TextStyle(
+                                fontFamily: 'Yekan',
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400)),
                         TextSpan(
                             text:
                                 ' پلاس در طول زمان اشتراک به کتاب های دلخواهت دسترسی داشته',
                             style: TextStyle(
+                                fontFamily: 'Yekan',
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400)),
                         TextSpan(
                             text: ' باشی یا دلت میخواد کتابو لمس کنی',
                             style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400))
+                              fontFamily: 'Yekan',
+                              color: Colors.black,
+                            ))
                       ],
                     ),
                   ),
