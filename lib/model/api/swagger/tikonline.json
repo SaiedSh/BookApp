@@ -198,6 +198,35 @@
         ]
       }
     },
+    "/api/v1/Authentication/NotifList": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDtoApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDtoApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDtoApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Authentication/FreeToken": {
       "post": {
         "tags": [
@@ -388,6 +417,112 @@
         }
       }
     },
+    "/api/v1/Authentication/NationalLogin": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NationalLoginDtoApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NationalLoginDtoApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NationalLoginDtoApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Authentication/NationalLoginValidation": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NationalLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDtoApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Authentication/SignOut": {
       "get": {
         "tags": [
@@ -446,6 +581,209 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Authentication/ClientLogin": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientLoginDtoApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientLoginDtoApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientLoginDtoApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Authentication/ClientLoginValidate": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Authentication/CompleteProfile": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "parameters": [
+          {
+            "name": "FirstName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "LastName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PhoneNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NationalCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Reshte",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Takhasos",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "PofileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "PofileImage": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
                 }
               }
             }
@@ -600,6 +938,13 @@
         ],
         "parameters": [
           {
+            "name": "Code",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "Niko",
             "in": "query",
             "schema": {
@@ -630,6 +975,13 @@
           },
           {
             "name": "PhysicalLink",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "SamplePdfLink",
             "in": "query",
             "schema": {
               "type": "string"
@@ -686,6 +1038,13 @@
           },
           {
             "name": "Shelf",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "Buy",
             "in": "query",
             "schema": {
               "type": "boolean"
@@ -1329,6 +1688,291 @@
         ]
       }
     },
+    "/api/v1/ConferenceStaff/AddEdit": {
+      "post": {
+        "tags": [
+          "ConferenceStaff"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ConferenceStaff": {
+      "get": {
+        "tags": [
+          "ConferenceStaff"
+        ],
+        "summary": "Returns all ConferenceStaffs",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfrenceStaffDtoListApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfrenceStaffDtoListApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfrenceStaffDtoListApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ConferenceStaff/{id}": {
+      "get": {
+        "tags": [
+          "ConferenceStaff"
+        ],
+        "summary": "Retrieves a ConferenceStaff by unique id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "a unique id for the ConferenceStaff",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfrenceStaffDtoApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfrenceStaffDtoApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfrenceStaffDtoApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ConferenceStaff/Create": {
+      "post": {
+        "tags": [
+          "ConferenceStaff"
+        ],
+        "summary": "Creates a ConferenceStaff",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ConferenceStaff/Update": {
+      "post": {
+        "tags": [
+          "ConferenceStaff"
+        ],
+        "summary": "Updates a ConferenceStaff by unique id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "A ConferenceStaff representation",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfrenceStaffDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ConferenceStaff/Delete": {
+      "post": {
+        "tags": [
+          "ConferenceStaff"
+        ],
+        "summary": "Deletes a ConferenceStaff by unique id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "A unique id for the ConferenceStaff",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Payment/WalletCharge": {
       "get": {
         "tags": [
@@ -1498,6 +2142,324 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaymentTransactionsDtoListApiResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Payment/Payment": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Payment/VerifyPayment": {
+      "get": {
+        "tags": [
+          "Payment"
+        ],
+        "parameters": [
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authority",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringApiResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ShopCard/GetShopCard": {
+      "get": {
+        "tags": [
+          "ShopCard"
+        ],
+        "summary": "Retrieves a ShopCard by unique id",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopCardDtoApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopCardDtoApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShopCardDtoApiResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/ShopCard/AddorRemoveItem": {
+      "post": {
+        "tags": [
+          "ShopCard"
+        ],
+        "parameters": [
+          {
+            "name": "BookId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Remove",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/ShopCard/PayShopCard": {
+      "post": {
+        "tags": [
+          "ShopCard"
+        ],
+        "parameters": [
+          {
+            "name": "Wallet",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "DiscountCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/ShopCard/GetUserOrders": {
+      "get": {
+        "tags": [
+          "ShopCard"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookOrderDtoListApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookOrderDtoListApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookOrderDtoListApiResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "OAuth2": [ ]
+          }
+        ]
+      }
+    },
+    "/api/v1/ShopCard/GetItemsOfOrder": {
+      "get": {
+        "tags": [
+          "ShopCard"
+        ],
+        "parameters": [
+          {
+            "name": "OrderId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookOrderItemDtoListApiResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookOrderItemDtoListApiResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookOrderItemDtoListApiResult"
                 }
               }
             }
@@ -1748,7 +2710,11 @@
             "format": "int32"
           },
           "role": {
-            "$ref": "#/components/schemas/UserRoles"
+            "type": "string",
+            "nullable": true
+          },
+          "complete": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1810,6 +2776,10 @@
       "BookDto": {
         "type": "object",
         "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
           "niko": {
             "type": "boolean"
           },
@@ -1824,6 +2794,10 @@
             "format": "int32"
           },
           "physicalLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "samplePdfLink": {
             "type": "string",
             "nullable": true
           },
@@ -1864,6 +2838,9 @@
             "type": "boolean"
           },
           "shelf": {
+            "type": "boolean"
+          },
+          "buy": {
             "type": "boolean"
           },
           "nevisande": {
@@ -1953,6 +2930,127 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookDto"
+            },
+            "nullable": true
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookOrderDto": {
+        "type": "object",
+        "properties": {
+          "totalPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rawPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookOrderItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookOrderItemDto"
+            },
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookOrderDtoListApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookOrderDto"
+            },
+            "nullable": true
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookOrderItemDto": {
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookNevisande": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookMotarjem": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookDiscountPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookOrderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookOrderItemDtoListApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookOrderItemDto"
             },
             "nullable": true
           },
@@ -2119,6 +3217,114 @@
         },
         "additionalProperties": false
       },
+      "ClientLoginDto": {
+        "type": "object",
+        "properties": {
+          "nationalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "otp": {
+            "type": "string",
+            "nullable": true
+          },
+          "compeleteProfile": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClientLoginDtoApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ClientLoginDto"
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfrenceStaffDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfrenceStaffDtoApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ConfrenceStaffDto"
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConfrenceStaffDtoListApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConfrenceStaffDto"
+            },
+            "nullable": true
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ExpertiseDto": {
         "type": "object",
         "properties": {
@@ -2190,6 +3396,89 @@
             "nullable": true
           },
           "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NationalLoginDto": {
+        "type": "object",
+        "properties": {
+          "nationalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "otp": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NationalLoginDtoApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NationalLoginDto"
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotificationDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NotificationDtoApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/NotificationDto"
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
             "type": "string",
             "nullable": true
           }
@@ -2357,6 +3646,120 @@
         ],
         "type": "string"
       },
+      "ShopCardDto": {
+        "type": "object",
+        "properties": {
+          "totalPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rawPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "shopCardItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShopCardItemDto"
+            },
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShopCardDtoApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ShopCardDto"
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShopCardItemDto": {
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookNevisande": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookMotarjem": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookDiscountPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "shopCardId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringApiResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSuccess": {
+            "type": "boolean"
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/ApiResultStatusCode"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "SubscriptionDto": {
         "type": "object",
         "properties": {
@@ -2471,6 +3874,10 @@
             "type": "string",
             "nullable": true
           },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
           "phoneNumber": {
             "type": "string",
             "nullable": true
@@ -2523,6 +3930,20 @@
             "type": "integer",
             "format": "int32"
           },
+          "foodDays": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasGift": {
+            "type": "boolean"
+          },
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "stepTwo": {
+            "type": "boolean"
+          },
           "hasSub": {
             "type": "boolean"
           },
@@ -2540,6 +3961,14 @@
           },
           "isActive": {
             "type": "boolean"
+          },
+          "reshte": {
+            "type": "string",
+            "nullable": true
+          },
+          "takhasos": {
+            "type": "string",
+            "nullable": true
           },
           "expertises": {
             "type": "array",

@@ -1,4 +1,5 @@
 import 'package:bookapp/model/global/global.dart';
+import 'package:bookapp/view/home/all_books.dart';
 import 'package:bookapp/view/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -104,7 +105,7 @@ class _NavigationbarScreenState extends State<NavigationbarScreen> {
   final List<Widget> _pages = [
     HomeScreen(),
     Center(child: Text('Niko Plus', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Category', style: TextStyle(fontSize: 24))),
+    AllBooksScreen(),
     Center(child: Text('My Library', style: TextStyle(fontSize: 24))),
   ];
 
@@ -139,6 +140,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 70,
       padding: EdgeInsets.all(5),
       color: Colors.white, // رنگ پس زمینه نوار
       child: Directionality(

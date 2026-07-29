@@ -62,7 +62,13 @@ Future<AccessToken> loginOtp({
     final response = AccessToken.fromJson(postResult.body!.toJson());
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString("accessToken", response.accessToken.toString());
+
     Navigator.pushNamed(context, MyRoutes.navigationBarScreen);
+  } else if (postResult.statusCode == 401) {
+    Navigator.pushNamed(
+      context,
+      MyRoutes.wellcomeScreen,
+    );
   } else {
     QuickAlert.show(
       context: context,

@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: Size.fromHeight(70),
             child: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: backgroundColor,
@@ -44,6 +44,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: 15,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Row(
@@ -56,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     'پروفایل',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 12),
+                                        fontSize: 14),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -132,8 +135,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Row(
                                       children: [
                                         Text(
-                                          ProfileState.profile!.firstName
-                                              .toString(),
+                                          ProfileState.profile!.firstName !=
+                                                  null
+                                              ? ProfileState.profile!.firstName
+                                                  .toString()
+                                              : "نام",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12),
@@ -142,8 +148,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           width: 5,
                                         ),
                                         Text(
-                                          ProfileState.profile!.lastName
-                                              .toString(),
+                                          ProfileState.profile!.lastName != null
+                                              ? ProfileState.profile!.lastName
+                                                  .toString()
+                                              : 'نام خانوادگی',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12),
@@ -273,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           Text(
                                             'موجودی فعلی',
                                             style: TextStyle(
-                                                fontSize: 10,
+                                                fontSize: 14,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -282,12 +290,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           Directionality(
                                             textDirection: TextDirection.rtl,
-                                            child: Text(
-                                              '${ProfileState.profile!.walletAmount.toString()} تومان',
-                                              style: TextStyle(
-                                                  fontSize: 8,
-                                                  color: Colors.grey.shade700,
-                                                  fontWeight: FontWeight.bold),
+                                            child: Consumer<ProfileState>(
+                                              builder:
+                                                  (context, value, child) =>
+                                                      Text(
+                                                '${ProfileState.profile!.walletAmount.toString()} تومان',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey.shade700,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
                                           ),
                                           SizedBox(
@@ -307,7 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 child: Text(
                                                   'تعیین مبلغ :',
                                                   style: TextStyle(
-                                                      fontSize: 10,
+                                                      fontSize: 14,
                                                       color: Colors.black,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -397,7 +410,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         Text(
                                                           '10,000',
                                                           style: TextStyle(
-                                                              fontSize: 10,
+                                                              fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -407,15 +420,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         SizedBox(
                                                           width: 3,
                                                         ),
-                                                        Text(
-                                                          'تومان',
-                                                          style: TextStyle(
-                                                              fontSize: 8,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors.grey
-                                                                  .shade600),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: Text(
+                                                            'تومان',
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade600),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -449,7 +468,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         Text(
                                                           '20,000',
                                                           style: TextStyle(
-                                                              fontSize: 10,
+                                                              fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -459,15 +478,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         SizedBox(
                                                           width: 3,
                                                         ),
-                                                        Text(
-                                                          'تومان',
-                                                          style: TextStyle(
-                                                              fontSize: 8,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors.grey
-                                                                  .shade600),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: Text(
+                                                            'تومان',
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade600),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -501,7 +526,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         Text(
                                                           '50,000',
                                                           style: TextStyle(
-                                                              fontSize: 10,
+                                                              fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -511,15 +536,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         SizedBox(
                                                           width: 3,
                                                         ),
-                                                        Text(
-                                                          'تومان',
-                                                          style: TextStyle(
-                                                              fontSize: 8,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors.grey
-                                                                  .shade600),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: Text(
+                                                            'تومان',
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade600),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -553,7 +584,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         Text(
                                                           '100,000',
                                                           style: TextStyle(
-                                                              fontSize: 10,
+                                                              fontSize: 14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -563,15 +594,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         SizedBox(
                                                           width: 3,
                                                         ),
-                                                        Text(
-                                                          'تومان',
-                                                          style: TextStyle(
-                                                              fontSize: 8,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors.grey
-                                                                  .shade600),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: Text(
+                                                            'تومان',
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade600),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -667,7 +704,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'کیف پول',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -678,7 +715,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'شارژ کیف پول',
                                       style: TextStyle(
-                                          fontSize: 9,
+                                          fontSize: 11,
                                           color: Colors.blue,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -736,7 +773,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'خرید های من',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -788,7 +825,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'مطالعه‌ی من',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -817,8 +854,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, MyRoutes.myRatingScreen);
+                              // Navigator.pushNamed(
+                              //     context, MyRoutes.myRatingScreen);
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -843,7 +880,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'نقد‌ها و امتیاز‌ها',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1116,7 +1153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'حالت نمایش اپ',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1127,7 +1164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'پیروی از دستگاه',
                                       style: TextStyle(
-                                          fontSize: 9,
+                                          fontSize: 11,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1182,7 +1219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'پشتیبانی و سؤال‌های متداول',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1234,7 +1271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'به‌روزرسانی',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1245,7 +1282,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'نسخه 10.6.0',
                                       style: TextStyle(
-                                          fontSize: 9,
+                                          fontSize: 11,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1300,7 +1337,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'امتیاز به نیکوبوک',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -1352,7 +1389,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Text(
                                       'خروج از حساب کاربری',
                                       style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.red,
                                           fontWeight: FontWeight.w500),
                                     ),

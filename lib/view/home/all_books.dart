@@ -1,4 +1,6 @@
+import 'package:bookapp/controller/api/book/book_list.dart';
 import 'package:bookapp/controller/api/home_items/category_products.dart';
+import 'package:bookapp/controller/provider/book_list_state.dart';
 import 'package:bookapp/controller/provider/category_product_state.dart';
 import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/components/bookcard_widget.dart';
@@ -15,10 +17,18 @@ class AllBooksScreen extends StatefulWidget {
 }
 
 class _AllBooksScreenState extends State<AllBooksScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getBooksList(context: context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: Size.fromHeight(90),
           child: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: backgroundColor,
@@ -31,7 +41,7 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.only(top: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -107,115 +117,119 @@ class _AllBooksScreenState extends State<AllBooksScreen> {
             ),
           )),
       backgroundColor: backgroundColor,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width - 35,
-                height: 40,
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image(
-                              image: AssetImage('lib/assets/images/filter.png'),
-                              fit: BoxFit.fill,
-                              width: 20,
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'فیلتر محصولات ',
-                              style: TextStyle(fontSize: 10),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Image(
-                              image: AssetImage('lib/assets/images/sort.png'),
-                              fit: BoxFit.fill,
-                              width: 20,
-                              height: 15,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'پر فروش ترین',
-                              style: TextStyle(fontSize: 10),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Image(
-                              image: AssetImage('lib/assets/images/listt.png'),
-                              fit: BoxFit.fill,
-                              width: 18,
-                              height: 20,
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Image(
-                              image: AssetImage('lib/assets/images/grid.png'),
-                              fit: BoxFit.fill,
-                              width: 18,
-                              height: 20,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width - 35,
+              height: 40,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Image(
+                            image: AssetImage('lib/assets/images/filter.png'),
+                            fit: BoxFit.fill,
+                            width: 20,
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'فیلتر محصولات ',
+                            style: TextStyle(fontSize: 10),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Image(
+                            image: AssetImage('lib/assets/images/sort.png'),
+                            fit: BoxFit.fill,
+                            width: 20,
+                            height: 15,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'پر فروش ترین',
+                            style: TextStyle(fontSize: 10),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Image(
+                            image: AssetImage('lib/assets/images/listt.png'),
+                            fit: BoxFit.fill,
+                            width: 18,
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Image(
+                            image: AssetImage('lib/assets/images/grid.png'),
+                            fit: BoxFit.fill,
+                            width: 18,
+                            height: 20,
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: SizedBox(
-                    height: 650,
-                    width: 350,
-                    child: GridView.builder(
-                      itemCount: 10,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Colors.white),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height - 270,
+                  width: MediaQuery.of(context).size.width - 40,
+                  child: Consumer<BookListState>(
+                    builder: (context, value, child) => GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: BookListState.books.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.7, crossAxisCount: 2),
+                          childAspectRatio: 0.6, crossAxisCount: 2),
                       itemBuilder: (context, index) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: BookCardWidget(
-                          viewCont: 5,
-                          bookId: '',
-                          bookWriter: 'دکتر مهران نوربخش',
-                          bookRate: 1,
-                          bookPrice: '115.000',
-                          bookName: "مدیریت چالش ها و پیچیدگی های اندودانتیکس",
-                          bookImage: "lib/assets/images/book.png",
+                          viewCont: BookListState.books[index].viewCount!,
+                          bookId: BookListState.books[index].id.toString(),
+                          bookWriter:
+                              BookListState.books[index].nevisande.toString(),
+                          bookRate:
+                              BookListState.books[index].rating!.toDouble(),
+                          bookPrice:
+                              BookListState.books[index].price.toString(),
+                          bookName: BookListState.books[index].title.toString(),
+                          bookImage:
+                              BookListState.books[index].imageUrl.toString(),
                         ),
                       ),
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

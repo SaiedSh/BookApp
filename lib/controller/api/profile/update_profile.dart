@@ -98,7 +98,7 @@ Future<void> filesHTTP(
 //for gallery image
 
     final request = http.MultipartRequest('post',
-        Uri.parse("http://130.185.75.182:5003/api/v1/User/UpdateProfile"))
+        Uri.parse("https://api.tikonline.net/api/v1/User/UpdateProfile"))
       ..fields['FirstName'] = firstName ?? ""
       ..fields['LastName'] = lastName ?? ""
       ..fields['NationalCode'] = nationalCode ?? ""

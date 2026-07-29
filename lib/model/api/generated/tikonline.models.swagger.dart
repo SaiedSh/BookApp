@@ -16,6 +16,7 @@ class AccessToken {
     this.tokenType,
     this.expiresIn,
     this.role,
+    this.complete,
   });
 
   factory AccessToken.fromJson(Map<String, dynamic> json) =>
@@ -32,13 +33,10 @@ class AccessToken {
   final String? tokenType;
   @JsonKey(name: 'expires_in', includeIfNull: false)
   final int? expiresIn;
-  @JsonKey(
-    name: 'role',
-    includeIfNull: false,
-    toJson: userRolesNullableToJson,
-    fromJson: userRolesNullableFromJson,
-  )
-  final enums.UserRoles? role;
+  @JsonKey(name: 'role', includeIfNull: false)
+  final String? role;
+  @JsonKey(name: 'complete', includeIfNull: false)
+  final bool? complete;
   static const fromJsonFactory = _$AccessTokenFromJson;
 
   @override
@@ -58,7 +56,10 @@ class AccessToken {
                 const DeepCollectionEquality()
                     .equals(other.expiresIn, expiresIn)) &&
             (identical(other.role, role) ||
-                const DeepCollectionEquality().equals(other.role, role)));
+                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.complete, complete) ||
+                const DeepCollectionEquality()
+                    .equals(other.complete, complete)));
   }
 
   @override
@@ -71,6 +72,7 @@ class AccessToken {
       const DeepCollectionEquality().hash(tokenType) ^
       const DeepCollectionEquality().hash(expiresIn) ^
       const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(complete) ^
       runtimeType.hashCode;
 }
 
@@ -80,13 +82,15 @@ extension $AccessTokenExtension on AccessToken {
       String? refreshToken,
       String? tokenType,
       int? expiresIn,
-      enums.UserRoles? role}) {
+      String? role,
+      bool? complete}) {
     return AccessToken(
         accessToken: accessToken ?? this.accessToken,
         refreshToken: refreshToken ?? this.refreshToken,
         tokenType: tokenType ?? this.tokenType,
         expiresIn: expiresIn ?? this.expiresIn,
-        role: role ?? this.role);
+        role: role ?? this.role,
+        complete: complete ?? this.complete);
   }
 
   AccessToken copyWithWrapped(
@@ -94,7 +98,8 @@ extension $AccessTokenExtension on AccessToken {
       Wrapped<String?>? refreshToken,
       Wrapped<String?>? tokenType,
       Wrapped<int?>? expiresIn,
-      Wrapped<enums.UserRoles?>? role}) {
+      Wrapped<String?>? role,
+      Wrapped<bool?>? complete}) {
     return AccessToken(
         accessToken:
             (accessToken != null ? accessToken.value : this.accessToken),
@@ -102,7 +107,8 @@ extension $AccessTokenExtension on AccessToken {
             (refreshToken != null ? refreshToken.value : this.refreshToken),
         tokenType: (tokenType != null ? tokenType.value : this.tokenType),
         expiresIn: (expiresIn != null ? expiresIn.value : this.expiresIn),
-        role: (role != null ? role.value : this.role));
+        role: (role != null ? role.value : this.role),
+        complete: (complete != null ? complete.value : this.complete));
   }
 }
 
@@ -271,11 +277,13 @@ extension $ApiResultExtension on ApiResult {
 @JsonSerializable(explicitToJson: true)
 class BookDto {
   const BookDto({
+    this.code,
     this.niko,
     this.online,
     this.physical,
     this.discountPercentage,
     this.physicalLink,
+    this.samplePdfLink,
     this.title,
     this.description,
     this.imageUrl,
@@ -286,6 +294,7 @@ class BookDto {
     this.like,
     this.read,
     this.shelf,
+    this.buy,
     this.nevisande,
     this.entesharat,
     this.motarjem,
@@ -308,6 +317,8 @@ class BookDto {
   static const toJsonFactory = _$BookDtoToJson;
   Map<String, dynamic> toJson() => _$BookDtoToJson(this);
 
+  @JsonKey(name: 'code', includeIfNull: false)
+  final String? code;
   @JsonKey(name: 'niko', includeIfNull: false)
   final bool? niko;
   @JsonKey(name: 'online', includeIfNull: false)
@@ -318,6 +329,8 @@ class BookDto {
   final int? discountPercentage;
   @JsonKey(name: 'physicalLink', includeIfNull: false)
   final String? physicalLink;
+  @JsonKey(name: 'samplePdfLink', includeIfNull: false)
+  final String? samplePdfLink;
   @JsonKey(name: 'title', includeIfNull: false)
   final String? title;
   @JsonKey(name: 'description', includeIfNull: false)
@@ -338,6 +351,8 @@ class BookDto {
   final bool? read;
   @JsonKey(name: 'shelf', includeIfNull: false)
   final bool? shelf;
+  @JsonKey(name: 'buy', includeIfNull: false)
+  final bool? buy;
   @JsonKey(name: 'nevisande', includeIfNull: false)
   final String? nevisande;
   @JsonKey(name: 'entesharat', includeIfNull: false)
@@ -375,6 +390,8 @@ class BookDto {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is BookDto &&
+            (identical(other.code, code) ||
+                const DeepCollectionEquality().equals(other.code, code)) &&
             (identical(other.niko, niko) ||
                 const DeepCollectionEquality().equals(other.niko, niko)) &&
             (identical(other.online, online) ||
@@ -388,6 +405,9 @@ class BookDto {
             (identical(other.physicalLink, physicalLink) ||
                 const DeepCollectionEquality()
                     .equals(other.physicalLink, physicalLink)) &&
+            (identical(other.samplePdfLink, samplePdfLink) ||
+                const DeepCollectionEquality()
+                    .equals(other.samplePdfLink, samplePdfLink)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.description, description) ||
@@ -414,6 +434,8 @@ class BookDto {
                 const DeepCollectionEquality().equals(other.read, read)) &&
             (identical(other.shelf, shelf) ||
                 const DeepCollectionEquality().equals(other.shelf, shelf)) &&
+            (identical(other.buy, buy) ||
+                const DeepCollectionEquality().equals(other.buy, buy)) &&
             (identical(other.nevisande, nevisande) ||
                 const DeepCollectionEquality()
                     .equals(other.nevisande, nevisande)) &&
@@ -438,12 +460,8 @@ class BookDto {
             (identical(other.viewCount, viewCount) ||
                 const DeepCollectionEquality()
                     .equals(other.viewCount, viewCount)) &&
-            (identical(other.categoryId, categoryId) ||
-                const DeepCollectionEquality()
-                    .equals(other.categoryId, categoryId)) &&
-            (identical(other.categoryTitle, categoryTitle) ||
-                const DeepCollectionEquality()
-                    .equals(other.categoryTitle, categoryTitle)) &&
+            (identical(other.categoryId, categoryId) || const DeepCollectionEquality().equals(other.categoryId, categoryId)) &&
+            (identical(other.categoryTitle, categoryTitle) || const DeepCollectionEquality().equals(other.categoryTitle, categoryTitle)) &&
             (identical(other.myReview, myReview) || const DeepCollectionEquality().equals(other.myReview, myReview)) &&
             (identical(other.bookReviewss, bookReviewss) || const DeepCollectionEquality().equals(other.bookReviewss, bookReviewss)) &&
             (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)));
@@ -454,11 +472,13 @@ class BookDto {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(niko) ^
       const DeepCollectionEquality().hash(online) ^
       const DeepCollectionEquality().hash(physical) ^
       const DeepCollectionEquality().hash(discountPercentage) ^
       const DeepCollectionEquality().hash(physicalLink) ^
+      const DeepCollectionEquality().hash(samplePdfLink) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(imageUrl) ^
@@ -469,6 +489,7 @@ class BookDto {
       const DeepCollectionEquality().hash(like) ^
       const DeepCollectionEquality().hash(read) ^
       const DeepCollectionEquality().hash(shelf) ^
+      const DeepCollectionEquality().hash(buy) ^
       const DeepCollectionEquality().hash(nevisande) ^
       const DeepCollectionEquality().hash(entesharat) ^
       const DeepCollectionEquality().hash(motarjem) ^
@@ -488,11 +509,13 @@ class BookDto {
 
 extension $BookDtoExtension on BookDto {
   BookDto copyWith(
-      {bool? niko,
+      {String? code,
+      bool? niko,
       bool? online,
       bool? physical,
       int? discountPercentage,
       String? physicalLink,
+      String? samplePdfLink,
       String? title,
       String? description,
       String? imageUrl,
@@ -503,6 +526,7 @@ extension $BookDtoExtension on BookDto {
       bool? like,
       bool? read,
       bool? shelf,
+      bool? buy,
       String? nevisande,
       String? entesharat,
       String? motarjem,
@@ -518,11 +542,13 @@ extension $BookDtoExtension on BookDto {
       List<BookReviewDto>? bookReviewss,
       String? id}) {
     return BookDto(
+        code: code ?? this.code,
         niko: niko ?? this.niko,
         online: online ?? this.online,
         physical: physical ?? this.physical,
         discountPercentage: discountPercentage ?? this.discountPercentage,
         physicalLink: physicalLink ?? this.physicalLink,
+        samplePdfLink: samplePdfLink ?? this.samplePdfLink,
         title: title ?? this.title,
         description: description ?? this.description,
         imageUrl: imageUrl ?? this.imageUrl,
@@ -533,6 +559,7 @@ extension $BookDtoExtension on BookDto {
         like: like ?? this.like,
         read: read ?? this.read,
         shelf: shelf ?? this.shelf,
+        buy: buy ?? this.buy,
         nevisande: nevisande ?? this.nevisande,
         entesharat: entesharat ?? this.entesharat,
         motarjem: motarjem ?? this.motarjem,
@@ -550,11 +577,13 @@ extension $BookDtoExtension on BookDto {
   }
 
   BookDto copyWithWrapped(
-      {Wrapped<bool?>? niko,
+      {Wrapped<String?>? code,
+      Wrapped<bool?>? niko,
       Wrapped<bool?>? online,
       Wrapped<bool?>? physical,
       Wrapped<int?>? discountPercentage,
       Wrapped<String?>? physicalLink,
+      Wrapped<String?>? samplePdfLink,
       Wrapped<String?>? title,
       Wrapped<String?>? description,
       Wrapped<String?>? imageUrl,
@@ -565,6 +594,7 @@ extension $BookDtoExtension on BookDto {
       Wrapped<bool?>? like,
       Wrapped<bool?>? read,
       Wrapped<bool?>? shelf,
+      Wrapped<bool?>? buy,
       Wrapped<String?>? nevisande,
       Wrapped<String?>? entesharat,
       Wrapped<String?>? motarjem,
@@ -580,6 +610,7 @@ extension $BookDtoExtension on BookDto {
       Wrapped<List<BookReviewDto>?>? bookReviewss,
       Wrapped<String?>? id}) {
     return BookDto(
+        code: (code != null ? code.value : this.code),
         niko: (niko != null ? niko.value : this.niko),
         online: (online != null ? online.value : this.online),
         physical: (physical != null ? physical.value : this.physical),
@@ -588,6 +619,8 @@ extension $BookDtoExtension on BookDto {
             : this.discountPercentage),
         physicalLink:
             (physicalLink != null ? physicalLink.value : this.physicalLink),
+        samplePdfLink:
+            (samplePdfLink != null ? samplePdfLink.value : this.samplePdfLink),
         title: (title != null ? title.value : this.title),
         description:
             (description != null ? description.value : this.description),
@@ -599,6 +632,7 @@ extension $BookDtoExtension on BookDto {
         like: (like != null ? like.value : this.like),
         read: (read != null ? read.value : this.read),
         shelf: (shelf != null ? shelf.value : this.shelf),
+        buy: (buy != null ? buy.value : this.buy),
         nevisande: (nevisande != null ? nevisande.value : this.nevisande),
         entesharat: (entesharat != null ? entesharat.value : this.entesharat),
         motarjem: (motarjem != null ? motarjem.value : this.motarjem),
@@ -781,6 +815,424 @@ extension $BookDtoListApiResultExtension on BookDtoListApiResult {
       Wrapped<enums.ApiResultStatusCode?>? statusCode,
       Wrapped<String?>? message}) {
     return BookDtoListApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BookOrderDto {
+  const BookOrderDto({
+    this.totalPrice,
+    this.rawPrice,
+    this.userId,
+    this.bookOrderItems,
+    this.id,
+  });
+
+  factory BookOrderDto.fromJson(Map<String, dynamic> json) =>
+      _$BookOrderDtoFromJson(json);
+
+  static const toJsonFactory = _$BookOrderDtoToJson;
+  Map<String, dynamic> toJson() => _$BookOrderDtoToJson(this);
+
+  @JsonKey(name: 'totalPrice', includeIfNull: false)
+  final int? totalPrice;
+  @JsonKey(name: 'rawPrice', includeIfNull: false)
+  final int? rawPrice;
+  @JsonKey(name: 'userId', includeIfNull: false)
+  final String? userId;
+  @JsonKey(
+      name: 'bookOrderItems',
+      includeIfNull: false,
+      defaultValue: <BookOrderItemDto>[])
+  final List<BookOrderItemDto>? bookOrderItems;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$BookOrderDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BookOrderDto &&
+            (identical(other.totalPrice, totalPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.totalPrice, totalPrice)) &&
+            (identical(other.rawPrice, rawPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.rawPrice, rawPrice)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.bookOrderItems, bookOrderItems) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookOrderItems, bookOrderItems)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(totalPrice) ^
+      const DeepCollectionEquality().hash(rawPrice) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(bookOrderItems) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $BookOrderDtoExtension on BookOrderDto {
+  BookOrderDto copyWith(
+      {int? totalPrice,
+      int? rawPrice,
+      String? userId,
+      List<BookOrderItemDto>? bookOrderItems,
+      String? id}) {
+    return BookOrderDto(
+        totalPrice: totalPrice ?? this.totalPrice,
+        rawPrice: rawPrice ?? this.rawPrice,
+        userId: userId ?? this.userId,
+        bookOrderItems: bookOrderItems ?? this.bookOrderItems,
+        id: id ?? this.id);
+  }
+
+  BookOrderDto copyWithWrapped(
+      {Wrapped<int?>? totalPrice,
+      Wrapped<int?>? rawPrice,
+      Wrapped<String?>? userId,
+      Wrapped<List<BookOrderItemDto>?>? bookOrderItems,
+      Wrapped<String?>? id}) {
+    return BookOrderDto(
+        totalPrice: (totalPrice != null ? totalPrice.value : this.totalPrice),
+        rawPrice: (rawPrice != null ? rawPrice.value : this.rawPrice),
+        userId: (userId != null ? userId.value : this.userId),
+        bookOrderItems: (bookOrderItems != null
+            ? bookOrderItems.value
+            : this.bookOrderItems),
+        id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BookOrderDtoListApiResult {
+  const BookOrderDtoListApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory BookOrderDtoListApiResult.fromJson(Map<String, dynamic> json) =>
+      _$BookOrderDtoListApiResultFromJson(json);
+
+  static const toJsonFactory = _$BookOrderDtoListApiResultToJson;
+  Map<String, dynamic> toJson() => _$BookOrderDtoListApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false, defaultValue: <BookOrderDto>[])
+  final List<BookOrderDto>? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$BookOrderDtoListApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BookOrderDtoListApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $BookOrderDtoListApiResultExtension on BookOrderDtoListApiResult {
+  BookOrderDtoListApiResult copyWith(
+      {List<BookOrderDto>? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return BookOrderDtoListApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  BookOrderDtoListApiResult copyWithWrapped(
+      {Wrapped<List<BookOrderDto>?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return BookOrderDtoListApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BookOrderItemDto {
+  const BookOrderItemDto({
+    this.bookId,
+    this.bookPrice,
+    this.bookNevisande,
+    this.bookMotarjem,
+    this.bookDiscountPrice,
+    this.bookTitle,
+    this.bookDescription,
+    this.bookImageUrl,
+    this.bookOrderId,
+    this.id,
+  });
+
+  factory BookOrderItemDto.fromJson(Map<String, dynamic> json) =>
+      _$BookOrderItemDtoFromJson(json);
+
+  static const toJsonFactory = _$BookOrderItemDtoToJson;
+  Map<String, dynamic> toJson() => _$BookOrderItemDtoToJson(this);
+
+  @JsonKey(name: 'bookId', includeIfNull: false)
+  final String? bookId;
+  @JsonKey(name: 'bookPrice', includeIfNull: false)
+  final int? bookPrice;
+  @JsonKey(name: 'bookNevisande', includeIfNull: false)
+  final String? bookNevisande;
+  @JsonKey(name: 'bookMotarjem', includeIfNull: false)
+  final String? bookMotarjem;
+  @JsonKey(name: 'bookDiscountPrice', includeIfNull: false)
+  final int? bookDiscountPrice;
+  @JsonKey(name: 'bookTitle', includeIfNull: false)
+  final String? bookTitle;
+  @JsonKey(name: 'bookDescription', includeIfNull: false)
+  final String? bookDescription;
+  @JsonKey(name: 'bookImageUrl', includeIfNull: false)
+  final String? bookImageUrl;
+  @JsonKey(name: 'bookOrderId', includeIfNull: false)
+  final String? bookOrderId;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$BookOrderItemDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BookOrderItemDto &&
+            (identical(other.bookId, bookId) ||
+                const DeepCollectionEquality().equals(other.bookId, bookId)) &&
+            (identical(other.bookPrice, bookPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookPrice, bookPrice)) &&
+            (identical(other.bookNevisande, bookNevisande) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookNevisande, bookNevisande)) &&
+            (identical(other.bookMotarjem, bookMotarjem) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookMotarjem, bookMotarjem)) &&
+            (identical(other.bookDiscountPrice, bookDiscountPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookDiscountPrice, bookDiscountPrice)) &&
+            (identical(other.bookTitle, bookTitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookTitle, bookTitle)) &&
+            (identical(other.bookDescription, bookDescription) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookDescription, bookDescription)) &&
+            (identical(other.bookImageUrl, bookImageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookImageUrl, bookImageUrl)) &&
+            (identical(other.bookOrderId, bookOrderId) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookOrderId, bookOrderId)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(bookId) ^
+      const DeepCollectionEquality().hash(bookPrice) ^
+      const DeepCollectionEquality().hash(bookNevisande) ^
+      const DeepCollectionEquality().hash(bookMotarjem) ^
+      const DeepCollectionEquality().hash(bookDiscountPrice) ^
+      const DeepCollectionEquality().hash(bookTitle) ^
+      const DeepCollectionEquality().hash(bookDescription) ^
+      const DeepCollectionEquality().hash(bookImageUrl) ^
+      const DeepCollectionEquality().hash(bookOrderId) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $BookOrderItemDtoExtension on BookOrderItemDto {
+  BookOrderItemDto copyWith(
+      {String? bookId,
+      int? bookPrice,
+      String? bookNevisande,
+      String? bookMotarjem,
+      int? bookDiscountPrice,
+      String? bookTitle,
+      String? bookDescription,
+      String? bookImageUrl,
+      String? bookOrderId,
+      String? id}) {
+    return BookOrderItemDto(
+        bookId: bookId ?? this.bookId,
+        bookPrice: bookPrice ?? this.bookPrice,
+        bookNevisande: bookNevisande ?? this.bookNevisande,
+        bookMotarjem: bookMotarjem ?? this.bookMotarjem,
+        bookDiscountPrice: bookDiscountPrice ?? this.bookDiscountPrice,
+        bookTitle: bookTitle ?? this.bookTitle,
+        bookDescription: bookDescription ?? this.bookDescription,
+        bookImageUrl: bookImageUrl ?? this.bookImageUrl,
+        bookOrderId: bookOrderId ?? this.bookOrderId,
+        id: id ?? this.id);
+  }
+
+  BookOrderItemDto copyWithWrapped(
+      {Wrapped<String?>? bookId,
+      Wrapped<int?>? bookPrice,
+      Wrapped<String?>? bookNevisande,
+      Wrapped<String?>? bookMotarjem,
+      Wrapped<int?>? bookDiscountPrice,
+      Wrapped<String?>? bookTitle,
+      Wrapped<String?>? bookDescription,
+      Wrapped<String?>? bookImageUrl,
+      Wrapped<String?>? bookOrderId,
+      Wrapped<String?>? id}) {
+    return BookOrderItemDto(
+        bookId: (bookId != null ? bookId.value : this.bookId),
+        bookPrice: (bookPrice != null ? bookPrice.value : this.bookPrice),
+        bookNevisande:
+            (bookNevisande != null ? bookNevisande.value : this.bookNevisande),
+        bookMotarjem:
+            (bookMotarjem != null ? bookMotarjem.value : this.bookMotarjem),
+        bookDiscountPrice: (bookDiscountPrice != null
+            ? bookDiscountPrice.value
+            : this.bookDiscountPrice),
+        bookTitle: (bookTitle != null ? bookTitle.value : this.bookTitle),
+        bookDescription: (bookDescription != null
+            ? bookDescription.value
+            : this.bookDescription),
+        bookImageUrl:
+            (bookImageUrl != null ? bookImageUrl.value : this.bookImageUrl),
+        bookOrderId:
+            (bookOrderId != null ? bookOrderId.value : this.bookOrderId),
+        id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class BookOrderItemDtoListApiResult {
+  const BookOrderItemDtoListApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory BookOrderItemDtoListApiResult.fromJson(Map<String, dynamic> json) =>
+      _$BookOrderItemDtoListApiResultFromJson(json);
+
+  static const toJsonFactory = _$BookOrderItemDtoListApiResultToJson;
+  Map<String, dynamic> toJson() => _$BookOrderItemDtoListApiResultToJson(this);
+
+  @JsonKey(
+      name: 'data', includeIfNull: false, defaultValue: <BookOrderItemDto>[])
+  final List<BookOrderItemDto>? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$BookOrderItemDtoListApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is BookOrderItemDtoListApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $BookOrderItemDtoListApiResultExtension
+    on BookOrderItemDtoListApiResult {
+  BookOrderItemDtoListApiResult copyWith(
+      {List<BookOrderItemDto>? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return BookOrderItemDtoListApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  BookOrderItemDtoListApiResult copyWithWrapped(
+      {Wrapped<List<BookOrderItemDto>?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return BookOrderItemDtoListApiResult(
         data: (data != null ? data.value : this.data),
         isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
         statusCode: (statusCode != null ? statusCode.value : this.statusCode),
@@ -1291,6 +1743,435 @@ extension $CategoryDtoListApiResultExtension on CategoryDtoListApiResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ClientLoginDto {
+  const ClientLoginDto({
+    this.nationalCode,
+    this.phoneNumber,
+    this.otp,
+    this.compeleteProfile,
+  });
+
+  factory ClientLoginDto.fromJson(Map<String, dynamic> json) =>
+      _$ClientLoginDtoFromJson(json);
+
+  static const toJsonFactory = _$ClientLoginDtoToJson;
+  Map<String, dynamic> toJson() => _$ClientLoginDtoToJson(this);
+
+  @JsonKey(name: 'nationalCode', includeIfNull: false)
+  final String? nationalCode;
+  @JsonKey(name: 'phoneNumber', includeIfNull: false)
+  final String? phoneNumber;
+  @JsonKey(name: 'otp', includeIfNull: false)
+  final String? otp;
+  @JsonKey(name: 'compeleteProfile', includeIfNull: false)
+  final bool? compeleteProfile;
+  static const fromJsonFactory = _$ClientLoginDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ClientLoginDto &&
+            (identical(other.nationalCode, nationalCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.nationalCode, nationalCode)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.otp, otp) ||
+                const DeepCollectionEquality().equals(other.otp, otp)) &&
+            (identical(other.compeleteProfile, compeleteProfile) ||
+                const DeepCollectionEquality()
+                    .equals(other.compeleteProfile, compeleteProfile)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(nationalCode) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(otp) ^
+      const DeepCollectionEquality().hash(compeleteProfile) ^
+      runtimeType.hashCode;
+}
+
+extension $ClientLoginDtoExtension on ClientLoginDto {
+  ClientLoginDto copyWith(
+      {String? nationalCode,
+      String? phoneNumber,
+      String? otp,
+      bool? compeleteProfile}) {
+    return ClientLoginDto(
+        nationalCode: nationalCode ?? this.nationalCode,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        otp: otp ?? this.otp,
+        compeleteProfile: compeleteProfile ?? this.compeleteProfile);
+  }
+
+  ClientLoginDto copyWithWrapped(
+      {Wrapped<String?>? nationalCode,
+      Wrapped<String?>? phoneNumber,
+      Wrapped<String?>? otp,
+      Wrapped<bool?>? compeleteProfile}) {
+    return ClientLoginDto(
+        nationalCode:
+            (nationalCode != null ? nationalCode.value : this.nationalCode),
+        phoneNumber:
+            (phoneNumber != null ? phoneNumber.value : this.phoneNumber),
+        otp: (otp != null ? otp.value : this.otp),
+        compeleteProfile: (compeleteProfile != null
+            ? compeleteProfile.value
+            : this.compeleteProfile));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ClientLoginDtoApiResult {
+  const ClientLoginDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory ClientLoginDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$ClientLoginDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$ClientLoginDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$ClientLoginDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final ClientLoginDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$ClientLoginDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ClientLoginDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $ClientLoginDtoApiResultExtension on ClientLoginDtoApiResult {
+  ClientLoginDtoApiResult copyWith(
+      {ClientLoginDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return ClientLoginDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  ClientLoginDtoApiResult copyWithWrapped(
+      {Wrapped<ClientLoginDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return ClientLoginDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ConfrenceStaffDto {
+  const ConfrenceStaffDto({
+    this.firstName,
+    this.lastName,
+    this.nationalCode,
+    this.role,
+    this.id,
+  });
+
+  factory ConfrenceStaffDto.fromJson(Map<String, dynamic> json) =>
+      _$ConfrenceStaffDtoFromJson(json);
+
+  static const toJsonFactory = _$ConfrenceStaffDtoToJson;
+  Map<String, dynamic> toJson() => _$ConfrenceStaffDtoToJson(this);
+
+  @JsonKey(name: 'firstName', includeIfNull: false)
+  final String? firstName;
+  @JsonKey(name: 'lastName', includeIfNull: false)
+  final String? lastName;
+  @JsonKey(name: 'nationalCode', includeIfNull: false)
+  final String? nationalCode;
+  @JsonKey(name: 'role', includeIfNull: false)
+  final String? role;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$ConfrenceStaffDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ConfrenceStaffDto &&
+            (identical(other.firstName, firstName) ||
+                const DeepCollectionEquality()
+                    .equals(other.firstName, firstName)) &&
+            (identical(other.lastName, lastName) ||
+                const DeepCollectionEquality()
+                    .equals(other.lastName, lastName)) &&
+            (identical(other.nationalCode, nationalCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.nationalCode, nationalCode)) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(firstName) ^
+      const DeepCollectionEquality().hash(lastName) ^
+      const DeepCollectionEquality().hash(nationalCode) ^
+      const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $ConfrenceStaffDtoExtension on ConfrenceStaffDto {
+  ConfrenceStaffDto copyWith(
+      {String? firstName,
+      String? lastName,
+      String? nationalCode,
+      String? role,
+      String? id}) {
+    return ConfrenceStaffDto(
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        nationalCode: nationalCode ?? this.nationalCode,
+        role: role ?? this.role,
+        id: id ?? this.id);
+  }
+
+  ConfrenceStaffDto copyWithWrapped(
+      {Wrapped<String?>? firstName,
+      Wrapped<String?>? lastName,
+      Wrapped<String?>? nationalCode,
+      Wrapped<String?>? role,
+      Wrapped<String?>? id}) {
+    return ConfrenceStaffDto(
+        firstName: (firstName != null ? firstName.value : this.firstName),
+        lastName: (lastName != null ? lastName.value : this.lastName),
+        nationalCode:
+            (nationalCode != null ? nationalCode.value : this.nationalCode),
+        role: (role != null ? role.value : this.role),
+        id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ConfrenceStaffDtoApiResult {
+  const ConfrenceStaffDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory ConfrenceStaffDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$ConfrenceStaffDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$ConfrenceStaffDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$ConfrenceStaffDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final ConfrenceStaffDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$ConfrenceStaffDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ConfrenceStaffDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $ConfrenceStaffDtoApiResultExtension on ConfrenceStaffDtoApiResult {
+  ConfrenceStaffDtoApiResult copyWith(
+      {ConfrenceStaffDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return ConfrenceStaffDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  ConfrenceStaffDtoApiResult copyWithWrapped(
+      {Wrapped<ConfrenceStaffDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return ConfrenceStaffDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ConfrenceStaffDtoListApiResult {
+  const ConfrenceStaffDtoListApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory ConfrenceStaffDtoListApiResult.fromJson(Map<String, dynamic> json) =>
+      _$ConfrenceStaffDtoListApiResultFromJson(json);
+
+  static const toJsonFactory = _$ConfrenceStaffDtoListApiResultToJson;
+  Map<String, dynamic> toJson() => _$ConfrenceStaffDtoListApiResultToJson(this);
+
+  @JsonKey(
+      name: 'data', includeIfNull: false, defaultValue: <ConfrenceStaffDto>[])
+  final List<ConfrenceStaffDto>? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$ConfrenceStaffDtoListApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ConfrenceStaffDtoListApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $ConfrenceStaffDtoListApiResultExtension
+    on ConfrenceStaffDtoListApiResult {
+  ConfrenceStaffDtoListApiResult copyWith(
+      {List<ConfrenceStaffDto>? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return ConfrenceStaffDtoListApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  ConfrenceStaffDtoListApiResult copyWithWrapped(
+      {Wrapped<List<ConfrenceStaffDto>?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return ConfrenceStaffDtoListApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class ExpertiseDto {
   const ExpertiseDto({
     this.name,
@@ -1564,6 +2445,332 @@ extension $LoginDtoExtension on LoginDto {
     return LoginDto(
         userName: (userName != null ? userName.value : this.userName),
         password: (password != null ? password.value : this.password));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NationalLoginDto {
+  const NationalLoginDto({
+    this.nationalCode,
+    this.phoneNumber,
+    this.otp,
+  });
+
+  factory NationalLoginDto.fromJson(Map<String, dynamic> json) =>
+      _$NationalLoginDtoFromJson(json);
+
+  static const toJsonFactory = _$NationalLoginDtoToJson;
+  Map<String, dynamic> toJson() => _$NationalLoginDtoToJson(this);
+
+  @JsonKey(name: 'nationalCode', includeIfNull: false)
+  final String? nationalCode;
+  @JsonKey(name: 'phoneNumber', includeIfNull: false)
+  final String? phoneNumber;
+  @JsonKey(name: 'otp', includeIfNull: false)
+  final String? otp;
+  static const fromJsonFactory = _$NationalLoginDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is NationalLoginDto &&
+            (identical(other.nationalCode, nationalCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.nationalCode, nationalCode)) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.phoneNumber, phoneNumber)) &&
+            (identical(other.otp, otp) ||
+                const DeepCollectionEquality().equals(other.otp, otp)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(nationalCode) ^
+      const DeepCollectionEquality().hash(phoneNumber) ^
+      const DeepCollectionEquality().hash(otp) ^
+      runtimeType.hashCode;
+}
+
+extension $NationalLoginDtoExtension on NationalLoginDto {
+  NationalLoginDto copyWith(
+      {String? nationalCode, String? phoneNumber, String? otp}) {
+    return NationalLoginDto(
+        nationalCode: nationalCode ?? this.nationalCode,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        otp: otp ?? this.otp);
+  }
+
+  NationalLoginDto copyWithWrapped(
+      {Wrapped<String?>? nationalCode,
+      Wrapped<String?>? phoneNumber,
+      Wrapped<String?>? otp}) {
+    return NationalLoginDto(
+        nationalCode:
+            (nationalCode != null ? nationalCode.value : this.nationalCode),
+        phoneNumber:
+            (phoneNumber != null ? phoneNumber.value : this.phoneNumber),
+        otp: (otp != null ? otp.value : this.otp));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NationalLoginDtoApiResult {
+  const NationalLoginDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory NationalLoginDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$NationalLoginDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$NationalLoginDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$NationalLoginDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final NationalLoginDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$NationalLoginDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is NationalLoginDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $NationalLoginDtoApiResultExtension on NationalLoginDtoApiResult {
+  NationalLoginDtoApiResult copyWith(
+      {NationalLoginDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return NationalLoginDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  NationalLoginDtoApiResult copyWithWrapped(
+      {Wrapped<NationalLoginDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return NationalLoginDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NotificationDto {
+  const NotificationDto({
+    this.title,
+    this.message,
+    this.userId,
+    this.dueDate,
+    this.id,
+  });
+
+  factory NotificationDto.fromJson(Map<String, dynamic> json) =>
+      _$NotificationDtoFromJson(json);
+
+  static const toJsonFactory = _$NotificationDtoToJson;
+  Map<String, dynamic> toJson() => _$NotificationDtoToJson(this);
+
+  @JsonKey(name: 'title', includeIfNull: false)
+  final String? title;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  @JsonKey(name: 'userId', includeIfNull: false)
+  final String? userId;
+  @JsonKey(name: 'dueDate', includeIfNull: false)
+  final DateTime? dueDate;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$NotificationDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is NotificationDto &&
+            (identical(other.title, title) ||
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality()
+                    .equals(other.message, message)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.dueDate, dueDate) ||
+                const DeepCollectionEquality()
+                    .equals(other.dueDate, dueDate)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(message) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(dueDate) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $NotificationDtoExtension on NotificationDto {
+  NotificationDto copyWith(
+      {String? title,
+      String? message,
+      String? userId,
+      DateTime? dueDate,
+      String? id}) {
+    return NotificationDto(
+        title: title ?? this.title,
+        message: message ?? this.message,
+        userId: userId ?? this.userId,
+        dueDate: dueDate ?? this.dueDate,
+        id: id ?? this.id);
+  }
+
+  NotificationDto copyWithWrapped(
+      {Wrapped<String?>? title,
+      Wrapped<String?>? message,
+      Wrapped<String?>? userId,
+      Wrapped<DateTime?>? dueDate,
+      Wrapped<String?>? id}) {
+    return NotificationDto(
+        title: (title != null ? title.value : this.title),
+        message: (message != null ? message.value : this.message),
+        userId: (userId != null ? userId.value : this.userId),
+        dueDate: (dueDate != null ? dueDate.value : this.dueDate),
+        id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class NotificationDtoApiResult {
+  const NotificationDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory NotificationDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$NotificationDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$NotificationDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$NotificationDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final NotificationDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$NotificationDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is NotificationDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $NotificationDtoApiResultExtension on NotificationDtoApiResult {
+  NotificationDtoApiResult copyWith(
+      {NotificationDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return NotificationDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  NotificationDtoApiResult copyWithWrapped(
+      {Wrapped<NotificationDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return NotificationDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
   }
 }
 
@@ -2064,6 +3271,420 @@ extension $SettingDtoExtension on SettingDto {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ShopCardDto {
+  const ShopCardDto({
+    this.totalPrice,
+    this.rawPrice,
+    this.userId,
+    this.shopCardItems,
+    this.id,
+  });
+
+  factory ShopCardDto.fromJson(Map<String, dynamic> json) =>
+      _$ShopCardDtoFromJson(json);
+
+  static const toJsonFactory = _$ShopCardDtoToJson;
+  Map<String, dynamic> toJson() => _$ShopCardDtoToJson(this);
+
+  @JsonKey(name: 'totalPrice', includeIfNull: false)
+  final int? totalPrice;
+  @JsonKey(name: 'rawPrice', includeIfNull: false)
+  final int? rawPrice;
+  @JsonKey(name: 'userId', includeIfNull: false)
+  final String? userId;
+  @JsonKey(
+      name: 'shopCardItems',
+      includeIfNull: false,
+      defaultValue: <ShopCardItemDto>[])
+  final List<ShopCardItemDto>? shopCardItems;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$ShopCardDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ShopCardDto &&
+            (identical(other.totalPrice, totalPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.totalPrice, totalPrice)) &&
+            (identical(other.rawPrice, rawPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.rawPrice, rawPrice)) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.shopCardItems, shopCardItems) ||
+                const DeepCollectionEquality()
+                    .equals(other.shopCardItems, shopCardItems)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(totalPrice) ^
+      const DeepCollectionEquality().hash(rawPrice) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(shopCardItems) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $ShopCardDtoExtension on ShopCardDto {
+  ShopCardDto copyWith(
+      {int? totalPrice,
+      int? rawPrice,
+      String? userId,
+      List<ShopCardItemDto>? shopCardItems,
+      String? id}) {
+    return ShopCardDto(
+        totalPrice: totalPrice ?? this.totalPrice,
+        rawPrice: rawPrice ?? this.rawPrice,
+        userId: userId ?? this.userId,
+        shopCardItems: shopCardItems ?? this.shopCardItems,
+        id: id ?? this.id);
+  }
+
+  ShopCardDto copyWithWrapped(
+      {Wrapped<int?>? totalPrice,
+      Wrapped<int?>? rawPrice,
+      Wrapped<String?>? userId,
+      Wrapped<List<ShopCardItemDto>?>? shopCardItems,
+      Wrapped<String?>? id}) {
+    return ShopCardDto(
+        totalPrice: (totalPrice != null ? totalPrice.value : this.totalPrice),
+        rawPrice: (rawPrice != null ? rawPrice.value : this.rawPrice),
+        userId: (userId != null ? userId.value : this.userId),
+        shopCardItems:
+            (shopCardItems != null ? shopCardItems.value : this.shopCardItems),
+        id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ShopCardDtoApiResult {
+  const ShopCardDtoApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory ShopCardDtoApiResult.fromJson(Map<String, dynamic> json) =>
+      _$ShopCardDtoApiResultFromJson(json);
+
+  static const toJsonFactory = _$ShopCardDtoApiResultToJson;
+  Map<String, dynamic> toJson() => _$ShopCardDtoApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final ShopCardDto? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$ShopCardDtoApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ShopCardDtoApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $ShopCardDtoApiResultExtension on ShopCardDtoApiResult {
+  ShopCardDtoApiResult copyWith(
+      {ShopCardDto? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return ShopCardDtoApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  ShopCardDtoApiResult copyWithWrapped(
+      {Wrapped<ShopCardDto?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return ShopCardDtoApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ShopCardItemDto {
+  const ShopCardItemDto({
+    this.bookId,
+    this.bookPrice,
+    this.bookNevisande,
+    this.bookMotarjem,
+    this.bookDiscountPrice,
+    this.bookTitle,
+    this.bookDescription,
+    this.bookImageUrl,
+    this.shopCardId,
+    this.id,
+  });
+
+  factory ShopCardItemDto.fromJson(Map<String, dynamic> json) =>
+      _$ShopCardItemDtoFromJson(json);
+
+  static const toJsonFactory = _$ShopCardItemDtoToJson;
+  Map<String, dynamic> toJson() => _$ShopCardItemDtoToJson(this);
+
+  @JsonKey(name: 'bookId', includeIfNull: false)
+  final String? bookId;
+  @JsonKey(name: 'bookPrice', includeIfNull: false)
+  final int? bookPrice;
+  @JsonKey(name: 'bookNevisande', includeIfNull: false)
+  final String? bookNevisande;
+  @JsonKey(name: 'bookMotarjem', includeIfNull: false)
+  final String? bookMotarjem;
+  @JsonKey(name: 'bookDiscountPrice', includeIfNull: false)
+  final int? bookDiscountPrice;
+  @JsonKey(name: 'bookTitle', includeIfNull: false)
+  final String? bookTitle;
+  @JsonKey(name: 'bookDescription', includeIfNull: false)
+  final String? bookDescription;
+  @JsonKey(name: 'bookImageUrl', includeIfNull: false)
+  final String? bookImageUrl;
+  @JsonKey(name: 'shopCardId', includeIfNull: false)
+  final String? shopCardId;
+  @JsonKey(name: 'id', includeIfNull: false)
+  final String? id;
+  static const fromJsonFactory = _$ShopCardItemDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ShopCardItemDto &&
+            (identical(other.bookId, bookId) ||
+                const DeepCollectionEquality().equals(other.bookId, bookId)) &&
+            (identical(other.bookPrice, bookPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookPrice, bookPrice)) &&
+            (identical(other.bookNevisande, bookNevisande) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookNevisande, bookNevisande)) &&
+            (identical(other.bookMotarjem, bookMotarjem) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookMotarjem, bookMotarjem)) &&
+            (identical(other.bookDiscountPrice, bookDiscountPrice) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookDiscountPrice, bookDiscountPrice)) &&
+            (identical(other.bookTitle, bookTitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookTitle, bookTitle)) &&
+            (identical(other.bookDescription, bookDescription) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookDescription, bookDescription)) &&
+            (identical(other.bookImageUrl, bookImageUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.bookImageUrl, bookImageUrl)) &&
+            (identical(other.shopCardId, shopCardId) ||
+                const DeepCollectionEquality()
+                    .equals(other.shopCardId, shopCardId)) &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(bookId) ^
+      const DeepCollectionEquality().hash(bookPrice) ^
+      const DeepCollectionEquality().hash(bookNevisande) ^
+      const DeepCollectionEquality().hash(bookMotarjem) ^
+      const DeepCollectionEquality().hash(bookDiscountPrice) ^
+      const DeepCollectionEquality().hash(bookTitle) ^
+      const DeepCollectionEquality().hash(bookDescription) ^
+      const DeepCollectionEquality().hash(bookImageUrl) ^
+      const DeepCollectionEquality().hash(shopCardId) ^
+      const DeepCollectionEquality().hash(id) ^
+      runtimeType.hashCode;
+}
+
+extension $ShopCardItemDtoExtension on ShopCardItemDto {
+  ShopCardItemDto copyWith(
+      {String? bookId,
+      int? bookPrice,
+      String? bookNevisande,
+      String? bookMotarjem,
+      int? bookDiscountPrice,
+      String? bookTitle,
+      String? bookDescription,
+      String? bookImageUrl,
+      String? shopCardId,
+      String? id}) {
+    return ShopCardItemDto(
+        bookId: bookId ?? this.bookId,
+        bookPrice: bookPrice ?? this.bookPrice,
+        bookNevisande: bookNevisande ?? this.bookNevisande,
+        bookMotarjem: bookMotarjem ?? this.bookMotarjem,
+        bookDiscountPrice: bookDiscountPrice ?? this.bookDiscountPrice,
+        bookTitle: bookTitle ?? this.bookTitle,
+        bookDescription: bookDescription ?? this.bookDescription,
+        bookImageUrl: bookImageUrl ?? this.bookImageUrl,
+        shopCardId: shopCardId ?? this.shopCardId,
+        id: id ?? this.id);
+  }
+
+  ShopCardItemDto copyWithWrapped(
+      {Wrapped<String?>? bookId,
+      Wrapped<int?>? bookPrice,
+      Wrapped<String?>? bookNevisande,
+      Wrapped<String?>? bookMotarjem,
+      Wrapped<int?>? bookDiscountPrice,
+      Wrapped<String?>? bookTitle,
+      Wrapped<String?>? bookDescription,
+      Wrapped<String?>? bookImageUrl,
+      Wrapped<String?>? shopCardId,
+      Wrapped<String?>? id}) {
+    return ShopCardItemDto(
+        bookId: (bookId != null ? bookId.value : this.bookId),
+        bookPrice: (bookPrice != null ? bookPrice.value : this.bookPrice),
+        bookNevisande:
+            (bookNevisande != null ? bookNevisande.value : this.bookNevisande),
+        bookMotarjem:
+            (bookMotarjem != null ? bookMotarjem.value : this.bookMotarjem),
+        bookDiscountPrice: (bookDiscountPrice != null
+            ? bookDiscountPrice.value
+            : this.bookDiscountPrice),
+        bookTitle: (bookTitle != null ? bookTitle.value : this.bookTitle),
+        bookDescription: (bookDescription != null
+            ? bookDescription.value
+            : this.bookDescription),
+        bookImageUrl:
+            (bookImageUrl != null ? bookImageUrl.value : this.bookImageUrl),
+        shopCardId: (shopCardId != null ? shopCardId.value : this.shopCardId),
+        id: (id != null ? id.value : this.id));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class StringApiResult {
+  const StringApiResult({
+    this.data,
+    this.isSuccess,
+    this.statusCode,
+    this.message,
+  });
+
+  factory StringApiResult.fromJson(Map<String, dynamic> json) =>
+      _$StringApiResultFromJson(json);
+
+  static const toJsonFactory = _$StringApiResultToJson;
+  Map<String, dynamic> toJson() => _$StringApiResultToJson(this);
+
+  @JsonKey(name: 'data', includeIfNull: false)
+  final String? data;
+  @JsonKey(name: 'isSuccess', includeIfNull: false)
+  final bool? isSuccess;
+  @JsonKey(
+    name: 'statusCode',
+    includeIfNull: false,
+    toJson: apiResultStatusCodeNullableToJson,
+    fromJson: apiResultStatusCodeNullableFromJson,
+  )
+  final enums.ApiResultStatusCode? statusCode;
+  @JsonKey(name: 'message', includeIfNull: false)
+  final String? message;
+  static const fromJsonFactory = _$StringApiResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StringApiResult &&
+            (identical(other.data, data) ||
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.statusCode, statusCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.statusCode, statusCode)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(statusCode) ^
+      const DeepCollectionEquality().hash(message) ^
+      runtimeType.hashCode;
+}
+
+extension $StringApiResultExtension on StringApiResult {
+  StringApiResult copyWith(
+      {String? data,
+      bool? isSuccess,
+      enums.ApiResultStatusCode? statusCode,
+      String? message}) {
+    return StringApiResult(
+        data: data ?? this.data,
+        isSuccess: isSuccess ?? this.isSuccess,
+        statusCode: statusCode ?? this.statusCode,
+        message: message ?? this.message);
+  }
+
+  StringApiResult copyWithWrapped(
+      {Wrapped<String?>? data,
+      Wrapped<bool?>? isSuccess,
+      Wrapped<enums.ApiResultStatusCode?>? statusCode,
+      Wrapped<String?>? message}) {
+    return StringApiResult(
+        data: (data != null ? data.value : this.data),
+        isSuccess: (isSuccess != null ? isSuccess.value : this.isSuccess),
+        statusCode: (statusCode != null ? statusCode.value : this.statusCode),
+        message: (message != null ? message.value : this.message));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class SubscriptionDto {
   const SubscriptionDto({
     this.name,
@@ -2439,6 +4060,7 @@ class UserDto {
   const UserDto({
     this.sex,
     this.userName,
+    this.code,
     this.phoneNumber,
     this.firstName,
     this.lastName,
@@ -2452,11 +4074,17 @@ class UserDto {
     this.showUserRole,
     this.password,
     this.walletAmount,
+    this.foodDays,
+    this.hasGift,
+    this.role,
+    this.stepTwo,
     this.hasSub,
     this.subDueDate,
     this.subName,
     this.subPrice,
     this.isActive,
+    this.reshte,
+    this.takhasos,
     this.expertises,
     this.categories,
     this.id,
@@ -2477,6 +4105,8 @@ class UserDto {
   final enums.Sex? sex;
   @JsonKey(name: 'userName', includeIfNull: false)
   final String? userName;
+  @JsonKey(name: 'code', includeIfNull: false)
+  final String? code;
   @JsonKey(name: 'phoneNumber', includeIfNull: false)
   final String? phoneNumber;
   @JsonKey(name: 'firstName', includeIfNull: false)
@@ -2508,6 +4138,14 @@ class UserDto {
   final String? password;
   @JsonKey(name: 'walletAmount', includeIfNull: false)
   final int? walletAmount;
+  @JsonKey(name: 'foodDays', includeIfNull: false)
+  final String? foodDays;
+  @JsonKey(name: 'hasGift', includeIfNull: false)
+  final bool? hasGift;
+  @JsonKey(name: 'role', includeIfNull: false)
+  final String? role;
+  @JsonKey(name: 'stepTwo', includeIfNull: false)
+  final bool? stepTwo;
   @JsonKey(name: 'hasSub', includeIfNull: false)
   final bool? hasSub;
   @JsonKey(name: 'subDueDate', includeIfNull: false)
@@ -2518,6 +4156,10 @@ class UserDto {
   final int? subPrice;
   @JsonKey(name: 'isActive', includeIfNull: false)
   final bool? isActive;
+  @JsonKey(name: 'reshte', includeIfNull: false)
+  final String? reshte;
+  @JsonKey(name: 'takhasos', includeIfNull: false)
+  final String? takhasos;
   @JsonKey(
       name: 'expertises', includeIfNull: false, defaultValue: <ExpertiseDto>[])
   final List<ExpertiseDto>? expertises;
@@ -2537,6 +4179,8 @@ class UserDto {
             (identical(other.userName, userName) ||
                 const DeepCollectionEquality()
                     .equals(other.userName, userName)) &&
+            (identical(other.code, code) ||
+                const DeepCollectionEquality().equals(other.code, code)) &&
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.phoneNumber, phoneNumber)) &&
@@ -2576,6 +4220,17 @@ class UserDto {
             (identical(other.walletAmount, walletAmount) ||
                 const DeepCollectionEquality()
                     .equals(other.walletAmount, walletAmount)) &&
+            (identical(other.foodDays, foodDays) ||
+                const DeepCollectionEquality()
+                    .equals(other.foodDays, foodDays)) &&
+            (identical(other.hasGift, hasGift) ||
+                const DeepCollectionEquality()
+                    .equals(other.hasGift, hasGift)) &&
+            (identical(other.role, role) ||
+                const DeepCollectionEquality().equals(other.role, role)) &&
+            (identical(other.stepTwo, stepTwo) ||
+                const DeepCollectionEquality()
+                    .equals(other.stepTwo, stepTwo)) &&
             (identical(other.hasSub, hasSub) ||
                 const DeepCollectionEquality().equals(other.hasSub, hasSub)) &&
             (identical(other.subDueDate, subDueDate) ||
@@ -2585,19 +4240,13 @@ class UserDto {
                 const DeepCollectionEquality()
                     .equals(other.subName, subName)) &&
             (identical(other.subPrice, subPrice) ||
-                const DeepCollectionEquality()
-                    .equals(other.subPrice, subPrice)) &&
-            (identical(other.isActive, isActive) ||
-                const DeepCollectionEquality()
-                    .equals(other.isActive, isActive)) &&
-            (identical(other.expertises, expertises) ||
-                const DeepCollectionEquality()
-                    .equals(other.expertises, expertises)) &&
-            (identical(other.categories, categories) ||
-                const DeepCollectionEquality()
-                    .equals(other.categories, categories)) &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)));
+                const DeepCollectionEquality().equals(other.subPrice, subPrice)) &&
+            (identical(other.isActive, isActive) || const DeepCollectionEquality().equals(other.isActive, isActive)) &&
+            (identical(other.reshte, reshte) || const DeepCollectionEquality().equals(other.reshte, reshte)) &&
+            (identical(other.takhasos, takhasos) || const DeepCollectionEquality().equals(other.takhasos, takhasos)) &&
+            (identical(other.expertises, expertises) || const DeepCollectionEquality().equals(other.expertises, expertises)) &&
+            (identical(other.categories, categories) || const DeepCollectionEquality().equals(other.categories, categories)) &&
+            (identical(other.id, id) || const DeepCollectionEquality().equals(other.id, id)));
   }
 
   @override
@@ -2607,6 +4256,7 @@ class UserDto {
   int get hashCode =>
       const DeepCollectionEquality().hash(sex) ^
       const DeepCollectionEquality().hash(userName) ^
+      const DeepCollectionEquality().hash(code) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(firstName) ^
       const DeepCollectionEquality().hash(lastName) ^
@@ -2620,11 +4270,17 @@ class UserDto {
       const DeepCollectionEquality().hash(showUserRole) ^
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(walletAmount) ^
+      const DeepCollectionEquality().hash(foodDays) ^
+      const DeepCollectionEquality().hash(hasGift) ^
+      const DeepCollectionEquality().hash(role) ^
+      const DeepCollectionEquality().hash(stepTwo) ^
       const DeepCollectionEquality().hash(hasSub) ^
       const DeepCollectionEquality().hash(subDueDate) ^
       const DeepCollectionEquality().hash(subName) ^
       const DeepCollectionEquality().hash(subPrice) ^
       const DeepCollectionEquality().hash(isActive) ^
+      const DeepCollectionEquality().hash(reshte) ^
+      const DeepCollectionEquality().hash(takhasos) ^
       const DeepCollectionEquality().hash(expertises) ^
       const DeepCollectionEquality().hash(categories) ^
       const DeepCollectionEquality().hash(id) ^
@@ -2635,6 +4291,7 @@ extension $UserDtoExtension on UserDto {
   UserDto copyWith(
       {enums.Sex? sex,
       String? userName,
+      String? code,
       String? phoneNumber,
       String? firstName,
       String? lastName,
@@ -2648,17 +4305,24 @@ extension $UserDtoExtension on UserDto {
       String? showUserRole,
       String? password,
       int? walletAmount,
+      String? foodDays,
+      bool? hasGift,
+      String? role,
+      bool? stepTwo,
       bool? hasSub,
       DateTime? subDueDate,
       String? subName,
       int? subPrice,
       bool? isActive,
+      String? reshte,
+      String? takhasos,
       List<ExpertiseDto>? expertises,
       List<CategoryDto>? categories,
       String? id}) {
     return UserDto(
         sex: sex ?? this.sex,
         userName: userName ?? this.userName,
+        code: code ?? this.code,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
@@ -2672,11 +4336,17 @@ extension $UserDtoExtension on UserDto {
         showUserRole: showUserRole ?? this.showUserRole,
         password: password ?? this.password,
         walletAmount: walletAmount ?? this.walletAmount,
+        foodDays: foodDays ?? this.foodDays,
+        hasGift: hasGift ?? this.hasGift,
+        role: role ?? this.role,
+        stepTwo: stepTwo ?? this.stepTwo,
         hasSub: hasSub ?? this.hasSub,
         subDueDate: subDueDate ?? this.subDueDate,
         subName: subName ?? this.subName,
         subPrice: subPrice ?? this.subPrice,
         isActive: isActive ?? this.isActive,
+        reshte: reshte ?? this.reshte,
+        takhasos: takhasos ?? this.takhasos,
         expertises: expertises ?? this.expertises,
         categories: categories ?? this.categories,
         id: id ?? this.id);
@@ -2685,6 +4355,7 @@ extension $UserDtoExtension on UserDto {
   UserDto copyWithWrapped(
       {Wrapped<enums.Sex?>? sex,
       Wrapped<String?>? userName,
+      Wrapped<String?>? code,
       Wrapped<String?>? phoneNumber,
       Wrapped<String?>? firstName,
       Wrapped<String?>? lastName,
@@ -2698,17 +4369,24 @@ extension $UserDtoExtension on UserDto {
       Wrapped<String?>? showUserRole,
       Wrapped<String?>? password,
       Wrapped<int?>? walletAmount,
+      Wrapped<String?>? foodDays,
+      Wrapped<bool?>? hasGift,
+      Wrapped<String?>? role,
+      Wrapped<bool?>? stepTwo,
       Wrapped<bool?>? hasSub,
       Wrapped<DateTime?>? subDueDate,
       Wrapped<String?>? subName,
       Wrapped<int?>? subPrice,
       Wrapped<bool?>? isActive,
+      Wrapped<String?>? reshte,
+      Wrapped<String?>? takhasos,
       Wrapped<List<ExpertiseDto>?>? expertises,
       Wrapped<List<CategoryDto>?>? categories,
       Wrapped<String?>? id}) {
     return UserDto(
         sex: (sex != null ? sex.value : this.sex),
         userName: (userName != null ? userName.value : this.userName),
+        code: (code != null ? code.value : this.code),
         phoneNumber:
             (phoneNumber != null ? phoneNumber.value : this.phoneNumber),
         firstName: (firstName != null ? firstName.value : this.firstName),
@@ -2732,11 +4410,17 @@ extension $UserDtoExtension on UserDto {
         password: (password != null ? password.value : this.password),
         walletAmount:
             (walletAmount != null ? walletAmount.value : this.walletAmount),
+        foodDays: (foodDays != null ? foodDays.value : this.foodDays),
+        hasGift: (hasGift != null ? hasGift.value : this.hasGift),
+        role: (role != null ? role.value : this.role),
+        stepTwo: (stepTwo != null ? stepTwo.value : this.stepTwo),
         hasSub: (hasSub != null ? hasSub.value : this.hasSub),
         subDueDate: (subDueDate != null ? subDueDate.value : this.subDueDate),
         subName: (subName != null ? subName.value : this.subName),
         subPrice: (subPrice != null ? subPrice.value : this.subPrice),
         isActive: (isActive != null ? isActive.value : this.isActive),
+        reshte: (reshte != null ? reshte.value : this.reshte),
+        takhasos: (takhasos != null ? takhasos.value : this.takhasos),
         expertises: (expertises != null ? expertises.value : this.expertises),
         categories: (categories != null ? categories.value : this.categories),
         id: (id != null ? id.value : this.id));
@@ -3022,6 +4706,59 @@ extension $ApiV1AuthenticationFreeTokenPost$RequestBodyExtension
         clientId: (clientId != null ? clientId.value : this.clientId),
         clientSecret:
             (clientSecret != null ? clientSecret.value : this.clientSecret));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ApiV1AuthenticationCompleteProfilePost$RequestBody {
+  const ApiV1AuthenticationCompleteProfilePost$RequestBody({
+    this.pofileImage,
+  });
+
+  factory ApiV1AuthenticationCompleteProfilePost$RequestBody.fromJson(
+          Map<String, dynamic> json) =>
+      _$ApiV1AuthenticationCompleteProfilePost$RequestBodyFromJson(json);
+
+  static const toJsonFactory =
+      _$ApiV1AuthenticationCompleteProfilePost$RequestBodyToJson;
+  Map<String, dynamic> toJson() =>
+      _$ApiV1AuthenticationCompleteProfilePost$RequestBodyToJson(this);
+
+  @JsonKey(name: 'PofileImage', includeIfNull: false)
+  final String? pofileImage;
+  static const fromJsonFactory =
+      _$ApiV1AuthenticationCompleteProfilePost$RequestBodyFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ApiV1AuthenticationCompleteProfilePost$RequestBody &&
+            (identical(other.pofileImage, pofileImage) ||
+                const DeepCollectionEquality()
+                    .equals(other.pofileImage, pofileImage)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(pofileImage) ^ runtimeType.hashCode;
+}
+
+extension $ApiV1AuthenticationCompleteProfilePost$RequestBodyExtension
+    on ApiV1AuthenticationCompleteProfilePost$RequestBody {
+  ApiV1AuthenticationCompleteProfilePost$RequestBody copyWith(
+      {String? pofileImage}) {
+    return ApiV1AuthenticationCompleteProfilePost$RequestBody(
+        pofileImage: pofileImage ?? this.pofileImage);
+  }
+
+  ApiV1AuthenticationCompleteProfilePost$RequestBody copyWithWrapped(
+      {Wrapped<String?>? pofileImage}) {
+    return ApiV1AuthenticationCompleteProfilePost$RequestBody(
+        pofileImage:
+            (pofileImage != null ? pofileImage.value : this.pofileImage));
   }
 }
 

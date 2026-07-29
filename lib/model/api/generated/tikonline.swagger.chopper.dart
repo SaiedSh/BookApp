@@ -42,7 +42,7 @@ final class _$Tikonline extends Tikonline {
     List<int>? Banner2ImageFile,
     List<int>? Banner3ImageFile,
   }) {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Admin/Index');
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/Admin/Index');
     final Map<String, dynamic> $params = <String, dynamic>{
       'Banner1ImageUrl': banner1ImageUrl,
       'Banner1Title': banner1Title,
@@ -90,6 +90,20 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
+  Future<Response<NotificationDtoApiResult>>
+      _apiV1AuthenticationNotifListGet() {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/Authentication/NotifList');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<NotificationDtoApiResult, NotificationDtoApiResult>($request);
+  }
+
+  @override
   Future<Response<AccessToken>> _apiV1AuthenticationFreeTokenPost({
     String? grantType,
     String? username,
@@ -100,7 +114,7 @@ final class _$Tikonline extends Tikonline {
     String? clientSecret,
   }) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Authentication/FreeToken');
+        Uri.parse('https://api.tikonline.net/api/v1/Authentication/FreeToken');
     final List<PartValue> $parts = <PartValue>[
       PartValue<String?>(
         'grant_type',
@@ -145,7 +159,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<TempUserDtoApiResult>> _apiV1AuthenticationLoginSignUpPost(
       {required TempUserDto? body}) {
     final Uri $url = Uri.parse(
-        'http://130.185.75.182:5003/api/v1/Authentication/Login_SignUp');
+        'https://api.tikonline.net/api/v1/Authentication/Login_SignUp');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -160,7 +174,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<AccessToken>> _apiV1AuthenticationLoginSignUpValidationPost(
       {required TempUserDto? body}) {
     final Uri $url = Uri.parse(
-        'http://130.185.75.182:5003/api/v1/Authentication/Login_SignUpValidation');
+        'https://api.tikonline.net/api/v1/Authentication/Login_SignUpValidation');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -172,9 +186,41 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
+  Future<Response<NationalLoginDtoApiResult>>
+      _apiV1AuthenticationNationalLoginPost({required NationalLoginDto? body}) {
+    final Uri $url = Uri.parse(
+        'https://api.tikonline.net/api/v1/Authentication/NationalLogin');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client
+        .send<NationalLoginDtoApiResult, NationalLoginDtoApiResult>($request);
+  }
+
+  @override
+  Future<Response<UserDtoApiResult>>
+      _apiV1AuthenticationNationalLoginValidationPost(
+          {required NationalLoginDto? body}) {
+    final Uri $url = Uri.parse(
+        'https://api.tikonline.net/api/v1/Authentication/NationalLoginValidation');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<UserDtoApiResult, UserDtoApiResult>($request);
+  }
+
+  @override
   Future<Response<dynamic>> _apiV1AuthenticationSignOutGet() {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Authentication/SignOut');
+        Uri.parse('https://api.tikonline.net/api/v1/Authentication/SignOut');
     final Request $request = Request(
       'GET',
       $url,
@@ -187,7 +233,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<AccessToken>> _apiV1AuthenticationStaffAuthPost(
       {required LoginDto? body}) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Authentication/StaffAuth');
+        Uri.parse('https://api.tikonline.net/api/v1/Authentication/StaffAuth');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -199,9 +245,77 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
+  Future<Response<ClientLoginDtoApiResult>> _apiV1AuthenticationClientLoginPost(
+      {required ClientLoginDto? body}) {
+    final Uri $url = Uri.parse(
+        'https://api.tikonline.net/api/v1/Authentication/ClientLogin');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client
+        .send<ClientLoginDtoApiResult, ClientLoginDtoApiResult>($request);
+  }
+
+  @override
+  Future<Response<AccessToken>> _apiV1AuthenticationClientLoginValidatePost(
+      {required ClientLoginDto? body}) {
+    final Uri $url = Uri.parse(
+        'https://api.tikonline.net/api/v1/Authentication/ClientLoginValidate');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<AccessToken, AccessToken>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1AuthenticationCompleteProfilePost({
+    required String? firstName,
+    required String? lastName,
+    required String? phoneNumber,
+    required String? nationalCode,
+    String? reshte,
+    String? takhasos,
+    List<int>? PofileImage,
+  }) {
+    final Uri $url = Uri.parse(
+        'https://api.tikonline.net/api/v1/Authentication/CompleteProfile');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'FirstName': firstName,
+      'LastName': lastName,
+      'PhoneNumber': phoneNumber,
+      'NationalCode': nationalCode,
+      'Reshte': reshte,
+      'Takhasos': takhasos,
+    };
+    final List<PartValue> $parts = <PartValue>[
+      PartValueFile<List<int>?>(
+        'PofileImage',
+        PofileImage,
+      )
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
   Future<Response<BookDtoListApiResult>> _apiV1BookListGet(
       {String? categortyId}) {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Book/List');
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/Book/List');
     final Map<String, dynamic> $params = <String, dynamic>{
       'CategortyId': categortyId
     };
@@ -216,7 +330,7 @@ final class _$Tikonline extends Tikonline {
 
   @override
   Future<Response<IndexDtoApiResult>> _apiV1BookIndexGet() {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Book/Index');
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/Book/Index');
     final Request $request = Request(
       'GET',
       $url,
@@ -227,7 +341,7 @@ final class _$Tikonline extends Tikonline {
 
   @override
   Future<Response<BookDtoApiResult>> _apiV1BookDetailGet({String? bookId}) {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Book/Detail');
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/Book/Detail');
     final Map<String, dynamic> $params = <String, dynamic>{'BookId': bookId};
     final Request $request = Request(
       'GET',
@@ -240,11 +354,13 @@ final class _$Tikonline extends Tikonline {
 
   @override
   Future<Response<ApiResult>> _apiV1BookAddPost({
+    String? code,
     bool? niko,
     bool? online,
     bool? physical,
     int? discountPercentage,
     String? physicalLink,
+    String? samplePdfLink,
     String? title,
     String? description,
     String? imageUrl,
@@ -253,6 +369,7 @@ final class _$Tikonline extends Tikonline {
     bool? like,
     bool? read,
     bool? shelf,
+    bool? buy,
     String? nevisande,
     String? entesharat,
     String? motarjem,
@@ -289,13 +406,15 @@ final class _$Tikonline extends Tikonline {
     List<int>? ImageFile,
     List<int>? PdfFile,
   }) {
-    final Uri $url = Uri.parse('http://130.185.75.182:5003/api/v1/Book/Add');
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/Book/Add');
     final Map<String, dynamic> $params = <String, dynamic>{
+      'Code': code,
       'Niko': niko,
       'Online': online,
       'Physical': physical,
       'DiscountPercentage': discountPercentage,
       'PhysicalLink': physicalLink,
+      'SamplePdfLink': samplePdfLink,
       'Title': title,
       'Description': description,
       'ImageUrl': imageUrl,
@@ -304,6 +423,7 @@ final class _$Tikonline extends Tikonline {
       'Like': like,
       'Read': read,
       'Shelf': shelf,
+      'Buy': buy,
       'Nevisande': nevisande,
       'Entesharat': entesharat,
       'Motarjem': motarjem,
@@ -362,7 +482,7 @@ final class _$Tikonline extends Tikonline {
   @override
   Future<Response<BookDtoListApiResult>> _apiV1BookSavedBooksGet({String? st}) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Book/SavedBooks');
+        Uri.parse('https://api.tikonline.net/api/v1/Book/SavedBooks');
     final Map<String, dynamic> $params = <String, dynamic>{'st': st};
     final Request $request = Request(
       'GET',
@@ -379,7 +499,7 @@ final class _$Tikonline extends Tikonline {
     String? st,
   }) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Book/SaveBook');
+        Uri.parse('https://api.tikonline.net/api/v1/Book/SaveBook');
     final Map<String, dynamic> $params = <String, dynamic>{
       'BookId': bookId,
       'st': st,
@@ -397,7 +517,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<ApiResult>> _apiV1BookAddBookReviewPost(
       {required AddBookReviewDto? body}) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Book/AddBookReview');
+        Uri.parse('https://api.tikonline.net/api/v1/Book/AddBookReview');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -411,7 +531,7 @@ final class _$Tikonline extends Tikonline {
   @override
   Future<Response<BookReviewDtoListApiResult>> _apiV1BookMyReviewsGet() {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Book/MyReviews');
+        Uri.parse('https://api.tikonline.net/api/v1/Book/MyReviews');
     final Request $request = Request(
       'GET',
       $url,
@@ -425,7 +545,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<CategoryDtoListApiResult>> _apiV1CategoryListGet(
       {String? motherId}) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Category/List');
+        Uri.parse('https://api.tikonline.net/api/v1/Category/List');
     final Map<String, dynamic> $params = <String, dynamic>{
       'MotherId': motherId
     };
@@ -442,8 +562,7 @@ final class _$Tikonline extends Tikonline {
   @override
   Future<Response<ApiResult>> _apiV1CategoryAddPost(
       {required CategoryDto? body}) {
-    final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Category/Add');
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/Category/Add');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -455,9 +574,99 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
+  Future<Response<ApiResult>> _apiV1ConferenceStaffAddEditPost(
+      {required ConfrenceStaffDto? body}) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ConferenceStaff/AddEdit');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<ConfrenceStaffDtoListApiResult>> _apiV1ConferenceStaffGet() {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ConferenceStaff');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<ConfrenceStaffDtoListApiResult,
+        ConfrenceStaffDtoListApiResult>($request);
+  }
+
+  @override
+  Future<Response<ConfrenceStaffDtoApiResult>> _apiV1ConferenceStaffIdGet(
+      {required String? id}) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ConferenceStaff/${id}');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<ConfrenceStaffDtoApiResult, ConfrenceStaffDtoApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1ConferenceStaffCreatePost(
+      {required ConfrenceStaffDto? body}) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ConferenceStaff/Create');
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1ConferenceStaffUpdatePost({
+    String? id,
+    required ConfrenceStaffDto? body,
+  }) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ConferenceStaff/Update');
+    final Map<String, dynamic> $params = <String, dynamic>{'id': id};
+    final $body = body;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1ConferenceStaffDeletePost({String? id}) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ConferenceStaff/Delete');
+    final Map<String, dynamic> $params = <String, dynamic>{'id': id};
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
   Future<Response<ApiResult>> _apiV1PaymentWalletChargeGet({int? price}) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/WalletCharge');
+        Uri.parse('https://api.tikonline.net/api/v1/Payment/WalletCharge');
     final Map<String, dynamic> $params = <String, dynamic>{'Price': price};
     final Request $request = Request(
       'GET',
@@ -474,7 +683,7 @@ final class _$Tikonline extends Tikonline {
     bool? wallet,
   }) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/BuySubscription');
+        Uri.parse('https://api.tikonline.net/api/v1/Payment/BuySubscription');
     final Map<String, dynamic> $params = <String, dynamic>{
       'SubId': subId,
       'Wallet': wallet,
@@ -492,7 +701,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<SubscriptionDtoListApiResult>>
       _apiV1PaymentSubscriptionListGet() {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/SubscriptionList');
+        Uri.parse('https://api.tikonline.net/api/v1/Payment/SubscriptionList');
     final Request $request = Request(
       'GET',
       $url,
@@ -506,7 +715,7 @@ final class _$Tikonline extends Tikonline {
   Future<Response<PaymentTransactionsDtoListApiResult>>
       _apiV1PaymentUserTransactionsGet() {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/Payment/UserTransactions');
+        Uri.parse('https://api.tikonline.net/api/v1/Payment/UserTransactions');
     final Request $request = Request(
       'GET',
       $url,
@@ -517,9 +726,121 @@ final class _$Tikonline extends Tikonline {
   }
 
   @override
-  Future<Response<UserDtoApiResult>> _apiV1UserProfileGet() {
+  Future<Response<StringApiResult>> _apiV1PaymentPaymentGet() {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/User/Profile');
+        Uri.parse('https://api.tikonline.net/api/v1/Payment/Payment');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<StringApiResult, StringApiResult>($request);
+  }
+
+  @override
+  Future<Response<StringApiResult>> _apiV1PaymentVerifyPaymentGet({
+    String? status,
+    String? authority,
+  }) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/Payment/VerifyPayment');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'Status': status,
+      'authority': authority,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<StringApiResult, StringApiResult>($request);
+  }
+
+  @override
+  Future<Response<ShopCardDtoApiResult>> _apiV1ShopCardGetShopCardGet() {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ShopCard/GetShopCard');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<ShopCardDtoApiResult, ShopCardDtoApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1ShopCardAddorRemoveItemPost({
+    String? bookId,
+    bool? remove,
+  }) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ShopCard/AddorRemoveItem');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'BookId': bookId,
+      'Remove': remove,
+    };
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<ApiResult>> _apiV1ShopCardPayShopCardPost({
+    bool? wallet,
+    String? discountCode,
+  }) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ShopCard/PayShopCard');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'Wallet': wallet,
+      'DiscountCode': discountCode,
+    };
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<ApiResult, ApiResult>($request);
+  }
+
+  @override
+  Future<Response<BookOrderDtoListApiResult>> _apiV1ShopCardGetUserOrdersGet() {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ShopCard/GetUserOrders');
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client
+        .send<BookOrderDtoListApiResult, BookOrderDtoListApiResult>($request);
+  }
+
+  @override
+  Future<Response<BookOrderItemDtoListApiResult>>
+      _apiV1ShopCardGetItemsOfOrderGet({String? orderId}) {
+    final Uri $url =
+        Uri.parse('https://api.tikonline.net/api/v1/ShopCard/GetItemsOfOrder');
+    final Map<String, dynamic> $params = <String, dynamic>{'OrderId': orderId};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<BookOrderItemDtoListApiResult,
+        BookOrderItemDtoListApiResult>($request);
+  }
+
+  @override
+  Future<Response<UserDtoApiResult>> _apiV1UserProfileGet() {
+    final Uri $url = Uri.parse('https://api.tikonline.net/api/v1/User/Profile');
     final Request $request = Request(
       'GET',
       $url,
@@ -547,7 +868,7 @@ final class _$Tikonline extends Tikonline {
     List<int>? UserAvatarFile,
   }) {
     final Uri $url =
-        Uri.parse('http://130.185.75.182:5003/api/v1/User/UpdateProfile');
+        Uri.parse('https://api.tikonline.net/api/v1/User/UpdateProfile');
     final Map<String, dynamic> $params = <String, dynamic>{
       'Sex': sex,
       'UserName': userName,

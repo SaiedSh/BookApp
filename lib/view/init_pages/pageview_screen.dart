@@ -3,6 +3,7 @@ import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/global/global.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _countryCode = '+98';
   TextEditingController _phoneController = TextEditingController();
   final PageController _controller = PageController(initialPage: 0);
-
+  bool visible = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               actions: [
                 Padding(
@@ -65,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.center,
                           'به شیوه تو: خریدن یا دسترسی مدت دار یا کتاب فیزیکی؟',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
+                              fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                       ),
                       SizedBox(
@@ -81,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   text:
                                       ' دوست داری چطور کتابخانه ات را پر کنی؟ می توانی نسخه',
                                   style: TextStyle(
+                                      height: 1.8,
                                       fontFamily: 'Yekan',
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400)),
@@ -88,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   text:
                                       ' دیجیتال کتاب های دلخواهت را بخری یا با مشترک شدن در نیک بوک',
                                   style: TextStyle(
+                                      height: 1.8,
                                       fontFamily: 'Yekan',
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400)),
@@ -95,12 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                   text:
                                       ' پلاس در طول زمان اشتراک به کتاب های دلخواهت دسترسی داشته',
                                   style: TextStyle(
+                                      height: 1.8,
                                       fontFamily: 'Yekan',
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400)),
                               TextSpan(
                                   text: ' باشی یا دلت میخواد کتابو لمس کنی',
                                   style: TextStyle(
+                                    height: 1.8,
                                     fontFamily: 'Yekan',
                                     color: Colors.black,
                                   ))
@@ -175,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           'در دستگاه دلخواه تو',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            fontSize: 16,
                           ),
                         ),
                       ),
@@ -192,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   text:
                                       'موبایل یا کامپیوتر؟ نیکوبوک یا تبلت؟ همزمان می توانی با ',
                                   style: TextStyle(
+                                      height: 1.8,
                                       fontFamily: 'Yekan',
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400)),
@@ -199,6 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   text:
                                       '۳ دستگاه مختلف به کتابخانه ات سر بزنی و مطالعه کنی',
                                   style: TextStyle(
+                                      height: 1.8,
                                       fontFamily: 'Yekan',
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400)),
@@ -285,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.all(16.0),
                           child: SizedBox(
                             width: 300,
-                            height: 40,
+                            height: 45,
                             child: TextField(
                               controller: _phoneController,
                               keyboardType: TextInputType.phone,
@@ -308,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             shape: BoxShape.circle,
                                           ),
                                           textStyle: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 16,
                                               color: Colors.black),
                                           onChanged: (countryCode) {
                                             setState(() {
@@ -340,171 +348,194 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 300,
-                        child: RawMaterialButton(
-                          fillColor: Colors.grey.shade300,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    size: 15,
-                                    color: Colors.grey,
+                      Visibility(
+                        visible: visible,
+                        replacement: SizedBox(
+                          height: 45,
+                          width: 300,
+                          child: RawMaterialButton(
+                              fillColor: Colors.grey.shade300,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: LoadingAnimationWidget.fourRotatingDots(
+                                    color: primaryColor, size: 20),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              onPressed: null),
+                        ),
+                        child: SizedBox(
+                          width: 300,
+                          height: 45,
+                          child: RawMaterialButton(
+                            fillColor: Colors.grey.shade300,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 3),
+                                    child: Icon(
+                                      Icons.arrow_back,
+                                      size: 15,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  'ورود',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.grey),
-                                ),
-                              ],
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'ورود',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            onPressed: () async {
+                              setState(() {
+                                visible = false;
+                              });
+                              login(
+                                      phoneNumber: _phoneController.text,
+                                      context: context)
+                                  .then(
+                                (value) {
+                                  if (value.isSuccess == true) {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.otpScreen,
+                                        arguments: _phoneController.text);
+                                  }
+                                },
+                              );
+                            },
                           ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () async {
-                            login(
-                                    phoneNumber: _phoneController.text,
-                                    context: context)
-                                .then(
-                              (value) {
-                                if (value.isSuccess == true) {
-                                  Navigator.pushNamed(
-                                      context, MyRoutes.otpScreen,
-                                      arguments: _phoneController.text);
-                                }
-                              },
-                            );
-                          },
                         ),
                       ),
                       SizedBox(
                         height: 40,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(child: Divider()),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: Text(
-                                  'یا',
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                            Expanded(child: Divider())
-                          ],
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 100),
+                        child: Divider(),
                       ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: RawMaterialButton(
-                          fillColor: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'با ایمیل',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image(
-                                  image:
-                                      AssetImage('lib/assets/images/email.png'),
-                                  width: 25,
-                                )
-                              ],
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 0.5, color: Colors.grey),
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () async {},
-                        ),
-                      ),
-                      SizedBox(
-                        width: 300,
-                        child: RawMaterialButton(
-                          fillColor: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'با حساب گوگل',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Image(
-                                  image: AssetImage(
-                                      'lib/assets/images/google.png'),
-                                  width: 25,
-                                )
-                              ],
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(width: 0.5, color: Colors.grey),
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () async {},
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 25),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Expanded(child: Divider()),
+                      //       Padding(
+                      //         padding: const EdgeInsets.symmetric(horizontal: 15),
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.only(bottom: 8),
+                      //           child: Text(
+                      //             'یا',
+                      //             style: TextStyle(
+                      //                 color: Colors.grey,
+                      //                 fontWeight: FontWeight.w500),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Expanded(child: Divider())
+                      //     ],
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 40,
+                      // ),
+                      // SizedBox(
+                      //   width: 300,
+                      //   child: RawMaterialButton(
+                      //     fillColor: Colors.white,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.only(bottom: 5),
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         children: [
+                      //           Text(
+                      //             'با ایمیل',
+                      //             style: TextStyle(
+                      //                 fontSize: 12, fontWeight: FontWeight.bold),
+                      //           ),
+                      //           SizedBox(
+                      //             width: 5,
+                      //           ),
+                      //           Image(
+                      //             image: AssetImage('lib/assets/images/email.png'),
+                      //             width: 25,
+                      //           )
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     shape: RoundedRectangleBorder(
+                      //         side: BorderSide(width: 0.5, color: Colors.grey),
+                      //         borderRadius: BorderRadius.circular(5)),
+                      //     onPressed: () async {},
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   width: 300,
+                      //   child: RawMaterialButton(
+                      //     fillColor: Colors.white,
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.only(bottom: 5),
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         children: [
+                      //           Text(
+                      //             'با حساب گوگل',
+                      //             style: TextStyle(
+                      //                 fontSize: 12, fontWeight: FontWeight.bold),
+                      //           ),
+                      //           SizedBox(
+                      //             width: 5,
+                      //           ),
+                      //           Image(
+                      //             image: AssetImage('lib/assets/images/google.png'),
+                      //             width: 25,
+                      //           )
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     shape: RoundedRectangleBorder(
+                      //         side: BorderSide(width: 0.5, color: Colors.grey),
+                      //         borderRadius: BorderRadius.circular(5)),
+                      //     onPressed: () async {},
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 30,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'از نیکو بوک را میپذیرم',
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'قوانین استفاده',
-                                style: TextStyle(
-                                  decorationColor: Colors.blue,
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.blue,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'از نیکو بوک را میپذیرم',
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                            ),
+                            TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  'قوانین استفاده',
+                                  style: TextStyle(
+                                    decorationColor: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ))
+                          ],
+                        ),
                       )
                     ],
                   )

@@ -29,7 +29,7 @@ class BookCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.topLeft, children: [
       Container(
-        height: 300,
+        height: 310,
         width: 160,
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
@@ -38,7 +38,7 @@ class BookCardWidget extends StatelessWidget {
         child: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 7),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,11 +57,32 @@ class BookCardWidget extends StatelessWidget {
                       child: Container(
                         width: 160,
                         height: 110,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('lib/assets/images/book.png')),
-                          borderRadius: BorderRadius.circular(0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            errorBuilder: (BuildContext context, Object error,
+                                StackTrace? stackTrace) {
+                              return Center(
+                                child: Text(
+                                  'تصویر بارگذاری نشد',
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey),
+                                ),
+                              );
+                            },
+                            fit: BoxFit.fill,
+                            bookImage,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                // تصویر لود شده است
+                                return child;
+                              }
+                              // تصویر هنوز در حال لود است
+                              return CircularProgressIndicator();
+                            },
+                          ),
                         ),
+
                         // child: ClipRRect(
                         //   borderRadius: BorderRadius.circular(12),
                         //   child: Image.network(
@@ -93,25 +114,33 @@ class BookCardWidget extends StatelessWidget {
                         )),
                   )
                 ]),
-                Text(
-                  bookName,
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: primaryColor),
-                ),
                 SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  bookWriter,
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.grey),
-                ),
-                SizedBox(
-                  height: 5,
+                  height: 70,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        bookName,
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: primaryColor),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        bookWriter,
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
@@ -133,35 +162,17 @@ class BookCardWidget extends StatelessWidget {
                   ],
                 ),
                 Divider(),
-                // SizedBox(
-                //   width: 100,
-                //   child: RatingBar.builder(
-                //     itemSize: 18,
-                //     initialRating: bookRate,
-                //     minRating: 1,
-                //     direction: Axis.horizontal,
-                //     allowHalfRating: true,
-                //     itemCount: 5,
-                //     itemBuilder: (context, _) => Icon(
-                //       Icons.star,
-                //       color: Colors.amber,
-                //     ),
-                //     onRatingUpdate: (rating) {
-                //       print(rating);
-                //     },
-                //   ),
-                // ),
-                SizedBox(
-                  height: 5,
-                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       textDirection: TextDirection.rtl,
                       bookPrice + " تومان ",
-                      style:
-                          TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade800,
+                      ),
                     ),
                   ],
                 ),
@@ -236,7 +247,7 @@ class BookCardListWidget extends StatelessWidget {
   final String bookPrice;
   final String bookWriter;
   final double bookRate;
-  final String bookId;
+  final String? bookId;
   const BookCardListWidget(
       {super.key,
       required this.bookImage,
@@ -244,7 +255,7 @@ class BookCardListWidget extends StatelessWidget {
       required this.bookPrice,
       required this.bookWriter,
       required this.bookRate,
-      required this.bookId});
+      this.bookId});
 
   @override
   Widget build(BuildContext context) {
@@ -262,26 +273,13 @@ class BookCardListWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          MyRoutes.bookDetail,
-                          arguments: bookId,
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 6, bottom: 10, left: 4, right: 4),
-                        child: Container(
-                          width: 120,
-                          height: 90,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(0),
-                              image: DecorationImage(
-                                  image: AssetImage(bookImage),
-                                  fit: BoxFit.fill)),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.network(
+                        fit: BoxFit.fill,
+                        bookImage,
+                        width: 120,
+                        height: 90,
                       ),
                     ),
                     SizedBox(
@@ -296,7 +294,7 @@ class BookCardListWidget extends StatelessWidget {
                           Text(
                             bookName,
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: primaryColor),
                           ),
@@ -306,7 +304,7 @@ class BookCardListWidget extends StatelessWidget {
                           Text(
                             bookWriter,
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
@@ -316,7 +314,7 @@ class BookCardListWidget extends StatelessWidget {
                           Text(
                             'ناشر : ',
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
@@ -347,7 +345,7 @@ class BookCardListWidget extends StatelessWidget {
                           Text(
                             "4.8 ( 585 )",
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 12,
                               color: Colors.grey.shade700,
                             ),
                           ),
@@ -360,7 +358,7 @@ class BookCardListWidget extends StatelessWidget {
                             textDirection: TextDirection.rtl,
                             "ثبت نقد و امتیاز من",
                             style: TextStyle(
-                                fontSize: 10,
+                                fontSize: 12,
                                 color: Color.fromARGB(255, 0, 174, 212)),
                           ),
                           SizedBox(

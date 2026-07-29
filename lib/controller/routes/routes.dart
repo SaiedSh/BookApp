@@ -7,11 +7,14 @@ import 'package:bookapp/view/home/all_books.dart';
 import 'package:bookapp/view/home/home_screen.dart';
 import 'package:bookapp/view/home/navigationbar_screen.dart';
 import 'package:bookapp/view/init_pages/page_two_screen.dart';
+import 'package:bookapp/view/init_pages/pageview_screen.dart';
 import 'package:bookapp/view/profile/edit_profile.dart';
 import 'package:bookapp/view/profile/profile_screen.dart';
 import 'package:bookapp/view/rating/my_rating.dart';
 import 'package:bookapp/view/rating/rating_screen.dart';
+import 'package:bookapp/view/shop_card/shop_card_screen.dart';
 import 'package:bookapp/view/subscription/buy_subs_screen.dart';
+import 'package:bookapp/view/welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyRoutes {
@@ -31,6 +34,11 @@ class MyRoutes {
   static const String buySubsScreen = "/buySubsScreen";
   static const String myBagScreen = "/myBagScreen";
   static const String myRatingScreen = "/myRatingScreen";
+  static const String myHomePage = "/myHomePage";
+  static const String shopCardScreen = "/shopCardScreen";
+  static const String notificationScreen = "/notificationScreen";
+  static const String wellcomeScreen = "/wellcomeScreen";
+
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       // auth
@@ -146,6 +154,34 @@ class MyRoutes {
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => MyRatingScreen(),
+          transitionsBuilder: (_, a, __, c) =>
+              FadeTransition(opacity: a, child: c),
+        );
+      case myHomePage:
+        return PageRouteBuilder(
+          settings: settings,
+          pageBuilder: (_, __, ___) => MyHomePage(),
+          transitionsBuilder: (_, a, __, c) =>
+              FadeTransition(opacity: a, child: c),
+        );
+      case shopCardScreen:
+        return PageRouteBuilder(
+          settings: settings,
+          pageBuilder: (_, __, ___) => ShopCardScreen(),
+          transitionsBuilder: (_, a, __, c) =>
+              FadeTransition(opacity: a, child: c),
+        );
+      // case notificationScreen:
+      //   return PageRouteBuilder(
+      //     settings: settings,
+      //     pageBuilder: (_, __, ___) => NotificationScreen(),
+      //     transitionsBuilder: (_, a, __, c) =>
+      //         FadeTransition(opacity: a, child: c),
+      //   );
+      case wellcomeScreen:
+        return PageRouteBuilder(
+          settings: settings,
+          pageBuilder: (_, __, ___) => WellcomeScreen(),
           transitionsBuilder: (_, a, __, c) =>
               FadeTransition(opacity: a, child: c),
         );

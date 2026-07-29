@@ -31,11 +31,11 @@ class _DatePickerState extends State<DatePicker> {
         child: InputDecorator(
           child: Text(
             "${widget.selectedDate}",
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: TextStyle(color: Colors.grey, fontSize: 11),
           ),
           decoration: InputDecoration(
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10),
                 child: Image(
                   image: AssetImage('lib/assets/images/birth.png'),
                 ),

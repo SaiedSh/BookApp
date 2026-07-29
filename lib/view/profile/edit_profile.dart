@@ -31,10 +31,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     getUserProfile(context: context).then(
       (value) {
-        name.text = ProfileState.profile!.firstName.toString();
-        familyName.text = ProfileState.profile!.lastName.toString();
+        name.text = ProfileState.profile!.firstName != null
+            ? ProfileState.profile!.firstName.toString()
+            : "";
+        familyName.text = ProfileState.profile!.lastName != null
+            ? ProfileState.profile!.lastName.toString()
+            : "";
         phonenumber.text = ProfileState.profile!.phoneNumber.toString();
-        nationalCode.text = ProfileState.profile!.nationalCode.toString();
+        nationalCode.text = ProfileState.profile!.nationalCode != null
+            ? ProfileState.profile!.nationalCode.toString()
+            : "";
         pervImage = ProfileState.profile!.userAvatar!;
         _selectedOptionIdsCategories = List.generate(
           ProfileState.profile!.categories!.length,
@@ -140,7 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       child: Scaffold(
         bottomSheet: Container(
           width: MediaQuery.of(context).size.width,
-          height: 50,
+          height: 55,
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 50, right: 50, top: 8, bottom: 8),
@@ -150,15 +156,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: RawMaterialButton(
                 fillColor: Color.fromARGB(255, 0, 174, 212),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
+                  padding: const EdgeInsets.only(bottom: 0),
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: Text(
                       'ثبت',
                       style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16),
                     ),
                   ),
                 ),
@@ -189,7 +195,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               borderRadius: BorderRadius.circular(0), color: Colors.white),
         ),
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
+            preferredSize: Size.fromHeight(70),
             child: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: backgroundColor,
@@ -203,6 +209,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
                       children: [
+                        SizedBox(height: 15),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Row(
@@ -215,7 +222,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     'پروفایل',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -350,7 +357,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 20,
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 45,
                                   child: Center(
                                     child: TextField(
                                       controller: name,
@@ -395,7 +402,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 15,
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 45,
                                   child: Center(
                                     child: TextField(
                                       controller: familyName,
@@ -441,7 +448,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 IgnorePointer(
                                   child: SizedBox(
-                                    height: 40,
+                                    height: 45,
                                     child: Center(
                                       child: TextField(
                                         controller: phonenumber,
@@ -490,7 +497,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 15,
                                 ),
                                 SizedBox(
-                                  height: 40,
+                                  height: 45,
                                   child: Center(
                                     child: TextField(
                                       controller: nationalCode,
@@ -546,7 +553,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           Text(
                                             'رمز ورود',
                                             style: TextStyle(
-                                                fontSize: 10,
+                                                fontSize: 12,
                                                 color: Colors.grey,
                                                 fontWeight: FontWeight.bold),
                                           ),
@@ -592,7 +599,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           Text(
                                             'جنسیت',
                                             style: TextStyle(
-                                                fontSize: 10,
+                                                fontSize: 12,
                                                 color: Colors.grey.shade800,
                                                 fontWeight: FontWeight.w500),
                                           ),
@@ -608,7 +615,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Container(
                                       height: 28,
-                                      width: 65,
+                                      width: 80,
                                       decoration: BoxDecoration(
                                           border:
                                               Border.all(color: Colors.grey),
@@ -653,7 +660,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     ),
                                     Container(
                                       height: 28,
-                                      width: 65,
+                                      width: 80,
                                       decoration: BoxDecoration(
                                           border:
                                               Border.all(color: Colors.grey),
@@ -699,6 +706,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 20,
                                 ),
                                 DatePicker(
+                                    height: 45,
                                     selectedDate: selectedDate.persianToEN(),
                                     lable: 'تاریخ تولد',
                                     onTap: _showPersianDatePicker
@@ -719,7 +727,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 15,
                                 ),
                                 Container(
-                                  height: 40,
+                                  height: 45,
                                   child: TextField(
                                     onTap: _openMultiSelectDialogCategories,
                                     controller: TextEditingController(
@@ -784,7 +792,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   height: 15,
                                 ),
                                 Container(
-                                  height: 40,
+                                  height: 45,
                                   child: TextField(
                                     onTap: () async {
                                       // نمایش دیالوگ و انتظار برای انتخاب
@@ -1079,21 +1087,24 @@ Future<ExpertiseDto?> _openSingleSelectDialog(
   return await showDialog<ExpertiseDto>(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Select an item'),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(items[index].name.toString()),
-                onTap: () {
-                  Navigator.of(context).pop(items[index]);
-                },
-              );
-            },
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: AlertDialog(
+          title: Text('انتخاب کنید'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(items[index].name.toString()),
+                  onTap: () {
+                    Navigator.of(context).pop(items[index]);
+                  },
+                );
+              },
+            ),
           ),
         ),
       );

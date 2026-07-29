@@ -1,15 +1,18 @@
+import 'package:bookapp/controller/provider/shop_card_state.dart';
 import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/api/generated/tikonline.swagger.dart';
 import 'package:bookapp/model/services/token.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-Future<ApiResult> walletCharge(
-    {required BuildContext context, int? price}) async {
+Future<ShopCardDtoApiResult> getShopCardList({
+  required BuildContext context,
+}) async {
   final api = Tikonline.create(interceptors: [TokenInterceptor('accessToken')]);
 
-  final postResult = await api.apiV1PaymentWalletChargeGet(price: price);
+  final postResult = await api.apiV1ShopCardGetShopCardGet();
   print(postResult);
   if (postResult.isSuccessful == true) {
     print('Right');
@@ -33,7 +36,9 @@ Future<ApiResult> walletCharge(
       text: postResult.toString(),
     );
   }
-  final response = ApiResult.fromJson(postResult.body!.toJson());
+  final response = ShopCardDtoApiResult.fromJson(postResult.body!.toJson());
+  print(response.data);
+  context.read<ShopCardState>().getShopCards(value: response.data!);
 
   return response;
 }

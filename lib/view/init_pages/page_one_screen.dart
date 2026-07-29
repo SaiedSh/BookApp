@@ -49,7 +49,7 @@ class PageOneScreen extends StatelessWidget {
                   child: Text(
                     textAlign: TextAlign.center,
                     'به شیوه تو: خریدن یا دسترسی مدت دار یا کتاب فیزیکی؟',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),
                 SizedBox(

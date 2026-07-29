@@ -7,4 +7,9 @@ class BookDetailState extends ChangeNotifier {
     bookDetail = value;
     notifyListeners();
   }
+
+  void reset() {
+    bookDetail = null;
+    notifyListeners();
+  }
 }

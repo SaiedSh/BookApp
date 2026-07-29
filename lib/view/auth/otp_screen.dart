@@ -82,13 +82,13 @@ class _OtpScreenState extends State<OtpScreen> {
                         Text(
                           'تایید شماره موبایل',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'کدی را که به شماره ${widget.phonenumber} فرستادیم اینجا بنویس',
                           style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.w500),
                         ),
                       ],
@@ -139,6 +139,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     )),
                 SizedBox(
                   width: 300,
+                  height: 45,
                   child: RawMaterialButton(
                     fillColor: secondaryColor,
                     child: Padding(
@@ -151,7 +152,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             Text(
                               '$_start ثانیه',
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
                             ),
@@ -161,7 +162,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             Text(
                               'تا پایان اعتبار کد',
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
                             ),
@@ -201,7 +202,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       'ویرایش شماره موبایل',
                       style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 14,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
                     )),
@@ -212,7 +213,7 @@ class _OtpScreenState extends State<OtpScreen> {
               children: [
                 Icon(
                   Icons.arrow_back_ios,
-                  size: 14,
+                  size: 15,
                   color: Colors.blue,
                 ),
                 TextButton(
@@ -221,7 +222,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       'ورود با رمز',
                       style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 14,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
                     )),

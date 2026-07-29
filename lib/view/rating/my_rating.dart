@@ -18,7 +18,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: Size.fromHeight(70),
           child: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: backgroundColor,
@@ -32,6 +32,9 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 15,
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: Row(
@@ -44,7 +47,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                                   'نقد ها و امتیاز های من',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 10),
+                                      fontSize: 14),
                                 ),
                                 IconButton(
                                   onPressed: () {
@@ -92,7 +95,9 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                   },
                   unselectedBackgroundColor: backgroundColor,
                   unselectedLabelStyle: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      fontFamily: 'Yekan',
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 0, 174, 212),
                       borderRadius: BorderRadius.circular(5)),
@@ -103,10 +108,11 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                             child: Text(
                           'منتظر امتیاز من',
                           style: TextStyle(
+                              fontFamily: 'Yekan',
                               color:
                                   selected != true ? Colors.white : Colors.grey,
                               fontWeight: FontWeight.bold,
-                              fontSize: 12),
+                              fontSize: 15),
                         )),
                         width: 160,
                       ),
@@ -117,11 +123,12 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                             child: Text(
                           'نقد ها و امتیاز‌های من',
                           style: TextStyle(
+                              fontFamily: 'Yekan',
                               color: selected != false
                                   ? Colors.white
                                   : Colors.grey,
                               fontWeight: FontWeight.bold,
-                              fontSize: 12),
+                              fontSize: 15),
                         )),
                         width: 160,
                       ),
@@ -160,7 +167,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                               style: TextStyle(
                                   color: Colors.grey.shade700,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 11),
+                                  fontSize: 14),
                             ),
                           ),
                           SizedBox(
@@ -168,7 +175,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                           ),
                           SizedBox(
                             width: 250,
-                            height: 30,
+                            height: 45,
                             child: RawMaterialButton(
                               fillColor: Color.fromARGB(255, 0, 174, 212),
                               child: Padding(
@@ -180,7 +187,7 @@ class _MyRatingScreenState extends State<MyRatingScreen> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                 ),
                               ),

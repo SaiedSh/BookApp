@@ -43,6 +43,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
                       children: [
+                        SizedBox(height: 5),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Row(
@@ -80,7 +81,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                     'خرید اشتراک',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -114,7 +115,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
               children: [
                 Consumer<SubscriptionsState>(
                   builder: (context, value, child) => SizedBox(
-                    height: 230,
+                    height: 260,
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -128,7 +129,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           alignment: Alignment.topLeft,
                           children: [
                             Container(
-                              height: 90,
+                              height: 110,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10)),
@@ -142,6 +143,9 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(
+                                          height: 5,
+                                        ),
                                         Row(
                                           children: [
                                             Image(
@@ -160,7 +164,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                                   .toString(),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 10,
+                                                  fontSize: 15,
                                                   color: secondaryColor),
                                             ),
                                           ],
@@ -178,7 +182,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                                   decoration: TextDecoration
                                                       .lineThrough,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 7,
+                                                  fontSize: 10,
                                                 ),
                                               ),
                                               SizedBox(
@@ -191,7 +195,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                                     .toString(),
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                 ),
                                               ),
                                               SizedBox(
@@ -201,7 +205,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                                 'تومان',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 9,
+                                                  fontSize: 10,
                                                 ),
                                               ),
                                             ],
@@ -218,14 +222,14 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                                           ),
                                           SizedBox(
                                             width: 100,
-                                            height: 32,
+                                            height: 40,
                                             child: RawMaterialButton(
                                               child: Center(
                                                 child: Text(
                                                   'خرید اشتراک',
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 11,
+                                                      fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.w400),
                                                 ),
@@ -399,7 +403,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                       Text(
                         'سوال دارید؟ جواب اینجاست:',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 10),
+                            fontWeight: FontWeight.bold, fontSize: 14),
                       ),
                     ],
                   ),
@@ -429,7 +433,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'نیکو پلاس چیست؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -458,7 +462,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'چطور مشترک نیکو پلاس شوم؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -487,7 +491,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'چه کتاب هایی در نیکو پلاس موجود است؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -516,7 +520,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'چرا باید برای استفاده از نیکو پلاس اشتراک بخرم؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -545,7 +549,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'چطور از نیکو پلاس استفاده کنم؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -574,7 +578,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'اگر اشتراکم تمام شود باز به کتاب های نیکو پلاس دسترسی دارم؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -603,7 +607,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'می توانم کتاب ها را بدون اینترنت بشنوم یا بخوانم؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),
@@ -632,7 +636,7 @@ class _BuySubsScreenState extends State<BuySubsScreen> {
                           Text(
                             'میتوانم اشتراکم را لغو کنم؟',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 10),
+                                fontWeight: FontWeight.bold, fontSize: 12),
                           ),
                         ],
                       ),

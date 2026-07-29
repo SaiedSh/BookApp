@@ -135,7 +135,7 @@ abstract class Tikonline extends ChopperService {
   ///@param Banner3ButtonLink
   ///@param Id
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Admin/Index',
+    path: 'https://api.tikonline.net/api/v1/Admin/Index',
     optionalBody: true,
   )
   @Multipart()
@@ -165,6 +165,20 @@ abstract class Tikonline extends ChopperService {
   });
 
   ///
+  Future<chopper.Response<NotificationDtoApiResult>>
+      apiV1AuthenticationNotifListGet() {
+    generatedMapping.putIfAbsent(NotificationDtoApiResult,
+        () => NotificationDtoApiResult.fromJsonFactory);
+
+    return _apiV1AuthenticationNotifListGet();
+  }
+
+  ///
+  @Get(path: 'https://api.tikonline.net/api/v1/Authentication/NotifList')
+  Future<chopper.Response<NotificationDtoApiResult>>
+      _apiV1AuthenticationNotifListGet();
+
+  ///
   Future<chopper.Response<AccessToken>> apiV1AuthenticationFreeTokenPost({
     String? grantType,
     String? username,
@@ -189,7 +203,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Authentication/FreeToken',
+    path: 'https://api.tikonline.net/api/v1/Authentication/FreeToken',
     optionalBody: true,
   )
   @Multipart()
@@ -214,7 +228,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Authentication/Login_SignUp',
+    path: 'https://api.tikonline.net/api/v1/Authentication/Login_SignUp',
     optionalBody: true,
   )
   Future<chopper.Response<TempUserDtoApiResult>>
@@ -233,7 +247,7 @@ abstract class Tikonline extends ChopperService {
   ///
   @Post(
     path:
-        'http://130.185.75.182:5003/api/v1/Authentication/Login_SignUpValidation',
+        'https://api.tikonline.net/api/v1/Authentication/Login_SignUpValidation',
     optionalBody: true,
   )
   Future<chopper.Response<AccessToken>>
@@ -241,12 +255,50 @@ abstract class Tikonline extends ChopperService {
           {@Body() required TempUserDto? body});
 
   ///
+  Future<chopper.Response<NationalLoginDtoApiResult>>
+      apiV1AuthenticationNationalLoginPost({required NationalLoginDto? body}) {
+    generatedMapping.putIfAbsent(NationalLoginDtoApiResult,
+        () => NationalLoginDtoApiResult.fromJsonFactory);
+
+    return _apiV1AuthenticationNationalLoginPost(body: body);
+  }
+
+  ///
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/Authentication/NationalLogin',
+    optionalBody: true,
+  )
+  Future<chopper.Response<NationalLoginDtoApiResult>>
+      _apiV1AuthenticationNationalLoginPost(
+          {@Body() required NationalLoginDto? body});
+
+  ///
+  Future<chopper.Response<UserDtoApiResult>>
+      apiV1AuthenticationNationalLoginValidationPost(
+          {required NationalLoginDto? body}) {
+    generatedMapping.putIfAbsent(
+        UserDtoApiResult, () => UserDtoApiResult.fromJsonFactory);
+
+    return _apiV1AuthenticationNationalLoginValidationPost(body: body);
+  }
+
+  ///
+  @Post(
+    path:
+        'https://api.tikonline.net/api/v1/Authentication/NationalLoginValidation',
+    optionalBody: true,
+  )
+  Future<chopper.Response<UserDtoApiResult>>
+      _apiV1AuthenticationNationalLoginValidationPost(
+          {@Body() required NationalLoginDto? body});
+
+  ///
   Future<chopper.Response> apiV1AuthenticationSignOutGet() {
     return _apiV1AuthenticationSignOutGet();
   }
 
   ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Authentication/SignOut')
+  @Get(path: 'https://api.tikonline.net/api/v1/Authentication/SignOut')
   Future<chopper.Response> _apiV1AuthenticationSignOutGet();
 
   ///
@@ -260,11 +312,98 @@ abstract class Tikonline extends ChopperService {
 
   ///
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Authentication/StaffAuth',
+    path: 'https://api.tikonline.net/api/v1/Authentication/StaffAuth',
     optionalBody: true,
   )
   Future<chopper.Response<AccessToken>> _apiV1AuthenticationStaffAuthPost(
       {@Body() required LoginDto? body});
+
+  ///
+  Future<chopper.Response<ClientLoginDtoApiResult>>
+      apiV1AuthenticationClientLoginPost({required ClientLoginDto? body}) {
+    generatedMapping.putIfAbsent(
+        ClientLoginDtoApiResult, () => ClientLoginDtoApiResult.fromJsonFactory);
+
+    return _apiV1AuthenticationClientLoginPost(body: body);
+  }
+
+  ///
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/Authentication/ClientLogin',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ClientLoginDtoApiResult>>
+      _apiV1AuthenticationClientLoginPost(
+          {@Body() required ClientLoginDto? body});
+
+  ///
+  Future<chopper.Response<AccessToken>>
+      apiV1AuthenticationClientLoginValidatePost(
+          {required ClientLoginDto? body}) {
+    generatedMapping.putIfAbsent(
+        AccessToken, () => AccessToken.fromJsonFactory);
+
+    return _apiV1AuthenticationClientLoginValidatePost(body: body);
+  }
+
+  ///
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/Authentication/ClientLoginValidate',
+    optionalBody: true,
+  )
+  Future<chopper.Response<AccessToken>>
+      _apiV1AuthenticationClientLoginValidatePost(
+          {@Body() required ClientLoginDto? body});
+
+  ///
+  ///@param FirstName
+  ///@param LastName
+  ///@param PhoneNumber
+  ///@param NationalCode
+  ///@param Reshte
+  ///@param Takhasos
+  Future<chopper.Response<ApiResult>> apiV1AuthenticationCompleteProfilePost({
+    required String? firstName,
+    required String? lastName,
+    required String? phoneNumber,
+    required String? nationalCode,
+    String? reshte,
+    String? takhasos,
+    List<int>? PofileImage,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1AuthenticationCompleteProfilePost(
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        nationalCode: nationalCode,
+        reshte: reshte,
+        takhasos: takhasos,
+        PofileImage: PofileImage);
+  }
+
+  ///
+  ///@param FirstName
+  ///@param LastName
+  ///@param PhoneNumber
+  ///@param NationalCode
+  ///@param Reshte
+  ///@param Takhasos
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/Authentication/CompleteProfile',
+    optionalBody: true,
+  )
+  @Multipart()
+  Future<chopper.Response<ApiResult>> _apiV1AuthenticationCompleteProfilePost({
+    @Query('FirstName') required String? firstName,
+    @Query('LastName') required String? lastName,
+    @Query('PhoneNumber') required String? phoneNumber,
+    @Query('NationalCode') required String? nationalCode,
+    @Query('Reshte') String? reshte,
+    @Query('Takhasos') String? takhasos,
+    @PartFile() List<int>? PofileImage,
+  });
 
   ///
   ///@param CategortyId
@@ -278,7 +417,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   ///@param CategortyId
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/List')
+  @Get(path: 'https://api.tikonline.net/api/v1/Book/List')
   Future<chopper.Response<BookDtoListApiResult>> _apiV1BookListGet(
       {@Query('CategortyId') String? categortyId});
 
@@ -291,7 +430,7 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/Index')
+  @Get(path: 'https://api.tikonline.net/api/v1/Book/Index')
   Future<chopper.Response<IndexDtoApiResult>> _apiV1BookIndexGet();
 
   ///
@@ -306,16 +445,18 @@ abstract class Tikonline extends ChopperService {
 
   ///
   ///@param BookId
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/Detail')
+  @Get(path: 'https://api.tikonline.net/api/v1/Book/Detail')
   Future<chopper.Response<BookDtoApiResult>> _apiV1BookDetailGet(
       {@Query('BookId') String? bookId});
 
   ///
+  ///@param Code
   ///@param Niko
   ///@param Online
   ///@param Physical
   ///@param DiscountPercentage
   ///@param PhysicalLink
+  ///@param SamplePdfLink
   ///@param Title
   ///@param Description
   ///@param ImageUrl
@@ -324,6 +465,7 @@ abstract class Tikonline extends ChopperService {
   ///@param Like
   ///@param Read
   ///@param Shelf
+  ///@param Buy
   ///@param Nevisande
   ///@param Entesharat
   ///@param Motarjem
@@ -358,11 +500,13 @@ abstract class Tikonline extends ChopperService {
   ///@param BookReviewss
   ///@param Id
   Future<chopper.Response<ApiResult>> apiV1BookAddPost({
+    String? code,
     bool? niko,
     bool? online,
     bool? physical,
     int? discountPercentage,
     String? physicalLink,
+    String? samplePdfLink,
     String? title,
     String? description,
     String? imageUrl,
@@ -371,6 +515,7 @@ abstract class Tikonline extends ChopperService {
     bool? like,
     bool? read,
     bool? shelf,
+    bool? buy,
     String? nevisande,
     String? entesharat,
     String? motarjem,
@@ -410,11 +555,13 @@ abstract class Tikonline extends ChopperService {
     generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
 
     return _apiV1BookAddPost(
+        code: code,
         niko: niko,
         online: online,
         physical: physical,
         discountPercentage: discountPercentage,
         physicalLink: physicalLink,
+        samplePdfLink: samplePdfLink,
         title: title,
         description: description,
         imageUrl: imageUrl,
@@ -423,6 +570,7 @@ abstract class Tikonline extends ChopperService {
         like: like,
         read: read,
         shelf: shelf,
+        buy: buy,
         nevisande: nevisande,
         entesharat: entesharat,
         motarjem: motarjem,
@@ -461,11 +609,13 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
+  ///@param Code
   ///@param Niko
   ///@param Online
   ///@param Physical
   ///@param DiscountPercentage
   ///@param PhysicalLink
+  ///@param SamplePdfLink
   ///@param Title
   ///@param Description
   ///@param ImageUrl
@@ -474,6 +624,7 @@ abstract class Tikonline extends ChopperService {
   ///@param Like
   ///@param Read
   ///@param Shelf
+  ///@param Buy
   ///@param Nevisande
   ///@param Entesharat
   ///@param Motarjem
@@ -508,16 +659,18 @@ abstract class Tikonline extends ChopperService {
   ///@param BookReviewss
   ///@param Id
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Book/Add',
+    path: 'https://api.tikonline.net/api/v1/Book/Add',
     optionalBody: true,
   )
   @Multipart()
   Future<chopper.Response<ApiResult>> _apiV1BookAddPost({
+    @Query('Code') String? code,
     @Query('Niko') bool? niko,
     @Query('Online') bool? online,
     @Query('Physical') bool? physical,
     @Query('DiscountPercentage') int? discountPercentage,
     @Query('PhysicalLink') String? physicalLink,
+    @Query('SamplePdfLink') String? samplePdfLink,
     @Query('Title') String? title,
     @Query('Description') String? description,
     @Query('ImageUrl') String? imageUrl,
@@ -526,6 +679,7 @@ abstract class Tikonline extends ChopperService {
     @Query('Like') bool? like,
     @Query('Read') bool? read,
     @Query('Shelf') bool? shelf,
+    @Query('Buy') bool? buy,
     @Query('Nevisande') String? nevisande,
     @Query('Entesharat') String? entesharat,
     @Query('Motarjem') String? motarjem,
@@ -575,7 +729,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   ///@param st
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/SavedBooks')
+  @Get(path: 'https://api.tikonline.net/api/v1/Book/SavedBooks')
   Future<chopper.Response<BookDtoListApiResult>> _apiV1BookSavedBooksGet(
       {@Query('st') String? st});
 
@@ -595,7 +749,7 @@ abstract class Tikonline extends ChopperService {
   ///@param BookId
   ///@param st
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Book/SaveBook',
+    path: 'https://api.tikonline.net/api/v1/Book/SaveBook',
     optionalBody: true,
   )
   Future<chopper.Response<ApiResult>> _apiV1BookSaveBookPost({
@@ -613,7 +767,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Book/AddBookReview',
+    path: 'https://api.tikonline.net/api/v1/Book/AddBookReview',
     optionalBody: true,
   )
   Future<chopper.Response<ApiResult>> _apiV1BookAddBookReviewPost(
@@ -628,7 +782,7 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Book/MyReviews')
+  @Get(path: 'https://api.tikonline.net/api/v1/Book/MyReviews')
   Future<chopper.Response<BookReviewDtoListApiResult>> _apiV1BookMyReviewsGet();
 
   ///
@@ -643,7 +797,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   ///@param MotherId
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Category/List')
+  @Get(path: 'https://api.tikonline.net/api/v1/Category/List')
   Future<chopper.Response<CategoryDtoListApiResult>> _apiV1CategoryListGet(
       {@Query('MotherId') String? motherId});
 
@@ -657,11 +811,113 @@ abstract class Tikonline extends ChopperService {
 
   ///
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Category/Add',
+    path: 'https://api.tikonline.net/api/v1/Category/Add',
     optionalBody: true,
   )
   Future<chopper.Response<ApiResult>> _apiV1CategoryAddPost(
       {@Body() required CategoryDto? body});
+
+  ///
+  Future<chopper.Response<ApiResult>> apiV1ConferenceStaffAddEditPost(
+      {required ConfrenceStaffDto? body}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1ConferenceStaffAddEditPost(body: body);
+  }
+
+  ///
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/ConferenceStaff/AddEdit',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1ConferenceStaffAddEditPost(
+      {@Body() required ConfrenceStaffDto? body});
+
+  ///Returns all ConferenceStaffs
+  Future<chopper.Response<ConfrenceStaffDtoListApiResult>>
+      apiV1ConferenceStaffGet() {
+    generatedMapping.putIfAbsent(ConfrenceStaffDtoListApiResult,
+        () => ConfrenceStaffDtoListApiResult.fromJsonFactory);
+
+    return _apiV1ConferenceStaffGet();
+  }
+
+  ///Returns all ConferenceStaffs
+  @Get(path: 'https://api.tikonline.net/api/v1/ConferenceStaff')
+  Future<chopper.Response<ConfrenceStaffDtoListApiResult>>
+      _apiV1ConferenceStaffGet();
+
+  ///Retrieves a ConferenceStaff by unique id
+  ///@param id a unique id for the ConferenceStaff
+  Future<chopper.Response<ConfrenceStaffDtoApiResult>>
+      apiV1ConferenceStaffIdGet({required String? id}) {
+    generatedMapping.putIfAbsent(ConfrenceStaffDtoApiResult,
+        () => ConfrenceStaffDtoApiResult.fromJsonFactory);
+
+    return _apiV1ConferenceStaffIdGet(id: id);
+  }
+
+  ///Retrieves a ConferenceStaff by unique id
+  ///@param id a unique id for the ConferenceStaff
+  @Get(path: 'https://api.tikonline.net/api/v1/ConferenceStaff/{id}')
+  Future<chopper.Response<ConfrenceStaffDtoApiResult>>
+      _apiV1ConferenceStaffIdGet({@Path('id') required String? id});
+
+  ///Creates a ConferenceStaff
+  Future<chopper.Response<ApiResult>> apiV1ConferenceStaffCreatePost(
+      {required ConfrenceStaffDto? body}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1ConferenceStaffCreatePost(body: body);
+  }
+
+  ///Creates a ConferenceStaff
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/ConferenceStaff/Create',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1ConferenceStaffCreatePost(
+      {@Body() required ConfrenceStaffDto? body});
+
+  ///Updates a ConferenceStaff by unique id
+  ///@param id A ConferenceStaff representation
+  Future<chopper.Response<ApiResult>> apiV1ConferenceStaffUpdatePost({
+    String? id,
+    required ConfrenceStaffDto? body,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1ConferenceStaffUpdatePost(id: id, body: body);
+  }
+
+  ///Updates a ConferenceStaff by unique id
+  ///@param id A ConferenceStaff representation
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/ConferenceStaff/Update',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1ConferenceStaffUpdatePost({
+    @Query('id') String? id,
+    @Body() required ConfrenceStaffDto? body,
+  });
+
+  ///Deletes a ConferenceStaff by unique id
+  ///@param id A unique id for the ConferenceStaff
+  Future<chopper.Response<ApiResult>> apiV1ConferenceStaffDeletePost(
+      {String? id}) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1ConferenceStaffDeletePost(id: id);
+  }
+
+  ///Deletes a ConferenceStaff by unique id
+  ///@param id A unique id for the ConferenceStaff
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/ConferenceStaff/Delete',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1ConferenceStaffDeletePost(
+      {@Query('id') String? id});
 
   ///
   ///@param Price
@@ -674,7 +930,7 @@ abstract class Tikonline extends ChopperService {
 
   ///
   ///@param Price
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Payment/WalletCharge')
+  @Get(path: 'https://api.tikonline.net/api/v1/Payment/WalletCharge')
   Future<chopper.Response<ApiResult>> _apiV1PaymentWalletChargeGet(
       {@Query('Price') int? price});
 
@@ -694,7 +950,7 @@ abstract class Tikonline extends ChopperService {
   ///@param SubId
   ///@param Wallet
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/Payment/BuySubscription',
+    path: 'https://api.tikonline.net/api/v1/Payment/BuySubscription',
     optionalBody: true,
   )
   Future<chopper.Response<ApiResult>> _apiV1PaymentBuySubscriptionPost({
@@ -712,7 +968,7 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Payment/SubscriptionList')
+  @Get(path: 'https://api.tikonline.net/api/v1/Payment/SubscriptionList')
   Future<chopper.Response<SubscriptionDtoListApiResult>>
       _apiV1PaymentSubscriptionListGet();
 
@@ -726,9 +982,134 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/Payment/UserTransactions')
+  @Get(path: 'https://api.tikonline.net/api/v1/Payment/UserTransactions')
   Future<chopper.Response<PaymentTransactionsDtoListApiResult>>
       _apiV1PaymentUserTransactionsGet();
+
+  ///
+  Future<chopper.Response<StringApiResult>> apiV1PaymentPaymentGet() {
+    generatedMapping.putIfAbsent(
+        StringApiResult, () => StringApiResult.fromJsonFactory);
+
+    return _apiV1PaymentPaymentGet();
+  }
+
+  ///
+  @Get(path: 'https://api.tikonline.net/api/v1/Payment/Payment')
+  Future<chopper.Response<StringApiResult>> _apiV1PaymentPaymentGet();
+
+  ///
+  ///@param Status
+  ///@param authority
+  Future<chopper.Response<StringApiResult>> apiV1PaymentVerifyPaymentGet({
+    String? status,
+    String? authority,
+  }) {
+    generatedMapping.putIfAbsent(
+        StringApiResult, () => StringApiResult.fromJsonFactory);
+
+    return _apiV1PaymentVerifyPaymentGet(status: status, authority: authority);
+  }
+
+  ///
+  ///@param Status
+  ///@param authority
+  @Get(path: 'https://api.tikonline.net/api/v1/Payment/VerifyPayment')
+  Future<chopper.Response<StringApiResult>> _apiV1PaymentVerifyPaymentGet({
+    @Query('Status') String? status,
+    @Query('authority') String? authority,
+  });
+
+  ///Retrieves a ShopCard by unique id
+  Future<chopper.Response<ShopCardDtoApiResult>> apiV1ShopCardGetShopCardGet() {
+    generatedMapping.putIfAbsent(
+        ShopCardDtoApiResult, () => ShopCardDtoApiResult.fromJsonFactory);
+
+    return _apiV1ShopCardGetShopCardGet();
+  }
+
+  ///Retrieves a ShopCard by unique id
+  @Get(path: 'https://api.tikonline.net/api/v1/ShopCard/GetShopCard')
+  Future<chopper.Response<ShopCardDtoApiResult>> _apiV1ShopCardGetShopCardGet();
+
+  ///
+  ///@param BookId
+  ///@param Remove
+  Future<chopper.Response<ApiResult>> apiV1ShopCardAddorRemoveItemPost({
+    String? bookId,
+    bool? remove,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1ShopCardAddorRemoveItemPost(bookId: bookId, remove: remove);
+  }
+
+  ///
+  ///@param BookId
+  ///@param Remove
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/ShopCard/AddorRemoveItem',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1ShopCardAddorRemoveItemPost({
+    @Query('BookId') String? bookId,
+    @Query('Remove') bool? remove,
+  });
+
+  ///
+  ///@param Wallet
+  ///@param DiscountCode
+  Future<chopper.Response<ApiResult>> apiV1ShopCardPayShopCardPost({
+    bool? wallet,
+    String? discountCode,
+  }) {
+    generatedMapping.putIfAbsent(ApiResult, () => ApiResult.fromJsonFactory);
+
+    return _apiV1ShopCardPayShopCardPost(
+        wallet: wallet, discountCode: discountCode);
+  }
+
+  ///
+  ///@param Wallet
+  ///@param DiscountCode
+  @Post(
+    path: 'https://api.tikonline.net/api/v1/ShopCard/PayShopCard',
+    optionalBody: true,
+  )
+  Future<chopper.Response<ApiResult>> _apiV1ShopCardPayShopCardPost({
+    @Query('Wallet') bool? wallet,
+    @Query('DiscountCode') String? discountCode,
+  });
+
+  ///
+  Future<chopper.Response<BookOrderDtoListApiResult>>
+      apiV1ShopCardGetUserOrdersGet() {
+    generatedMapping.putIfAbsent(BookOrderDtoListApiResult,
+        () => BookOrderDtoListApiResult.fromJsonFactory);
+
+    return _apiV1ShopCardGetUserOrdersGet();
+  }
+
+  ///
+  @Get(path: 'https://api.tikonline.net/api/v1/ShopCard/GetUserOrders')
+  Future<chopper.Response<BookOrderDtoListApiResult>>
+      _apiV1ShopCardGetUserOrdersGet();
+
+  ///
+  ///@param OrderId
+  Future<chopper.Response<BookOrderItemDtoListApiResult>>
+      apiV1ShopCardGetItemsOfOrderGet({String? orderId}) {
+    generatedMapping.putIfAbsent(BookOrderItemDtoListApiResult,
+        () => BookOrderItemDtoListApiResult.fromJsonFactory);
+
+    return _apiV1ShopCardGetItemsOfOrderGet(orderId: orderId);
+  }
+
+  ///
+  ///@param OrderId
+  @Get(path: 'https://api.tikonline.net/api/v1/ShopCard/GetItemsOfOrder')
+  Future<chopper.Response<BookOrderItemDtoListApiResult>>
+      _apiV1ShopCardGetItemsOfOrderGet({@Query('OrderId') String? orderId});
 
   ///
   Future<chopper.Response<UserDtoApiResult>> apiV1UserProfileGet() {
@@ -739,7 +1120,7 @@ abstract class Tikonline extends ChopperService {
   }
 
   ///
-  @Get(path: 'http://130.185.75.182:5003/api/v1/User/Profile')
+  @Get(path: 'https://api.tikonline.net/api/v1/User/Profile')
   Future<chopper.Response<UserDtoApiResult>> _apiV1UserProfileGet();
 
   ///
@@ -810,7 +1191,7 @@ abstract class Tikonline extends ChopperService {
   ///@param Categories
   ///@param Id
   @Post(
-    path: 'http://130.185.75.182:5003/api/v1/User/UpdateProfile',
+    path: 'https://api.tikonline.net/api/v1/User/UpdateProfile',
     optionalBody: true,
   )
   @Multipart()

@@ -1,13 +1,16 @@
 import 'package:bookapp/controller/api/book/add_save_book.dart';
 import 'package:bookapp/controller/api/book/book_detail.dart';
+import 'package:bookapp/controller/api/payment/shop_card/buy_book.dart';
+import 'package:bookapp/controller/api/payment/shop_card/get_shopcard_list.dart';
 import 'package:bookapp/controller/provider/book_detail_state.dart';
 import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/api/generated/tikonline.enums.swagger.dart';
-import 'package:bookapp/model/components/bookcard_widget.dart';
 import 'package:bookapp/model/components/categorytext_widget.dart';
 import 'package:bookapp/model/global/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 class BookDetailScreen extends StatefulWidget {
@@ -23,9 +26,20 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getBookDetails(context: context, bookId: widget.bookId);
+    shopCardVisible = true;
+    shopCardPhisicalVisible = true;
+    getBookDetails(context: context, bookId: widget.bookId).then(
+      (value) {
+        saveVisible = BookDetailState.bookDetail!.like!;
+      },
+    );
   }
 
+  bool descVisible = false;
+  bool shopCardVisible = true;
+  bool loadingVisible = true;
+  bool shopCardPhisicalVisible = true;
+  bool loadingPhisicalVisible = true;
   double _rating = 3.0;
   bool saveVisible = true;
   @override
@@ -48,8 +62,11 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: 15,
+                        ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -71,7 +88,10 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     child: VerticalDivider(),
                                   ),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, MyRoutes.shopCardScreen);
+                                      },
                                       icon: Image(
                                         image: AssetImage(
                                             'lib/assets/images/handbag.png'),
@@ -83,16 +103,18 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 children: [
                                   Consumer<BookDetailState>(
                                     builder: (context, value, child) => Text(
+                                      textDirection: TextDirection.rtl,
                                       BookDetailState.bookDetail!.title
                                           .toString(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 10),
+                                          fontSize: 14),
                                     ),
                                   ),
                                   IconButton(
                                     onPressed: () {
                                       Navigator.pop(context);
+                                      context.read<BookDetailState>().reset();
                                     },
                                     icon: Icon(
                                       Icons.close,
@@ -109,36 +131,6 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                             ],
                           ),
                         ),
-
-                        // Directionality(
-                        //   textDirection: TextDirection.rtl,
-                        //   child: SizedBox(
-                        //       height: 35,
-                        //       width: MediaQuery.of(context).size.width - 10,
-                        //       child: TextField(
-                        //         cursorHeight: 20,
-                        //         decoration: InputDecoration(
-                        //             prefixIcon: Icon(
-                        //               Icons.search,
-                        //               size: 18,
-                        //             ),
-                        //             floatingLabelAlignment:
-                        //                 FloatingLabelAlignment.center,
-                        //             label: Text(
-                        //               'جستجو در نیکو بوک',
-                        //               style: TextStyle(
-                        //                   color: Colors.grey,
-                        //                   fontSize: 10,
-                        //                   fontWeight: FontWeight.w500),
-                        //             ),
-                        //             filled: true,
-                        //             fillColor: backgroundColor,
-                        //             border: OutlineInputBorder(
-                        //                 borderSide: BorderSide.none,
-                        //                 borderRadius:
-                        //                     BorderRadius.circular(5))),
-                        //       )),
-                        // )
                       ],
                     ),
                   ),
@@ -146,320 +138,16 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
               ),
             )),
         backgroundColor: backgroundColor,
-        // bottomSheet: Consumer<BookDetailState>(
-        //   builder: (context, value, child) => Container(
-        //     child: Padding(
-        //       padding: const EdgeInsets.symmetric(horizontal: 10),
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         children: [
-        //           ElevatedButton(
-        //               style: ButtonStyle(
-        //                   backgroundColor: WidgetStateColor.resolveWith(
-        //                 (states) => secondaryColor,
-        //               )),
-        //               onPressed: () {
-        //                 Navigator.pushNamed(
-        //                   context,
-        //                   MyRoutes.pdfScreen,
-        //                   arguments:
-        //                       BookDetailState.bookDetail!.pdfLink.toString(),
-        //                 );
-        //               },
-        //               child: Text(
-        //                 "دریافت pdf کتاب",
-        //                 style: GoogleFonts.lalezar(
-        //                     fontSize: 14, color: Colors.white),
-        //               )),
-        //           if (BookDetailState.bookDetail!.discountPrice! != 0)
-        //             Column(
-        //               mainAxisAlignment: MainAxisAlignment.center,
-        //               children: [
-        //                 Text(
-        //                   BookDetailState.bookDetail!.price.toString() +
-        //                       "/000" +
-        //                       " ت ",
-        //                   style: GoogleFonts.lalezar(
-        //                       color: Colors.grey.shade700,
-        //                       decoration: TextDecoration.lineThrough),
-        //                 ),
-        //                 Text(
-        //                   BookDetailState.bookDetail!.discountPrice.toString() +
-        //                       "/000" +
-        //                       " ت ",
-        //                   style: GoogleFonts.lalezar(fontSize: 18),
-        //                 ),
-        //               ],
-        //             )
-        //           else if (BookDetailState.bookDetail!.price == 0)
-        //             Text(
-        //               'رایگان',
-        //               style: GoogleFonts.lalezar(fontSize: 18),
-        //             )
-        //           else
-        //             Text(
-        //               BookDetailState.bookDetail!.price.toString() +
-        //                   "/000" +
-        //                   " ت ",
-        //               style: GoogleFonts.lalezar(fontSize: 18),
-        //             ),
-        //         ],
-        //       ),
-        //     ),
-        //     decoration: BoxDecoration(
-        //         color: Colors.white,
-        //         borderRadius: BorderRadius.only(
-        //             topLeft: Radius.circular(12),
-        //             topRight: Radius.circular(12)),
-        //         boxShadow: [
-        //           BoxShadow(
-        //               blurRadius: 5, spreadRadius: 0.1, color: Colors.grey)
-        //         ]),
-        //     height: 80,
-        //   ),
-        // ),
-        // appBar: AppBar(
-        //   backgroundColor: Colors.white,
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () {
-        //         Navigator.pop(context);
-        //       },
-        //       icon: Icon(Icons.forward),
-        //     )
-        //   ],
-        // ),
-
         body: Consumer<BookDetailState>(
           builder: (context, value, child) {
             return SingleChildScrollView(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Row(
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     SizedBox(
-                    //       width: 10,
-                    //     ),
-                    //     Container(
-                    //       width: 120,
-                    //       margin: EdgeInsets.all(5),
-                    //       decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(10),
-                    //           boxShadow: [
-                    //             BoxShadow(blurRadius: 5, spreadRadius: 0.1)
-                    //           ]),
-                    //       child: ClipRRect(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         child: Image(
-                    //             fit: BoxFit.fill,
-                    //             image: NetworkImage(BookDetailState
-                    //                 .bookDetail!.imageUrl
-                    //                 .toString())),
-                    //       ),
-                    //     ),
-                    //     SizedBox(
-                    //       width: 30,
-                    //     ),
-                    //     Padding(
-                    //       padding: const EdgeInsets.only(top: 5),
-                    //       child: Column(
-                    //         mainAxisSize: MainAxisSize.min,
-                    //         children: [
-                    //           Text(
-                    //             BookDetailState.bookDetail!.title.toString(),
-                    //             style: GoogleFonts.lalezar(fontSize: 20),
-                    //           ),
-                    //           Text(
-                    //             "نویسنده : " +
-                    //                 BookDetailState.bookDetail!.nevisande
-                    //                     .toString(),
-                    //             style: GoogleFonts.lalezar(
-                    //                 fontSize: 14, color: Colors.grey),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: 40,
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 12),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Row(
-                    //         mainAxisSize: MainAxisSize.min,
-                    //         children: [
-                    //           BookmarkWidget(itemId: 'itemId'),
-                    //           IconButton(
-                    //               onPressed: () {},
-                    //               icon: Icon(
-                    //                 Icons.share,
-                    //                 size: 20,
-                    //               )),
-                    //         ],
-                    //       ),
-                    //       Row(
-                    //         children: [
-                    //           Padding(
-                    //             padding: const EdgeInsets.only(bottom: 5),
-                    //             child: Icon(
-                    //               Icons.star,
-                    //               size: 18,
-                    //             ),
-                    //           ),
-                    //           Text(
-                    //             "${BookDetailState.bookDetail!.rating.toString()} ( ${BookDetailState.bookDetail!.viewCount.toString()} )",
-                    //             style: GoogleFonts.lalezar(
-                    //                 fontSize: 14, color: Colors.black),
-                    //           ),
-                    //           SizedBox(
-                    //             width: 5,
-                    //           ),
-                    //           InkWell(
-                    //             onTap: () {},
-                    //             child: Text(
-                    //               "خواندن نظرات",
-                    //               style: GoogleFonts.lalezar(
-                    //                   decoration: TextDecoration.underline,
-                    //                   decorationColor: secondaryColor,
-                    //                   fontSize: 14,
-                    //                   color: secondaryColor),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: 30,
-                    // ),
-                    // Text(
-                    //   "مشخصات کتاب",
-                    //   style:
-                    //       GoogleFonts.lalezar(fontSize: 16, color: Colors.black),
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       color: backColor),
-                    //   width: MediaQuery.of(context).size.width - 20,
-                    //   height: 200,
-                    //   child: Column(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //     children: [
-                    //       // SizedBox(
-                    //       //   height: 15,
-                    //       // ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               "انتشارات : ",
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 16, color: Colors.black),
-                    //             ),
-                    //             Text(
-                    //               BookDetailState.bookDetail!.entesharat
-                    //                   .toString(),
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 14, color: Colors.black54),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               "مترجم : ",
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 16, color: Colors.black),
-                    //             ),
-                    //             Text(
-                    //               BookDetailState.bookDetail!.motarjem.toString(),
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 14, color: Colors.black54),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               "دسته بندی : ",
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 16, color: Colors.black),
-                    //             ),
-                    //             Text(
-                    //               BookDetailState.bookDetail!.categoryName
-                    //                   .toString(),
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 14, color: Colors.black54),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               "سال انتشار : ",
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 16, color: Colors.black),
-                    //             ),
-                    //             Text(
-                    //               BookDetailState.bookDetail!.salEnteshar
-                    //                   .toString(),
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 14, color: Colors.black54),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: const EdgeInsets.symmetric(horizontal: 15),
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Text(
-                    //               "تعداد صفحات : ",
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 16, color: Colors.black),
-                    //             ),
-                    //             Text(
-                    //               BookDetailState.bookDetail!.pages.toString(),
-                    //               style: GoogleFonts.lalezar(
-                    //                   fontSize: 14, color: Colors.black54),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // )
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 600,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
@@ -471,10 +159,39 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image(
-                                    image: AssetImage(
-                                        'lib/assets/images/book.png'),
-                                    width: 230,
+                                  SizedBox(
+                                    width: 200,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(
+                                        errorBuilder: (BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace) {
+                                          return Center(
+                                            child: Text(
+                                              'تصویر بارگذاری نشد',
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.grey),
+                                            ),
+                                          );
+                                        },
+                                        fit: BoxFit.fill,
+                                        BookDetailState.bookDetail!.imageUrl
+                                            .toString(),
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            // تصویر لود شده است
+                                            return child;
+                                          }
+                                          // تصویر هنوز در حال لود است
+                                          return CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 50),
@@ -543,7 +260,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 ],
                               ),
                               SizedBox(
-                                height: 50,
+                                height: 30,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -553,7 +270,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         .toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 10),
+                                        fontSize: 16),
                                   ),
                                 ],
                               ),
@@ -564,17 +281,18 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'نویسنده : ',
+                                    'نویسنده / نویسندگان : ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                   Text(
                                     BookDetailState.bookDetail!.nevisande
                                         .toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14,
+                                        color: Colors.grey.shade600),
                                   ),
                                 ],
                               ),
@@ -585,17 +303,20 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'مترجم : ',
+                                    'مترجم / مترجمین : ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                   Text(
-                                    BookDetailState.bookDetail!.motarjem
-                                        .toString(),
+                                    BookDetailState.bookDetail!.motarjem != null
+                                        ? BookDetailState.bookDetail!.motarjem
+                                            .toString()
+                                        : "...",
                                     style: TextStyle(
+                                        color: Colors.grey.shade600,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -606,17 +327,21 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'ناشر : ',
+                                    'مولف / مولفین : ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                   Text(
-                                    BookDetailState.bookDetail!.entesharat
-                                        .toString(),
+                                    BookDetailState.bookDetail!.entesharat !=
+                                            null
+                                        ? BookDetailState.bookDetail!.entesharat
+                                            .toString()
+                                        : "...",
                                     style: TextStyle(
+                                        color: Colors.grey.shade600,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -625,7 +350,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                               ),
                               Divider(),
                               SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -638,14 +363,14 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                             const EdgeInsets.only(bottom: 5),
                                         child: Icon(
                                           Icons.star,
-                                          size: 16,
+                                          size: 18,
                                           color: Colors.amber,
                                         ),
                                       ),
                                       Text(
                                         "${BookDetailState.bookDetail!.rating} ( ${BookDetailState.bookDetail!.viewCount} )",
                                         style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           color: Colors.black,
                                         ),
                                       ),
@@ -660,7 +385,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                                 .toString() +
                                             " تومان ",
                                         style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: 16,
                                             color: Colors.grey.shade800),
                                       ),
                                     ],
@@ -668,83 +393,419 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 ],
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 15,
                               ),
-                              SizedBox(
-                                width: 320,
-                                child: RawMaterialButton(
-                                  fillColor: secondaryColor,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    child: Directionality(
-                                      textDirection: TextDirection.rtl,
-                                      child: Text(
-                                        'خرید کتاب دیجیتال',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12),
+                              Visibility(
+                                visible:
+                                    BookDetailState.bookDetail!.buy! == false
+                                        ? true
+                                        : false,
+                                replacement: Column(
+                                  children: [
+                                    SizedBox(
+                                      width: 320,
+                                      height: 45,
+                                      child: RawMaterialButton(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Text(
+                                              'نمونه',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            side:
+                                                BorderSide(color: Colors.grey)),
+                                        onPressed: () async {
+                                          // if (kIsWeb) {
+                                          //   showDialog(
+                                          //     context: context,
+                                          //     builder: (context) => Dialog(
+                                          //       child: Container(),
+                                          //     ),
+                                          //   );
+                                          // } else {
+                                          Navigator.pushNamed(
+                                            context,
+                                            MyRoutes.pdfScreen,
+                                            arguments: BookDetailState
+                                                .bookDetail!.samplePdfLink
+                                                .toString(),
+                                          );
+                                          // }
+                                        },
                                       ),
                                     ),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  onPressed: () async {},
-                                ),
-                              ),
-                              SizedBox(
-                                width: 320,
-                                child: RawMaterialButton(
-                                  fillColor: Colors.green,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    child: Directionality(
-                                      textDirection: TextDirection.rtl,
-                                      child: Text(
-                                        'خرید کتاب فیزیکی',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 11),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    SizedBox(
+                                      width: 320,
+                                      height: 45,
+                                      child: RawMaterialButton(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Text(
+                                              'مشاهده فایل کامل کتاب',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            side:
+                                                BorderSide(color: Colors.grey)),
+                                        onPressed: () async {
+                                          if (kIsWeb) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => Dialog(
+                                                child: Container(),
+                                              ),
+                                            );
+                                          } else {
+                                            Navigator.pushNamed(
+                                              context,
+                                              MyRoutes.pdfScreen,
+                                              arguments: BookDetailState
+                                                  .bookDetail!.pdfFile
+                                                  .toString(),
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5)),
-                                  onPressed: () async {},
+                                    SizedBox(
+                                      height: 15,
+                                    )
+                                  ],
                                 ),
-                              ),
-                              SizedBox(
-                                width: 320,
-                                child: RawMaterialButton(
-                                  fillColor: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    child: Directionality(
-                                      textDirection: TextDirection.rtl,
-                                      child: Text(
-                                        'نمونه',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12),
+                                child: Column(
+                                  children: [
+                                    IgnorePointer(
+                                      ignoring: shopCardPhisicalVisible == false
+                                          ? true
+                                          : false,
+                                      child: Visibility(
+                                        visible: shopCardVisible,
+                                        replacement: SizedBox(
+                                          height: 45,
+                                          width: 320,
+                                          child: RawMaterialButton(
+                                            fillColor: secondaryColor,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 5),
+                                              child: Directionality(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .shopping_cart_rounded,
+                                                      color: Colors.white,
+                                                    ),
+                                                    Text(
+                                                      'مشاهده سبدخرید',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            onPressed: () async {
+                                              Navigator.pushNamed(context,
+                                                  MyRoutes.shopCardScreen);
+                                            },
+                                          ),
+                                        ),
+                                        child: Visibility(
+                                          visible: loadingVisible,
+                                          replacement: SizedBox(
+                                            height: 45,
+                                            width: 320,
+                                            child: RawMaterialButton(
+                                                fillColor: secondaryColor,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 5),
+                                                  child: Directionality(
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    child:
+                                                        LoadingAnimationWidget
+                                                            .fourRotatingDots(
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 20),
+                                                  ),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                onPressed: null),
+                                          ),
+                                          child: SizedBox(
+                                            height: 45,
+                                            width: 320,
+                                            child: RawMaterialButton(
+                                              fillColor: secondaryColor,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 5),
+                                                child: Directionality(
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                  child: Text(
+                                                    'خرید کتاب دیجیتال',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14),
+                                                  ),
+                                                ),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              onPressed: () async {
+                                                getShopCardList(
+                                                    context: context);
+                                                setState(() {
+                                                  loadingVisible = false;
+                                                });
+                                                addOrRemoveBook(
+                                                        context: context,
+                                                        remove: false,
+                                                        bookId: BookDetailState
+                                                            .bookDetail!.id
+                                                            .toString())
+                                                    .then(
+                                                  (value) {
+                                                    setState(() {
+                                                      loadingVisible = true;
+                                                      shopCardVisible = false;
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                      side: BorderSide(color: Colors.black)),
-                                  onPressed: () async {
-                                    Navigator.pushNamed(
-                                      context,
-                                      MyRoutes.pdfScreen,
-                                      arguments: BookDetailState
-                                          .bookDetail!.pdfLink
-                                          .toString(),
-                                    );
-                                  },
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    IgnorePointer(
+                                      ignoring: shopCardVisible == false
+                                          ? true
+                                          : false,
+                                      child: Visibility(
+                                        visible: shopCardPhisicalVisible,
+                                        replacement: SizedBox(
+                                          height: 45,
+                                          width: 320,
+                                          child: RawMaterialButton(
+                                            fillColor: Colors.green,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 5),
+                                              child: Directionality(
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .shopping_cart_rounded,
+                                                      color: Colors.white,
+                                                    ),
+                                                    Text(
+                                                      'مشاهده سبدخرید',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            onPressed: () async {
+                                              Navigator.pushNamed(context,
+                                                  MyRoutes.shopCardScreen);
+                                            },
+                                          ),
+                                        ),
+                                        child: Visibility(
+                                          visible: loadingPhisicalVisible,
+                                          replacement: SizedBox(
+                                            height: 45,
+                                            width: 320,
+                                            child: RawMaterialButton(
+                                                fillColor: Colors.green,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 5),
+                                                  child: Directionality(
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    child:
+                                                        LoadingAnimationWidget
+                                                            .fourRotatingDots(
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 20),
+                                                  ),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                                onPressed: null),
+                                          ),
+                                          child: SizedBox(
+                                            height: 45,
+                                            width: 320,
+                                            child: RawMaterialButton(
+                                              fillColor: Colors.green,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 5),
+                                                child: Directionality(
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                  child: Text(
+                                                    'خرید کتاب فیزیکی',
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14),
+                                                  ),
+                                                ),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              onPressed: () async {
+                                                setState(() {
+                                                  loadingPhisicalVisible =
+                                                      false;
+                                                });
+                                                addOrRemoveBook(
+                                                        context: context,
+                                                        remove: false,
+                                                        bookId: BookDetailState
+                                                            .bookDetail!.id
+                                                            .toString())
+                                                    .then(
+                                                  (value) {
+                                                    setState(() {
+                                                      getShopCardList(
+                                                          context: context);
+                                                      loadingPhisicalVisible =
+                                                          true;
+                                                      shopCardPhisicalVisible =
+                                                          false;
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      width: 320,
+                                      height: 45,
+                                      child: RawMaterialButton(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Directionality(
+                                            textDirection: TextDirection.rtl,
+                                            child: Text(
+                                              'نمونه',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14),
+                                            ),
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            side:
+                                                BorderSide(color: Colors.grey)),
+                                        onPressed: () async {
+                                          // if (kIsWeb) {
+                                          //   showDialog(
+                                          //     context: context,
+                                          //     builder: (context) => Dialog(
+                                          //       child: Container(),
+                                          //     ),
+                                          //   );
+                                          // } else {
+                                          Navigator.pushNamed(
+                                            context,
+                                            MyRoutes.pdfScreen,
+                                            arguments: BookDetailState
+                                                .bookDetail!.samplePdfLink
+                                                .toString(),
+                                          );
+                                          // }
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    )
+                                  ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -754,7 +815,6 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 240,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
@@ -769,14 +829,14 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     'درباره ${BookDetailState.bookDetail!.title}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 12),
+                                        fontSize: 14),
                                   ),
                                 ],
                               ),
                               Text(
                                   textAlign: TextAlign.start,
                                   maxLines: 5,
-                                  style: TextStyle(fontSize: 11),
+                                  style: TextStyle(fontSize: 14),
                                   BookDetailState.bookDetail!.description
                                       .toString()),
                               SizedBox(
@@ -785,7 +845,11 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                               Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    setState(() {
+                                      descVisible = !descVisible;
+                                    });
+                                  },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -804,10 +868,503 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         'توضیحات کامل',
                                         style: TextStyle(
                                           color: Colors.blue,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Visibility(
+                                visible: descVisible,
+                                child: SizedBox(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'زیر نظر : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'سرپرست مترجمین : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'سرپرست مولفین : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'با همکاری : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'به کوشش : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'گردآوری و تالیف : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'با مقدمه و نظارت : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'ویراستار : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'ویراستار علمی : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'ویرایش علمی : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'نوبت چاپ : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'تاریخ چاپ : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'رنگ چاپ : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'قطع کتاب : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'نوع صحافی : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'نوع کاغذ : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'شماره شابک : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'فرمت محتوا : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'زمان تقریبی مطالعه : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'زبان : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'قیمت ارزی : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'قیمت چاپی : ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                          Text(
+                                            '...',
+                                            style: TextStyle(
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -821,7 +1378,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     'دسته ها : ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 10),
+                                        fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -835,7 +1392,9 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                   itemCount: 1,
                                   itemBuilder: (context, index) =>
                                       CategoryTextCard(
-                                    name: 'دندان پزشکی',
+                                    name: BookDetailState
+                                        .bookDetail!.categoryTitle
+                                        .toString(),
                                   ),
                                 ),
                               ),
@@ -848,7 +1407,6 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 123,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
@@ -856,6 +1414,9 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                           padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
+                              SizedBox(
+                                height: 10,
+                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 20),
@@ -906,7 +1467,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                             '823.54 کیلوبایت',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                fontSize: 7),
+                                                fontSize: 10),
                                           ),
                                         ),
                                       ],
@@ -928,7 +1489,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                           '${BookDetailState.bookDetail!.pages} صفحه',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 7.5),
+                                              fontSize: 10),
                                         ),
                                       ],
                                     ),
@@ -950,7 +1511,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                           style: TextStyle(
                                               color: Colors.blue,
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 8),
+                                              fontSize: 10),
                                         ),
                                       ],
                                     ),
@@ -992,7 +1553,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                           'فهرست مطالب',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 8),
+                                              fontSize: 12),
                                         ),
                                       ],
                                     ),
@@ -1002,7 +1563,10 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                     )
                                   ],
                                 ),
-                              )
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                             ],
                           ),
                         ),
@@ -1012,7 +1576,6 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 145,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
@@ -1020,6 +1583,9 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                           padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
+                              SizedBox(
+                                height: 10,
+                              ),
                               Row(
                                 children: [
                                   Text(
@@ -1031,7 +1597,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                 ],
                               ),
                               SizedBox(
-                                height: 30,
+                                height: 15,
                               ),
                               Padding(
                                 padding:
@@ -1065,7 +1631,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         Text(
                                           'کتابخانه من',
                                           style: TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w500),
                                         ),
                                       ],
@@ -1095,7 +1661,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         Text(
                                           'نشان شده ها',
                                           style: TextStyle(
-                                              fontSize: 9,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w500),
                                         ),
                                       ],
@@ -1125,14 +1691,17 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                         Text(
                                           'مطالعه شده ها',
                                           style: TextStyle(
-                                              fontSize: 9,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w500),
                                         ),
                                       ],
                                     )
                                   ],
                                 ),
-                              )
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                             ],
                           ),
                         ),
@@ -1142,7 +1711,6 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 128,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
@@ -1180,7 +1748,7 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                             Text(
                                               'بقیه را از نظرت با خبر کن:',
                                               style: TextStyle(
-                                                  fontSize: 9,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.w500),
                                             ),
                                           ],
@@ -1240,6 +1808,9 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
                             ],
                           ),
                         ),
@@ -1265,370 +1836,534 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 140,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      Text(
-                                        "4.1" + " از " + "5",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 11),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5),
-                                    child: Text(
-                                      "بر اساس رأی 50 مخاطب",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 8.5),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 165,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    SizedBox(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '5  ',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: LinearProgressIndicator(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: List.generate(
-                                                      BookDetailState
-                                                          .bookDetail!
-                                                          .bookReviewss!
-                                                          .length,
-                                                      (index) => BookDetailState
-                                                              .bookDetail!
-                                                              .bookReviewss!
-                                                              .where(
-                                                            (element) =>
-                                                                BookDetailState
-                                                                    .bookDetail!
-                                                                    .bookReviewss![
-                                                                        index]
-                                                                    .rate ==
-                                                                5,
-                                                          )).length /
-                                                  (BookDetailState
-                                                              .bookDetail!
-                                                              .bookReviewss!
-                                                              .length !=
-                                                          0
-                                                      ? BookDetailState
-                                                          .bookDetail!
-                                                          .bookReviewss!
-                                                          .length
-                                                      : 1),
-                                              minHeight: 5,
-                                              color: Colors.amber,
-                                              backgroundColor: Colors.grey[300],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    SizedBox(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '4  ',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: LinearProgressIndicator(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: _rating / 5,
-                                              minHeight: 5,
-                                              color: Colors.amber,
-                                              backgroundColor: Colors.grey[300],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    SizedBox(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '3  ',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: LinearProgressIndicator(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: _rating / 6,
-                                              minHeight: 5,
-                                              color: Colors.amber,
-                                              backgroundColor: Colors.grey[300],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    SizedBox(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '2  ',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: LinearProgressIndicator(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: _rating / 7,
-                                              minHeight: 5,
-                                              color: Colors.amber,
-                                              backgroundColor: Colors.grey[300],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    SizedBox(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            '1  ',
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          SizedBox(
-                                            width: 150,
-                                            child: LinearProgressIndicator(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: _rating / 8,
-                                              minHeight: 5,
-                                              color: Colors.amber,
-                                              backgroundColor: Colors.grey[300],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 5, top: 5),
-                      child: Container(
-                        height: 205,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Container(
-                                        width: 30,
-                                        height: 30,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Image(
-                                            image: AssetImage(
-                                                'lib/assets/images/iconcm.png'),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
                                           ),
+                                          Text(
+                                            '  ${BookDetailState.bookDetail!.rating.toString()}' +
+                                                " از " +
+                                                "5",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5),
+                                        child: Text(
+                                          "بر اساس رأی ${BookDetailState.bookDetail!.bookReviewss!.length.toString()} مخاطب",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 10),
                                         ),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.grey.shade400),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "پویا علینقیان",
-                                        style: TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "1402-05-05",
-                                        style: TextStyle(
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '5 ',
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                        size: 22,
                                       )
                                     ],
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                  style: TextStyle(
-                                      fontSize: 9.5,
-                                      fontWeight: FontWeight.w500),
-                                  'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد'),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'بیشتر',
-                                    style: TextStyle(
-                                        fontSize: 10, color: Colors.blue),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3),
-                                    child: Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: Colors.blue,
-                                      size: 20,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Divider(
-                                  thickness: 0.5,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                                  SizedBox(
+                                    width: 165,
+                                    child: Column(
                                       children: [
-                                        Image(
-                                          image: AssetImage(
-                                              'lib/assets/images/like.png'),
-                                          width: 20,
-                                          height: 20,
+                                        SizedBox(
+                                          height: 10,
                                         ),
                                         SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          '10',
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 12),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '5  ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              SizedBox(
+                                                width: 150,
+                                                child: LinearProgressIndicator(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  value: List.generate(
+                                                          BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length,
+                                                          (index) =>
+                                                              BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .where(
+                                                                (element) =>
+                                                                    BookDetailState
+                                                                        .bookDetail!
+                                                                        .bookReviewss![
+                                                                            index]
+                                                                        .rate ==
+                                                                    5,
+                                                              )).length /
+                                                      (BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .length !=
+                                                              0
+                                                          ? BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length
+                                                          : 1),
+                                                  minHeight: 5,
+                                                  color: Colors.amber,
+                                                  backgroundColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         SizedBox(
-                                          width: 15,
-                                        ),
-                                        Image(
-                                          image: AssetImage(
-                                              'lib/assets/images/pm.png'),
-                                          width: 21,
-                                          height: 21,
+                                          height: 8,
                                         ),
                                         SizedBox(
-                                          width: 5,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '4  ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              SizedBox(
+                                                width: 150,
+                                                child: LinearProgressIndicator(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  value: List.generate(
+                                                          BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length,
+                                                          (index) =>
+                                                              BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .where(
+                                                                (element) =>
+                                                                    BookDetailState
+                                                                        .bookDetail!
+                                                                        .bookReviewss![
+                                                                            index]
+                                                                        .rate ==
+                                                                    4,
+                                                              )).length /
+                                                      (BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .length !=
+                                                              0
+                                                          ? BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length
+                                                          : 1),
+                                                  minHeight: 5,
+                                                  color: Colors.amber,
+                                                  backgroundColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Text(
-                                          '10',
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 12),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '3  ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              SizedBox(
+                                                width: 150,
+                                                child: LinearProgressIndicator(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  value: List.generate(
+                                                          BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length,
+                                                          (index) =>
+                                                              BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .where(
+                                                                (element) =>
+                                                                    BookDetailState
+                                                                        .bookDetail!
+                                                                        .bookReviewss![
+                                                                            index]
+                                                                        .rate ==
+                                                                    3,
+                                                              )).length /
+                                                      (BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .length !=
+                                                              0
+                                                          ? BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length
+                                                          : 1),
+                                                  minHeight: 5,
+                                                  color: Colors.amber,
+                                                  backgroundColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '2  ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              SizedBox(
+                                                width: 150,
+                                                child: LinearProgressIndicator(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  value: List.generate(
+                                                          BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length,
+                                                          (index) =>
+                                                              BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .where(
+                                                                (element) =>
+                                                                    BookDetailState
+                                                                        .bookDetail!
+                                                                        .bookReviewss![
+                                                                            index]
+                                                                        .rate ==
+                                                                    2,
+                                                              )).length /
+                                                      (BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .length !=
+                                                              0
+                                                          ? BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length
+                                                          : 1),
+                                                  minHeight: 5,
+                                                  color: Colors.amber,
+                                                  backgroundColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '1  ',
+                                                style: TextStyle(fontSize: 10),
+                                              ),
+                                              SizedBox(
+                                                width: 150,
+                                                child: LinearProgressIndicator(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  value: List.generate(
+                                                          BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length,
+                                                          (index) =>
+                                                              BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .where(
+                                                                (element) =>
+                                                                    BookDetailState
+                                                                        .bookDetail!
+                                                                        .bookReviewss![
+                                                                            index]
+                                                                        .rate ==
+                                                                    1,
+                                                              )).length /
+                                                      (BookDetailState
+                                                                  .bookDetail!
+                                                                  .bookReviewss!
+                                                                  .length !=
+                                                              0
+                                                          ? BookDetailState
+                                                              .bookDetail!
+                                                              .bookReviewss!
+                                                              .length
+                                                          : 1),
+                                                  minHeight: 5,
+                                                  color: Colors.amber,
+                                                  backgroundColor:
+                                                      Colors.grey[300],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 5),
-                                      child: Image(
-                                        image: AssetImage(
-                                            'lib/assets/images/!.png'),
-                                        fit: BoxFit.cover,
-                                        width: 21,
-                                        height: 21,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 5, top: 5),
+                      child: Container(
+                        height: 220,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Consumer<BookDetailState>(
+                            builder: (context, value, child) =>
+                                ListView.builder(
+                              itemCount:
+                                  BookDetailState.bookDetail!.bookReviewss !=
+                                          null
+                                      ? BookDetailState
+                                          .bookDetail!.bookReviewss!.length
+                                      : 0,
+                              itemBuilder: (context, index) => Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 30,
+                                            height: 30,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(4),
+                                              child: Image(
+                                                image: AssetImage(
+                                                    'lib/assets/images/iconcm.png'),
+                                              ),
+                                            ),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.grey.shade400),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                BookDetailState
+                                                    .bookDetail!
+                                                    .bookReviewss![index]
+                                                    .userFirstName
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                BookDetailState
+                                                    .bookDetail!
+                                                    .bookReviewss![index]
+                                                    .userLastName
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "1402-05-05",
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '5 ',
+                                            style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                            size: 22,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
+                                      BookDetailState.bookDetail!
+                                          .bookReviewss![index].message
+                                          .toString()),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'بیشتر',
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.blue),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 3),
+                                        child: Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: Colors.blue,
+                                          size: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Divider(
+                                      thickness: 0.5,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image(
+                                              image: AssetImage(
+                                                  'lib/assets/images/like.png'),
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              '10',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12),
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Image(
+                                              image: AssetImage(
+                                                  'lib/assets/images/pm.png'),
+                                              width: 21,
+                                              height: 21,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              '10',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Image(
+                                            image: AssetImage(
+                                                'lib/assets/images/!.png'),
+                                            fit: BoxFit.cover,
+                                            width: 21,
+                                            height: 21,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -1637,28 +2372,37 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                       padding: const EdgeInsets.only(
                           left: 15, right: 15, bottom: 5, top: 5),
                       child: Container(
-                        height: 30,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
                           children: [
-                            Text(
-                              'مشاهده همه نقد ها',
-                              style: TextStyle(
-                                  fontSize: 9.5,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'مشاهده همه نقد ها',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.blue),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 13,
+                                  color: Colors.blue,
+                                )
+                              ],
                             ),
                             SizedBox(
-                              width: 10,
+                              height: 10,
                             ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 13,
-                              color: Colors.blue,
-                            )
                           ],
                         ),
                       ),
@@ -1680,29 +2424,29 @@ class _BookDetailScreenState extends State<BookDetailScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 7),
-                      child: SizedBox(
-                        height: 240,
-                        child: ListView.builder(
-                          itemCount: 2,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: BookCardWidget(
-                              viewCont: 5,
-                              bookId: '',
-                              bookWriter: 'دکتر مهران نوربخش',
-                              bookRate: 1,
-                              bookPrice: '115.000',
-                              bookName:
-                                  "مدیریت چالش ها و پیچیدگی های اندودانتیکس",
-                              bookImage: "lib/assets/images/book.png",
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 7),
+                    //   child: SizedBox(
+                    //     height: 280,
+                    //     child: ListView.builder(
+                    //       itemCount: 2,
+                    //       scrollDirection: Axis.horizontal,
+                    //       itemBuilder: (context, index) => Padding(
+                    //         padding: const EdgeInsets.all(8.0),
+                    //         child: BookCardWidget(
+                    //           viewCont: 5,
+                    //           bookId: '',
+                    //           bookWriter: 'دکتر مهران نوربخش',
+                    //           bookRate: 1,
+                    //           bookPrice: '115.000',
+                    //           bookName:
+                    //               "مدیریت چالش ها و پیچیدگی های اندودانتیکس",
+                    //           bookImage: "lib/assets/images/book.png",
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),

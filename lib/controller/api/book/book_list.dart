@@ -1,4 +1,5 @@
 import 'package:bookapp/controller/provider/book_list_state.dart';
+import 'package:bookapp/controller/routes/routes.dart';
 import 'package:bookapp/model/api/generated/tikonline.swagger.dart';
 import 'package:bookapp/model/services/token.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,11 @@ Future<BookDtoListApiResult> getBooksList(
     //   title: 'Oops1...',
     //   text: dto.toString(),
     // );
+  } else if (postResult.statusCode == 401) {
+    Navigator.pushNamed(
+      context,
+      MyRoutes.wellcomeScreen,
+    );
   } else {
     QuickAlert.show(
       context: context,

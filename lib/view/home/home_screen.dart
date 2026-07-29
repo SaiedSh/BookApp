@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: Size.fromHeight(120),
           child: AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: backgroundColor,
@@ -86,6 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 25,
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Row(
@@ -109,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: VerticalDivider(),
                               ),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, MyRoutes.shopCardScreen);
+                                  },
                                   icon: Image(
                                     image: AssetImage(
                                         'lib/assets/images/handbag.png'),
@@ -127,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: SizedBox(
-                          height: 35,
+                          height: 45,
                           width: MediaQuery.of(context).size.width - 10,
                           child: TextField(
                             cursorHeight: 20,
@@ -136,13 +142,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Icons.search,
                                   size: 18,
                                 ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
                                 floatingLabelAlignment:
                                     FloatingLabelAlignment.center,
                                 label: Text(
                                   'جستجو در نیکو بوک',
                                   style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w500),
                                 ),
                                 filled: true,
@@ -178,41 +186,39 @@ class _HomeScreenState extends State<HomeScreen> {
                             Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(IndexItemsState
-                                          .IndexLists!
-                                          .indexInfo!
-                                          .banner1ImageUrl
-                                          .toString()))),
+                                fit: BoxFit.fill,
+                                image:
+                                    AssetImage('lib/assets/images/banner.jpg'),
+                              )),
                               child: Column(
                                 children: [
                                   SizedBox(
                                     height: 40,
                                   ),
-                                  Text(
-                                    IndexItemsState
-                                        .IndexLists!.indexInfo!.banner1Title
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 100),
-                                    child: Divider(),
-                                  ),
-                                  Text(
-                                    IndexItemsState.IndexLists!.indexInfo!
-                                        .banner1Description
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey.shade300),
-                                  ),
+                                  // Text(
+                                  //   IndexItemsState
+                                  //       .IndexLists!.indexInfo!.banner1Title
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontWeight: FontWeight.w500,
+                                  //       fontSize: 20,
+                                  //       color: Colors.white),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 100),
+                                  //   child: Divider(),
+                                  // ),
+                                  // Text(
+                                  //   IndexItemsState.IndexLists!.indexInfo!
+                                  //       .banner1Description
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontSize: 14,
+                                  //       color: Colors.grey.shade300),
+                                  // ),
                                   SizedBox(
-                                    height: 100,
+                                    height: 160,
                                   ),
                                   AnimatedSmoothIndicator(
                                     activeIndex: 0,
@@ -230,39 +236,36 @@ class _HomeScreenState extends State<HomeScreen> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: NetworkImage(IndexItemsState
-                                          .IndexLists!
-                                          .indexInfo!
-                                          .banner2ImageUrl
-                                          .toString()))),
+                                      image: AssetImage(
+                                          'lib/assets/images/banner2.jpg'))),
                               child: Column(
                                 children: [
                                   SizedBox(
                                     height: 40,
                                   ),
-                                  Text(
-                                    IndexItemsState
-                                        .IndexLists!.indexInfo!.banner2Title
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20,
-                                        color: Colors.black),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 100),
-                                    child: Divider(),
-                                  ),
-                                  Text(
-                                    IndexItemsState.IndexLists!.indexInfo!
-                                        .banner2Description
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey),
-                                  ),
+                                  // Text(
+                                  //   IndexItemsState
+                                  //       .IndexLists!.indexInfo!.banner2Title
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontWeight: FontWeight.w500,
+                                  //       fontSize: 20,
+                                  //       color: Colors.black),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 100),
+                                  //   child: Divider(),
+                                  // ),
+                                  // Text(
+                                  //   IndexItemsState.IndexLists!.indexInfo!
+                                  //       .banner2Description
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontSize: 14, color: Colors.grey),
+                                  // ),
                                   SizedBox(
-                                    height: 100,
+                                    height: 160,
                                   ),
                                   AnimatedSmoothIndicator(
                                     activeIndex: 1,
@@ -280,40 +283,37 @@ class _HomeScreenState extends State<HomeScreen> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: NetworkImage(IndexItemsState
-                                          .IndexLists!
-                                          .indexInfo!
-                                          .banner3ImageUrl
-                                          .toString()))),
+                                      image: AssetImage(
+                                          'lib/assets/images/banner3.jpg'))),
                               child: Column(
                                 children: [
                                   SizedBox(
                                     height: 40,
                                   ),
-                                  Text(
-                                    IndexItemsState
-                                        .IndexLists!.indexInfo!.banner3Title
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20,
-                                        color: Colors.white),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 100),
-                                    child: Divider(),
-                                  ),
-                                  Text(
-                                    IndexItemsState.IndexLists!.indexInfo!
-                                        .banner3Description
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey.shade300),
-                                  ),
+                                  // Text(
+                                  //   IndexItemsState
+                                  //       .IndexLists!.indexInfo!.banner3Title
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontWeight: FontWeight.w500,
+                                  //       fontSize: 20,
+                                  //       color: Colors.white),
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 100),
+                                  //   child: Divider(),
+                                  // ),
+                                  // Text(
+                                  //   IndexItemsState.IndexLists!.indexInfo!
+                                  //       .banner3Description
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontSize: 14,
+                                  //       color: Colors.grey.shade300),
+                                  // ),
                                   SizedBox(
-                                    height: 100,
+                                    height: 160,
                                   ),
                                   AnimatedSmoothIndicator(
                                     activeIndex: 2,
@@ -361,12 +361,14 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -404,13 +406,14 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 15,
             ),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Consumer<BookListState>(
-                builder: (context, value, child) => SizedBox(
-                  height: 250,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 320,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Consumer<BookListState>(
+                  builder: (context, value, child) => ListView.builder(
+                    shrinkWrap: true,
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.all(8),
                       child: BookCardWidget(
@@ -435,12 +438,12 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

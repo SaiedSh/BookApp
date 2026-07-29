@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-Future<ApiResult> walletCharge(
-    {required BuildContext context, int? price}) async {
+Future<ApiResult> addOrRemoveBook(
+    {required BuildContext context, String? bookId, bool? remove}) async {
   final api = Tikonline.create(interceptors: [TokenInterceptor('accessToken')]);
 
-  final postResult = await api.apiV1PaymentWalletChargeGet(price: price);
+  final postResult = await api.apiV1ShopCardAddorRemoveItemPost(
+      bookId: bookId, remove: remove);
   print(postResult);
   if (postResult.isSuccessful == true) {
     print('Right');
